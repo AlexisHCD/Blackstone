@@ -1,0 +1,26 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: blackstone_development
+  username: blackstone_user
+  password: 1234
+  host: localhost
+
+test:
+  <<: *default
+  database: blackstone_test
+  username: blackstone_user
+  password: 1234
+  host: localhost
+
+production:
+  <<: *default
+  database: blackstone_production
+  username: blackstone_user
+  password: 1234
+  host: localhost
