@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-  has_many :tools
+  has_many :tools, dependent: :destroy
 
   before_validation :generate_slug
 
