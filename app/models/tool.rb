@@ -1,5 +1,5 @@
 class Tool < ApplicationRecord
-  belongs_to :category
+  belongs_to :category, optional: false
 
   before_validation :generate_slug
 

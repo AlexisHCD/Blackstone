@@ -2,4 +2,16 @@
 
 <p><%= @category.description %></p>
 
+<h2>Herramientas</h2>
+
+<% if @category.tools.any? %>
+  <ul>
+    <% @category.tools.each do |tool| %>
+      <li><%= tool.name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No hay herramientas aún.</p>
+<% end %>
+
 <%= link_to "Volver", categories_path %>

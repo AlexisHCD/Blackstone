@@ -1,19 +1,41 @@
-<h1>Nueva categoría</h1>
+<h1>Nueva herramienta</h1>
 
-<%= form_with model: @category do |f| %>
+<%= form_with model: @tool, local: true do |f| %>
+
   <div>
-    <%= f.label :name %>
+    <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
 
   <div>
-    <%= f.label :description %>
+    <%= f.label :description %><br>
     <%= f.text_area :description %>
   </div>
 
   <div>
-    <%= f.submit "Crear categoría" %>
+    <%= f.label :website_url %><br>
+    <%= f.text_field :website_url %>
   </div>
+
+  <div>
+    <%= f.label :category_id, "Categoría" %><br>
+    <%= f.collection_select :category_id, @categories, :id, :name %>
+  </div>
+
+  <div>
+    <%= f.check_box :open_source %>
+    <%= f.label :open_source %>
+  </div>
+
+  <div>
+    <%= f.check_box :free_tier %>
+    <%= f.label :free_tier %>
+  </div>
+
+  <div>
+    <%= f.submit "Crear herramienta" %>
+  </div>
+
 <% end %>
 
-<%= link_to "Volver", categories_path %>
+<%= link_to "Volver", tools_path %>
