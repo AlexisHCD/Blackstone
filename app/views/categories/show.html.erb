@@ -7,7 +7,27 @@
 <% if @category.tools.any? %>
   <ul>
     <% @category.tools.each do |tool| %>
-      <li><%= tool.name %></li>
+      <li>
+        <strong>
+          <%= link_to tool.name, tool_path(tool) %>
+        </strong>
+
+        <% if tool.description.present? %>
+          <p><%= tool.description %></p>
+        <% end %>
+
+        <div>
+          <% if tool.open_source %>
+            <span>🟢 Open Source</span>
+          <% end %>
+
+          <% if tool.free_tier %>
+            <span>💰 Free Tier</span>
+          <% end %>
+        </div>
+      </li>
+
+      <hr>
     <% end %>
   </ul>
 <% else %>
