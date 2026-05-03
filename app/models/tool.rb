@@ -1,4 +1,5 @@
 class Tool < ApplicationRecord
+  has_one_attached :logo
   belongs_to :category, optional: false
   has_many :featured_items, dependent: :destroy
 

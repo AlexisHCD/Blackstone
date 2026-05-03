@@ -34,7 +34,8 @@ class ToolsController < ApplicationController
       :free_tier,
       :platform,
       :level,
-      :category_id
+      :category_id,
+      :logo
     )
   end
 end
