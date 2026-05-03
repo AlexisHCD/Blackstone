@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_17_235538) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_03_230803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_17_235538) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "featured_items", force: :cascade do |t|
+    t.bigint "tool_id", null: false
+    t.date "featured_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tool_id", "featured_on"], name: "index_featured_items_on_tool_id_and_featured_on", unique: true
+    t.index ["tool_id"], name: "index_featured_items_on_tool_id"
   end
 
   create_table "tools", force: :cascade do |t|
@@ -37,5 +46,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_17_235538) do
     t.index ["category_id"], name: "index_tools_on_category_id"
   end
 
+  add_foreign_key "featured_items", "tools"
   add_foreign_key "tools", "categories"
 end

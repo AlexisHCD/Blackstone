@@ -1,5 +1,6 @@
 class Tool < ApplicationRecord
   belongs_to :category, optional: false
+  has_many :featured_items, dependent: :destroy
 
   before_validation :generate_slug
 
