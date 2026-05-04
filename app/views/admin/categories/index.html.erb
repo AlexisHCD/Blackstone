@@ -1,0 +1,26 @@
+<h1>Gestión de Categorías</h1>
+
+<%= link_to "Nueva Categoría", new_admin_category_path %> |
+<%= link_to "Volver al Dashboard", admin_root_path %>
+
+<table border="1" cellpadding="5" style="margin-top: 20px;">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.id %></td>
+        <td><%= category.name %></td>
+        <td>
+          <%= link_to "Editar", edit_admin_category_path(category) %> |
+          <%= link_to "Eliminar", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

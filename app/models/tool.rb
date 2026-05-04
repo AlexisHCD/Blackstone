@@ -1,4 +1,7 @@
 class Tool < ApplicationRecord
+  PLATFORMS = ["Web", "Windows", "Mac", "Linux", "Multiplataforma"]
+  LEVELS = ["Principiante", "Normal", "Intermedio", "Avanzado", "Cualquiera"]
+
   has_one_attached :logo
   belongs_to :category, optional: false
   has_many :featured_items, dependent: :destroy

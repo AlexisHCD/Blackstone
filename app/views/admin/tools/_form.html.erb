@@ -1,0 +1,61 @@
+<%= form_with(model: [:admin, tool], local: true) do |form| %>
+  <% if tool.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(tool.errors.count, "error") %> prohibited this tool from being saved:</h2>
+      <ul>
+        <% tool.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Nombre", style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :category_id, "Categoría", style: "display: block" %>
+    <%= form.collection_select :category_id, @categories, :id, :name, prompt: "Selecciona una categoría" %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Descripción corta (máx 140 char)", style: "display: block" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :logo, "Logo/Imagen", style: "display: block" %>
+    <%= form.file_field :logo %>
+  </div>
+
+  <div>
+    <%= form.label :website_url, "URL del sitio web", style: "display: block" %>
+    <%= form.text_field :website_url %>
+  </div>
+
+  <div>
+    <%= form.label :open_source, style: "display: inline-block" %>
+    <%= form.check_box :open_source %>
+  </div>
+
+  <div>
+    <%= form.label :free_tier, style: "display: inline-block" %>
+    <%= form.check_box :free_tier %>
+  </div>
+
+  <div>
+    <%= form.label :platform, "Plataforma", style: "display: block" %>
+    <%= form.select :platform, Tool::PLATFORMS, prompt: "Selecciona una plataforma" %>
+  </div>
+
+  <div>
+    <%= form.label :level, "Nivel de usuario", style: "display: block" %>
+    <%= form.select :level, Tool::LEVELS, prompt: "Selecciona el nivel" %>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <%= form.submit "Guardar Herramienta" %>
+  </div>
+<% end %>

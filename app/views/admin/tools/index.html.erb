@@ -1,0 +1,46 @@
+<h1>Gestión de Herramientas</h1>
+
+<%= link_to "Nueva Herramienta", new_admin_tool_path %> |
+<%= link_to "Volver al Dashboard", admin_root_path %>
+
+<table border="1" cellpadding="5" style="margin-top: 20px; width: 100%; text-align: left;">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Logo</th>
+      <th>Nombre</th>
+      <th>Categoría</th>
+      <th>Plataforma</th>
+      <th>Nivel</th>
+      <th>Open Source</th>
+      <th>Free Tier</th>
+      <th>URL Web</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tools.each do |tool| %>
+      <tr>
+        <td><%= tool.id %></td>
+        <td><%= tool.logo.attached? ? "✅" : "❌" %></td>
+        <td><strong><%= tool.name %></strong></td>
+        <td><%= tool.category&.name %></td>
+        <td><%= tool.platform.presence || "-" %></td>
+        <td><%= tool.level.presence || "-" %></td>
+        <td><%= tool.open_source ? "✅ Sí" : "❌ No" %></td>
+        <td><%= tool.free_tier ? "✅ Sí" : "❌ No" %></td>
+        <td>
+          <% if tool.website_url.present? %>
+            <%= link_to "Link", tool.website_url, target: "_blank" %>
+          <% else %>
+            -
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "Editar", edit_admin_tool_path(tool) %> |
+          <%= link_to "Eliminar", admin_tool_path(tool), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
