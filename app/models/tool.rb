@@ -10,7 +10,7 @@ class Tool < ApplicationRecord
 
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
-  validates :description, length: { maximum: 140 }
+  validates :description, length: { maximum: 300 }
 
   private
 
