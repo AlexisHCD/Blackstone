@@ -1,15 +1,344 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
  *= require_tree .
  *= require_self
  */
+
+/* ===========================
+   VARIABLES & RESET
+=========================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-bg:       #0f1117;
+  --color-surface:  #1a1d27;
+  --color-border:   #2a2d3a;
+  --color-accent:   #6c63ff;
+  --color-accent-h: #5a52e0;
+  --color-text:     #e2e8f0;
+  --color-muted:    #94a3b8;
+  --color-success:  #22c55e;
+  --color-warning:  #f59e0b;
+  --radius:         8px;
+  --radius-lg:      12px;
+  --font:           system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { color: var(--color-accent-h); text-decoration: underline; }
+
+h1 { font-size: 1.9rem; font-weight: 700; margin-bottom: 0.5rem; }
+h2 { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p  { color: var(--color-muted); margin-bottom: 0.75rem; }
+
+/* ===========================
+   LAYOUT
+=========================== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.main-content {
+  padding: 2rem 1.5rem;
+  flex: 1;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+.site-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text) !important;
+  text-decoration: none !important;
+  letter-spacing: -0.5px;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.site-nav a {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.site-nav a:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: 1.5rem 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+.site-footer p { font-size: 0.85rem; color: var(--color-muted); margin: 0.2rem 0; }
+
+/* ===========================
+   FLASH MESSAGES
+=========================== */
+.flash {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.flash--notice { background: #14532d30; color: #4ade80; border-bottom: 1px solid #166534; }
+.flash--alert  { background: #7f1d1d30; color: #f87171; border-bottom: 1px solid #991b1b; }
+
+/* ===========================
+   CARDS — HERRAMIENTAS
+=========================== */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.tool-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  transition: border-color 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tool-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.tool-card__logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.tool-card__logo-placeholder {
+  width: 40px;
+  height: 40px;
+  background: var(--color-border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.tool-card__name {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.tool-card__name a { color: var(--color-text); }
+.tool-card__name a:hover { color: var(--color-accent); text-decoration: none; }
+
+.tool-card__description {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  flex: 1;
+}
+
+.tool-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.badge--green  { background: #14532d40; color: #4ade80; }
+.badge--yellow { background: #78350f40; color: #fbbf24; }
+.badge--purple { background: #2e106540; color: #c084fc; }
+.badge--blue   { background: #1e3a5f40; color: #60a5fa; }
+
+/* ===========================
+   HERO FEATURED
+=========================== */
+.featured-hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #1a1d27 100%);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: var(--color-accent);
+  opacity: 0.06;
+  border-radius: 50%;
+}
+
+.featured-hero__label {
+  font-size: 0.78rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.featured-hero h2 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+.featured-hero p  { color: var(--color-muted); max-width: 600px; }
+
+/* ===========================
+   CATEGORIES LIST
+=========================== */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.category-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+
+.category-card:hover { border-color: var(--color-accent); }
+.category-card a { color: var(--color-text); font-weight: 600; }
+.category-card a:hover { text-decoration: none; color: var(--color-accent); }
+.category-card p { font-size: 0.83rem; margin-top: 0.4rem; margin-bottom: 0; }
+
+/* ===========================
+   PAGE HEADER
+=========================== */
+.page-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-header .breadcrumb {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* ===========================
+   TOOL DETAIL
+=========================== */
+.tool-detail {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-top: 1rem;
+}
+
+.tool-detail__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tool-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tool-detail__actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1.25rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--color-accent-h); color: #fff; text-decoration: none; }
+
+.btn-secondary {
+  background: var(--color-border);
+  color: var(--color-text);
+}
+.btn-secondary:hover { background: #3a3d4a; color: var(--color-text); text-decoration: none; }
+
+/* ===========================
+   SECTION TITLE
+=========================== */
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 1rem;
+}

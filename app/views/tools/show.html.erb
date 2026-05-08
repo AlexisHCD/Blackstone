@@ -1,0 +1,50 @@
+<% if @tool %>
+  <div class="page-header">
+    <p class="breadcrumb">
+      <%= link_to "Inicio", root_path %> /
+      <%= link_to "Categorías", categories_path %> /
+      <%= link_to @tool.category.name, category_path(@tool.category) %> /
+      <%= @tool.name %>
+    </p>
+  </div>
+
+  <div class="tool-detail">
+    <div class="tool-detail__header">
+      <% if @tool.logo.attached? %>
+        <%= image_tag @tool.logo, class: "tool-card__logo", style: "width:56px;height:56px;", alt: @tool.name %>
+      <% else %>
+        <div class="tool-card__logo-placeholder" style="width:56px;height:56px;font-size:1.6rem;">🔧</div>
+      <% end %>
+      <div>
+        <h1><%= @tool.name %></h1>
+        <p style="margin:0; font-size: 0.85rem;"><%= @tool.category.name %></p>
+      </div>
+    </div>
+
+    <% if @tool.description.present? %>
+      <p style="font-size: 1rem; color: var(--color-text); margin-top: 0.5rem;"><%= @tool.description %></p>
+    <% end %>
+
+    <div class="tool-detail__meta">
+      <% if @tool.open_source %>
+        <span class="badge badge--green">🔓 Open Source</span>
+      <% end %>
+      <% if @tool.free_tier %>
+        <span class="badge badge--yellow">🆓 Free Tier</span>
+      <% end %>
+      <% if @tool.platform.present? %>
+        <span class="badge badge--blue">📦 <%= @tool.platform %></span>
+      <% end %>
+      <% if @tool.level.present? %>
+        <span class="badge badge--purple">🎓 <%= @tool.level %></span>
+      <% end %>
+    </div>
+
+    <div class="tool-detail__actions">
+      <% if @tool.website_url.present? %>
+        <%= link_to "Ir al sitio web →", @tool.website_url, target: "_blank", class: "btn btn-primary" %>
+      <% end %>
+      <%= link_to "← Volver", category_path(@tool.category), class: "btn btn-secondary" %>
+    </div>
+  </div>
+<% end %>

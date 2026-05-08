@@ -1,33 +1,38 @@
 <% if @featured_item && @featured_item.tool %>
-  <div class="featured-hero" style="padding: 2rem; background: #f0f4f8; border-radius: 8px; margin-bottom: 2rem;">
-    <h2>🌟 Herramienta destacada del día</h2>
-    <h3><%= link_to @featured_item.tool.name, tool_path(@featured_item.tool) %></h3>
+  <div class="featured-hero">
+    <p class="featured-hero__label">🌟 Herramienta destacada del día</p>
+    <h2><%= link_to @featured_item.tool.name, tool_path(@featured_item.tool) %></h2>
     <p><%= @featured_item.tool.description %></p>
-    
-    <div class="flags" style="margin-top: 1rem; font-size: 0.9em; color: #555;">
+    <div class="tool-card__badges" style="margin-top: 1rem;">
       <% if @featured_item.tool.open_source %>
-        <span style="background: #e2f0cb; padding: 0.2rem 0.5rem; border-radius: 4px; margin-right: 0.5rem;">🔓 Open Source</span>
+        <span class="badge badge--green">🔓 Open Source</span>
       <% end %>
       <% if @featured_item.tool.free_tier %>
-        <span style="background: #ffebb5; padding: 0.2rem 0.5rem; border-radius: 4px;">🆓 Free Tier</span>
+        <span class="badge badge--yellow">🆓 Free Tier</span>
+      <% end %>
+      <% if @featured_item.tool.platform.present? %>
+        <span class="badge badge--blue"><%= @featured_item.tool.platform %></span>
       <% end %>
     </div>
-  </div>
-<% else %>
-  <div class="featured-hero" style="padding: 2rem; background: #f0f4f8; border-radius: 8px; margin-bottom: 2rem;">
-    <h2>🌟 Herramienta destacada del día</h2>
-    <p>Aún no tenemos herramientas suficientes para destacar una hoy. ¡Vuelve pronto!</p>
+    <div style="margin-top: 1.25rem;">
+      <%= link_to "Ver herramienta →", tool_path(@featured_item.tool), class: "btn btn-primary" %>
+    </div>
   </div>
 <% end %>
 
-<hr style="margin: 2rem 0; border: 0; border-top: 1px solid #eee;">
+<div class="page-header">
+  <p class="section-title">Explorar categorías</p>
+  <h1>Herramientas para Devs</h1>
+  <p>Un directorio de herramientas seleccionadas para estudiantes de programación.</p>
+</div>
 
-<h1>Categorías</h1>
-
-<ul>
+<div class="categories-grid">
   <% @categories.each do |category| %>
-    <li>
+    <div class="category-card">
       <%= link_to category.name, category_path(category) %>
-    </li>
+      <% if category.description.present? %>
+        <p><%= truncate(category.description, length: 80) %></p>
+      <% end %>
+    </div>
   <% end %>
-</ul>
+</div>

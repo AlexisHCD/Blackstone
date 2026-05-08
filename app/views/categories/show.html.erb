@@ -1,37 +1,52 @@
-<h1><%= @category.name %></h1>
-
-<p><%= @category.description %></p>
-
-<h2>Herramientas</h2>
+<div class="page-header">
+  <p class="breadcrumb"><%= link_to "Inicio", root_path %> / <%= link_to "Categorías", categories_path %> / <%= @category.name %></p>
+  <h1><%= @category.name %></h1>
+  <% if @category.description.present? %>
+    <p><%= @category.description %></p>
+  <% end %>
+</div>
 
 <% if @category.tools.any? %>
-  <ul>
+  <div class="tools-grid">
     <% @category.tools.each do |tool| %>
-      <li>
-        <strong>
-          <%= link_to tool.name, tool_path(tool) %>
-        </strong>
-
-        <% if tool.description.present? %>
-          <p><%= tool.description %></p>
-        <% end %>
-
-        <div>
-          <% if tool.open_source %>
-            <span>🟢 Open Source</span>
-          <% end %>
-
-          <% if tool.free_tier %>
-            <span>💰 Free Tier</span>
+      <div class="tool-card">
+        <div class="tool-card__logo-wrapper">
+          <% if tool.logo.attached? %>
+            <%= image_tag tool.logo, class: "tool-card__logo", alt: tool.name %>
+          <% else %>
+            <div class="tool-card__logo-placeholder">🔧</div>
           <% end %>
         </div>
-      </li>
 
-      <hr>
+        <div class="tool-card__name">
+          <%= link_to tool.name, tool_path(tool) %>
+        </div>
+
+        <% if tool.description.present? %>
+          <p class="tool-card__description"><%= tool.description %></p>
+        <% end %>
+
+        <div class="tool-card__badges">
+          <% if tool.open_source %>
+            <span class="badge badge--green">Open Source</span>
+          <% end %>
+          <% if tool.free_tier %>
+            <span class="badge badge--yellow">Free Tier</span>
+          <% end %>
+          <% if tool.platform.present? %>
+            <span class="badge badge--blue"><%= tool.platform %></span>
+          <% end %>
+          <% if tool.level.present? %>
+            <span class="badge badge--purple"><%= tool.level %></span>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  </ul>
+  </div>
 <% else %>
-  <p>No hay herramientas aún.</p>
+  <p>No hay herramientas aún en esta categoría.</p>
 <% end %>
 
-<%= link_to "Volver", categories_path %>
+<div style="margin-top: 2rem;">
+  <%= link_to "← Volver a categorías", categories_path, class: "btn btn-secondary" %>
+</div>

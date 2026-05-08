@@ -1,16 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
-    <title>Blackstone</title>
+    <title>Blackstone — Herramientas para Devs</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Blackstone es un directorio de herramientas de desarrollo para estudiantes de programación.">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= yield %>
+    <header class="site-header">
+      <div class="container">
+        <a href="<%= root_path %>" class="site-logo">⬛ Blackstone</a>
+        <nav class="site-nav">
+          <%= link_to "Herramientas", categories_path %>
+          <% if user_signed_in? %>
+            <span style="color: var(--color-muted); font-size: 0.9rem;"><%= current_user.name || current_user.email %></span>
+            <%= link_to "Cerrar sesión", destroy_user_session_path, data: { turbo_method: :delete } %>
+          <% else %>
+            <%= link_to "Iniciar sesión", new_user_session_path %>
+            <%= link_to "Registrarse", new_user_registration_path %>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+
+    <% if notice %>
+      <div class="flash flash--notice"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="flash flash--alert"><%= alert %></div>
+    <% end %>
+
+    <main class="container main-content">
+      <%= yield %>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>Blackstone &copy; <%= Date.today.year %> — Directorio de herramientas para estudiantes de programación.</p>
+        <p><small>¿Encontraste un error o quieres sugerir algo? <a href="#">Contáctanos</a></small></p>
+      </div>
+    </footer>
   </body>
 </html>
