@@ -1,0 +1,32 @@
+<div class="page-header">
+  <p class="breadcrumb"><%= link_to "Inicio", root_path %> / Cursos & Tutoriales</p>
+  <h1>Cursos & Tutoriales</h1>
+  <p>Videos seleccionados para aprender programación desde cero hasta avanzado.</p>
+</div>
+
+<% if @courses.any? %>
+  <div class="tools-grid">
+    <% @courses.each do |course| %>
+      <div class="tool-card">
+        <div class="tool-card__name">
+          <%= link_to course.title, course_path(course) %>
+        </div>
+
+        <% if course.description.present? %>
+          <p class="tool-card__description"><%= truncate(course.description, length: 120) %></p>
+        <% end %>
+
+        <div class="tool-card__badges">
+          <span class="badge badge--purple"><%= course.category&.name %></span>
+          <% if course.is_series %>
+            <span class="badge badge--blue">📚 <%= course.course_episodes.size %> episodios</span>
+          <% else %>
+            <span class="badge badge--yellow">🎬 Video único</span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>Aún no hay cursos disponibles. ¡Vuelve pronto!</p>
+<% end %>

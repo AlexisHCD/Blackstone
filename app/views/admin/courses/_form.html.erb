@@ -1,0 +1,37 @@
+<%= form_with(model: [:admin, course]) do |form| %>
+  <% if course.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(course.errors.count, "error") %>:</h2>
+      <ul>
+        <% course.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, "Título del curso", style: "display: block" %>
+    <%= form.text_field :title, style: "width: 100%; max-width: 600px;" %>
+  </div>
+
+  <div>
+    <%= form.label :category_id, "Categoría", style: "display: block" %>
+    <%= form.collection_select :category_id, @categories, :id, :name, prompt: "Selecciona una categoría" %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Descripción", style: "display: block" %>
+    <%= form.text_area :description, rows: 3, style: "width: 100%; max-width: 600px;" %>
+  </div>
+
+  <div>
+    <%= form.label :is_series, style: "display: inline-block" %>
+    <%= form.check_box :is_series %>
+    <small>Marca si el curso tiene múltiples episodios</small>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <%= form.submit "Guardar Curso" %>
+  </div>
+<% end %>

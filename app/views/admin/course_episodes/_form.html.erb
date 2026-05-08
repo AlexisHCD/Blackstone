@@ -1,0 +1,37 @@
+<%= form_with(model: [:admin, @course, episode]) do |form| %>
+  <% if episode.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(episode.errors.count, "error") %>:</h2>
+      <ul>
+        <% episode.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, "Título del episodio", style: "display: block" %>
+    <%= form.text_field :title, style: "width: 100%; max-width: 600px;" %>
+  </div>
+
+  <div>
+    <%= form.label :youtube_url, "URL de YouTube", style: "display: block" %>
+    <%= form.text_field :youtube_url, placeholder: "https://www.youtube.com/watch?v=...", style: "width: 100%; max-width: 600px;" %>
+    <small>El ID del video se extraerá automáticamente.</small>
+  </div>
+
+  <div>
+    <%= form.label :position, "Posición / Número de episodio", style: "display: block" %>
+    <%= form.number_field :position, min: 1, value: episode.position || 1 %>
+  </div>
+
+  <div>
+    <%= form.label :duration_seconds, "Duración (en segundos)", style: "display: block" %>
+    <%= form.number_field :duration_seconds, min: 0, placeholder: "ej. 3600 = 1 hora" %>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <%= form.submit "Guardar Episodio" %>
+  </div>
+<% end %>

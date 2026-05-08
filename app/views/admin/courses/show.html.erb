@@ -1,0 +1,43 @@
+<h1><%= @course.title %></h1>
+<p><strong>Categoría:</strong> <%= @course.category&.name %></p>
+<p><strong>Tipo:</strong> <%= @course.is_series ? "Serie (múltiples episodios)" : "Video único" %></p>
+<p><%= @course.description %></p>
+
+<hr>
+
+<h2>Episodios (<%= @episodes.size %>)</h2>
+
+<%= link_to "Agregar episodio", new_admin_course_course_episode_path(@course) %>
+
+<% if @episodes.any? %>
+  <table border="1" cellpadding="5" style="margin-top: 15px; width: 100%; text-align: left;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Título</th>
+        <th>YouTube ID</th>
+        <th>Duración</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @episodes.each do |ep| %>
+        <tr>
+          <td><%= ep.position %></td>
+          <td><%= ep.title %></td>
+          <td><code><%= ep.youtube_id %></code></td>
+          <td><%= ep.duration_seconds ? "#{ep.duration_seconds / 60}min" : "-" %></td>
+          <td>
+            <%= link_to "Editar", edit_admin_course_course_episode_path(@course, ep) %> |
+            <%= link_to "Eliminar", admin_course_course_episode_path(@course, ep), data: { turbo_method: :delete, turbo_confirm: "¿Seguro?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No hay episodios aún. Agrega el primero.</p>
+<% end %>
+
+<br>
+<%= link_to "← Volver a cursos", admin_courses_path %>

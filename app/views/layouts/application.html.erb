@@ -16,6 +16,7 @@
         <a href="<%= root_path %>" class="site-logo">⬛ Blackstone</a>
         <nav class="site-nav">
           <%= link_to "Herramientas", categories_path %>
+          <%= link_to "Cursos", courses_path %>
           <% if user_signed_in? %>
             <span style="color: var(--color-muted); font-size: 0.9rem;"><%= current_user.name || current_user.email %></span>
             <%= link_to "Cerrar sesión", destroy_user_session_path, data: { turbo_method: :delete } %>

@@ -1,0 +1,4 @@
+<h1>Agregar episodio a: <%= @course.title %></h1>
+<%= render "form", episode: @episode %>
+<br>
+<%= link_to "Volver al curso", admin_course_path(@course) %>

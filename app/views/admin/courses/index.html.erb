@@ -1,0 +1,33 @@
+<h1>Gestión de Cursos</h1>
+
+<%= link_to "Nuevo Curso", new_admin_course_path %> |
+<%= link_to "Volver al Dashboard", admin_root_path %>
+
+<table border="1" cellpadding="5" style="margin-top: 20px; width: 100%; text-align: left;">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Categoría</th>
+      <th>Tipo</th>
+      <th>Episodios</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.id %></td>
+        <td><strong><%= course.title %></strong></td>
+        <td><%= course.category&.name %></td>
+        <td><%= course.is_series ? "📚 Serie" : "🎬 Video único" %></td>
+        <td><%= course.course_episodes.size %></td>
+        <td>
+          <%= link_to "Ver episodios", admin_course_path(course) %> |
+          <%= link_to "Editar", edit_admin_course_path(course) %> |
+          <%= link_to "Eliminar", admin_course_path(course), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
