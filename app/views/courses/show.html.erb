@@ -20,25 +20,71 @@
 
 <% if @episodes.any? %>
   <% @episodes.each do |episode| %>
-    <div class="tool-detail" style="margin-bottom: 1.5rem;">
-      <% if @course.is_series %>
-        <p style="color: var(--color-accent); font-size: 0.85rem; margin-bottom: 0.5rem;">Episodio <%= episode.position %></p>
-      <% end %>
-      <h3><%= episode.title %></h3>
+    <%
+      progress = @progresses[episode.id]
+      start_at = progress ? progress.seconds_watched : 0
+      is_completed = progress&.completed || false
+    %>
+
+    <div class="tool-detail" style="margin-bottom: 1.5rem;"
+         data-controller="video-player"
+         data-video-player-episode-id-value="<%= episode.id %>"
+         data-video-player-youtube-id-value="<%= episode.youtube_id %>"
+         data-video-player-start-at-value="<%= start_at %>"
+         data-duration="<%= episode.duration_seconds || 0 %>">
+
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+        <% if @course.is_series %>
+          <span style="color: var(--color-accent); font-size: 0.85rem;">Ep. <%= episode.position %></span>
+        <% end %>
+        <h3 style="margin: 0;"><%= episode.title %></h3>
+        <% if is_completed %>
+          <span class="badge badge--green episode-completed-badge">✅ Completado</span>
+        <% else %>
+          <span class="badge badge--green episode-completed-badge" style="display: none;">✅ Completado</span>
+        <% end %>
+      </div>
 
       <% if episode.youtube_id.present? %>
-        <div style="margin-top: 1rem; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
-          <iframe
-            src="https://www.youtube.com/embed/<%= episode.youtube_id %>"
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
+        <% if user_signed_in? %>
+          <%# YouTube IFrame API player — con persistencia de progreso %>
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #000;">
+            <div class="yt-player-container"
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+          </div>
+
+          <% if start_at > 0 %>
+            <p style="margin-top: 0.5rem; font-size: 0.82rem; color: var(--color-accent);">
+              ▶️ Retomando desde <%= start_at / 60 %>:<%= "%02d" % (start_at % 60) %>
+            </p>
+          <% end %>
+
+          <%# Barra de progreso visual %>
+          <% if episode.duration_seconds && episode.duration_seconds > 0 %>
+            <% percent = [(start_at.to_f / episode.duration_seconds * 100), 100].min %>
+            <div class="progress-bar" style="margin-top: 0.5rem; height: 4px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
+              <div class="progress-bar__fill" style="height: 100%; background: var(--color-accent); width: <%= percent %>%; transition: width 0.3s;"></div>
+            </div>
+          <% end %>
+
+        <% else %>
+          <%# Embed estándar sin tracking para usuarios no logueados %>
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+            <iframe
+              src="https://www.youtube.com/embed/<%= episode.youtube_id %>"
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p style="margin-top: 0.5rem; font-size: 0.82rem; color: var(--color-muted);">
+            💡 <%= link_to "Inicia sesión", new_user_session_path %> para guardar tu progreso y retomar donde lo dejaste.
+          </p>
+        <% end %>
       <% end %>
 
       <% if episode.duration_seconds && episode.duration_seconds > 0 %>
-        <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--color-muted);">
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--color-muted);">
           ⏱️ Duración: <%= episode.duration_seconds / 3600 %>h <%= (episode.duration_seconds % 3600) / 60 %>min
         </p>
       <% end %>

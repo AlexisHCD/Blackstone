@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_08_224000) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_08_224718) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -109,10 +109,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_08_224000) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "video_progresses", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "course_episode_id", null: false
+    t.integer "seconds_watched", default: 0
+    t.boolean "completed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_episode_id"], name: "index_video_progresses_on_course_episode_id"
+    t.index ["user_id", "course_episode_id"], name: "index_video_progresses_on_user_id_and_course_episode_id", unique: true
+    t.index ["user_id"], name: "index_video_progresses_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "course_episodes", "courses"
   add_foreign_key "courses", "categories"
   add_foreign_key "featured_items", "tools"
   add_foreign_key "tools", "categories"
+  add_foreign_key "video_progresses", "course_episodes"
+  add_foreign_key "video_progresses", "users"
 end

@@ -1,5 +1,6 @@
 class CourseEpisode < ApplicationRecord
   belongs_to :course
+  has_many :video_progresses, dependent: :destroy
 
   validates :title, presence: true
   validates :youtube_url, presence: true

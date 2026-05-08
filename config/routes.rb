@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :tools, only: [:index, :show]
   resources :courses, only: [:index, :show]
 
+  patch "video_progress", to: "video_progresses#upsert"
+
   namespace :admin do
     root to: "dashboard#index"
     resources :categories
