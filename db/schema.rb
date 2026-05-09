@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_08_224718) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_08_225531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,6 +72,26 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_08_224718) do
     t.index ["category_id"], name: "index_courses_on_category_id"
   end
 
+  create_table "favorite_courses", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_favorite_courses_on_course_id"
+    t.index ["user_id", "course_id"], name: "index_favorite_courses_on_user_id_and_course_id", unique: true
+    t.index ["user_id"], name: "index_favorite_courses_on_user_id"
+  end
+
+  create_table "favorite_tools", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "tool_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tool_id"], name: "index_favorite_tools_on_tool_id"
+    t.index ["user_id", "tool_id"], name: "index_favorite_tools_on_user_id_and_tool_id", unique: true
+    t.index ["user_id"], name: "index_favorite_tools_on_user_id"
+  end
+
   create_table "featured_items", force: :cascade do |t|
     t.bigint "tool_id", null: false
     t.date "featured_on"
@@ -125,6 +145,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_08_224718) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "course_episodes", "courses"
   add_foreign_key "courses", "categories"
+  add_foreign_key "favorite_courses", "courses"
+  add_foreign_key "favorite_courses", "users"
+  add_foreign_key "favorite_tools", "tools"
+  add_foreign_key "favorite_tools", "users"
   add_foreign_key "featured_items", "tools"
   add_foreign_key "tools", "categories"
   add_foreign_key "video_progresses", "course_episodes"

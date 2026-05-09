@@ -8,6 +8,11 @@ Rails.application.routes.draw do
 
   patch "video_progress", to: "video_progresses#upsert"
 
+  # Favoritos
+  resources :favorite_tools, only: [:create, :destroy]
+  resources :favorite_courses, only: [:create, :destroy]
+  get "mis-favoritos", to: "favorites#index", as: :favorites
+
   namespace :admin do
     root to: "dashboard#index"
     resources :categories

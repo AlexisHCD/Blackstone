@@ -16,6 +16,16 @@
       <span class="badge badge--yellow">🎬 Video único</span>
     <% end %>
   </div>
+
+  <% if user_signed_in? %>
+    <div style="margin-top: 1rem;">
+      <% if current_user.favorited_courses.include?(@course) %>
+        <%= link_to "⭐ En favoritos", favorite_course_path(@course), data: { turbo_method: :delete }, class: "btn btn-secondary" %>
+      <% else %>
+        <%= button_to "☆ Agregar a favoritos", favorite_courses_path(course_id: @course.id), method: :post, class: "btn btn-secondary" %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
 <% if @episodes.any? %>

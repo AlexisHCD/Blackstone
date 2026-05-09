@@ -5,6 +5,7 @@ class Tool < ApplicationRecord
   has_one_attached :logo
   belongs_to :category, optional: false
   has_many :featured_items, dependent: :destroy
+  has_many :favorite_tools, dependent: :destroy
 
   before_validation :generate_slug
 

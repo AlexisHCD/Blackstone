@@ -1,0 +1,71 @@
+<div class="page-header">
+  <p class="breadcrumb"><%= link_to "Inicio", root_path %> / Mis Favoritos</p>
+  <h1>⭐ Mis Favoritos</h1>
+</div>
+
+<h2>Herramientas (<%= @favorite_tools.size %>)</h2>
+
+<% if @favorite_tools.any? %>
+  <div class="tools-grid">
+    <% @favorite_tools.each do |tool| %>
+      <div class="tool-card">
+        <div class="tool-card__logo-wrapper">
+          <% if tool.logo.attached? %>
+            <%= image_tag tool.logo, class: "tool-card__logo", alt: tool.name %>
+          <% else %>
+            <div class="tool-card__logo-placeholder">🔧</div>
+          <% end %>
+        </div>
+
+        <div class="tool-card__name">
+          <%= link_to tool.name, tool_path(tool) %>
+        </div>
+
+        <% if tool.description.present? %>
+          <p class="tool-card__description"><%= truncate(tool.description, length: 100) %></p>
+        <% end %>
+
+        <div style="margin-top: auto;">
+          <%= link_to "❌ Quitar", favorite_tool_path(tool), data: { turbo_method: :delete }, class: "btn btn-secondary", style: "font-size: 0.8rem; padding: 0.3rem 0.75rem;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>Aún no tienes herramientas favoritas. Explora el <%= link_to "catálogo", categories_path %> y agrega las que te gusten.</p>
+<% end %>
+
+<hr style="border: 0; border-top: 1px solid var(--color-border); margin: 2rem 0;">
+
+<h2>Cursos (<%= @favorite_courses.size %>)</h2>
+
+<% if @favorite_courses.any? %>
+  <div class="tools-grid">
+    <% @favorite_courses.each do |course| %>
+      <div class="tool-card">
+        <div class="tool-card__name">
+          <%= link_to course.title, course_path(course) %>
+        </div>
+
+        <% if course.description.present? %>
+          <p class="tool-card__description"><%= truncate(course.description, length: 100) %></p>
+        <% end %>
+
+        <div class="tool-card__badges">
+          <span class="badge badge--purple"><%= course.category&.name %></span>
+          <% if course.is_series %>
+            <span class="badge badge--blue">📚 <%= course.course_episodes.size %> ep.</span>
+          <% else %>
+            <span class="badge badge--yellow">🎬 Video único</span>
+          <% end %>
+        </div>
+
+        <div style="margin-top: auto;">
+          <%= link_to "❌ Quitar", favorite_course_path(course), data: { turbo_method: :delete }, class: "btn btn-secondary", style: "font-size: 0.8rem; padding: 0.3rem 0.75rem;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>Aún no tienes cursos favoritos. Explora los <%= link_to "cursos disponibles", courses_path %> y guarda los que te interesen.</p>
+<% end %>
