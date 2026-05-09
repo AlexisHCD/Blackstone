@@ -1,0 +1,27 @@
+<h1>Mensaje de: <%= @message.name %></h1>
+
+<div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; padding: 1.5rem; margin-top: 1rem;">
+  <p><strong>De:</strong> <%= @message.name %> (<%= mail_to @message.email %>)</p>
+  <p><strong>Tipo:</strong> <%= @message.message_type&.humanize %></p>
+  <p><strong>Fecha:</strong> <%= @message.created_at.strftime("%d/%m/%Y a las %H:%M") %></p>
+  <p><strong>Estado:</strong> <%= @message.read ? "✅ Leído" : "🔵 Sin leer" %></p>
+
+  <% if @message.tool_id.present? %>
+    <% tool = Tool.find_by(id: @message.tool_id) %>
+    <% if tool %>
+      <p><strong>Herramienta relacionada:</strong> <%= tool.name %></p>
+    <% end %>
+  <% end %>
+
+  <hr style="border: 0; border-top: 1px solid var(--color-border); margin: 1rem 0;">
+
+  <p><strong>Mensaje:</strong></p>
+  <p><%= simple_format(@message.body) %></p>
+</div>
+
+<div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
+  <% unless @message.read %>
+    <%= link_to "Marcar como leído", mark_read_admin_contact_message_path(@message), data: { turbo_method: :patch }, class: "btn btn-primary" %>
+  <% end %>
+  <%= link_to "← Volver a mensajes", admin_contact_messages_path, class: "btn btn-secondary" %>
+</div>

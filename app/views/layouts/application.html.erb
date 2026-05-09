@@ -10,7 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="modal">
     <header class="site-header">
       <div class="container">
         <a href="<%= root_path %>" class="site-logo">⬛ Blackstone</a>
@@ -43,8 +43,47 @@
     <footer class="site-footer">
       <div class="container">
         <p>Blackstone &copy; <%= Date.today.year %> — Directorio de herramientas para estudiantes de programación.</p>
-        <p><small>¿Encontraste un error o quieres sugerir algo? <a href="#">Contáctanos</a></small></p>
+        <p><small>¿Encontraste un error o quieres sugerir algo? <a href="#" data-action="click->modal#open">Contáctanos</a></small></p>
       </div>
     </footer>
+
+    <%# ============ MODAL DE CONTACTO ============ %>
+    <div class="modal-overlay" data-modal-target="dialog" data-action="click->modal#clickOutside" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>📬 Contáctanos</h2>
+          <button data-action="click->modal#close" class="modal-close">&times;</button>
+        </div>
+
+        <%= form_with model: ContactMessage.new, url: contact_messages_path, local: true do |f| %>
+          <div class="modal-body">
+            <div class="modal-field">
+              <%= f.label :name, "Tu nombre" %>
+              <%= f.text_field :name, required: true, placeholder: "Ej. Juan Pérez" %>
+            </div>
+
+            <div class="modal-field">
+              <%= f.label :email, "Tu correo" %>
+              <%= f.email_field :email, required: true, placeholder: "tu@email.com" %>
+            </div>
+
+            <div class="modal-field">
+              <%= f.label :message_type, "Tipo de mensaje" %>
+              <%= f.select :message_type, ContactMessage::MESSAGE_TYPES.map { |t| [t.humanize.capitalize, t] }, prompt: "Selecciona una opción" %>
+            </div>
+
+            <div class="modal-field">
+              <%= f.label :body, "Mensaje" %>
+              <%= f.text_area :body, required: true, rows: 4, placeholder: "Describe tu sugerencia, reclamo o enlace roto..." %>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <%= f.submit "Enviar mensaje", class: "btn btn-primary" %>
+            <button type="button" data-action="click->modal#close" class="btn btn-secondary">Cancelar</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </body>
 </html>
