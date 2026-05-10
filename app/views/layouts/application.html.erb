@@ -6,6 +6,11 @@
     <meta name="description" content="Blackstone es un directorio de herramientas de desarrollo para estudiantes de programación.">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -19,7 +24,7 @@
           <%= link_to "Cursos", courses_path %>
           <% if user_signed_in? %>
             <%= link_to "⭐ Favoritos", favorites_path %>
-            <span style="color: var(--color-muted); font-size: 0.9rem;"><%= current_user.name || current_user.email %></span>
+            <span style="color: var(--color-fog); font-size: 14px;"><%= current_user.name || current_user.email %></span>
             <%= link_to "Cerrar sesión", destroy_user_session_path, data: { turbo_method: :delete } %>
           <% else %>
             <%= link_to "Iniciar sesión", new_user_session_path %>

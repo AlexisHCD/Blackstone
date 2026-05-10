@@ -17,7 +17,7 @@
     </thead>
     <tbody>
       <% @messages.each do |msg| %>
-        <tr style="<%= msg.read ? '' : 'font-weight: bold; background: #1e1b4b30;' %>">
+        <tr style="<%= msg.read ? '' : 'font-weight: 600; background: rgba(59, 158, 255, 0.1);' %>">
           <td><%= msg.read ? "✅ Leído" : "🔵 Nuevo" %></td>
           <td><%= msg.message_type&.humanize %></td>
           <td><%= msg.name %></td>

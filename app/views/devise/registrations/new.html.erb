@@ -18,7 +18,7 @@
       <div class="modal-field">
         <%= f.label :password, "Contraseña" %>
         <% if @minimum_password_length %>
-          <small style="color: var(--color-muted);">(mínimo <%= @minimum_password_length %> caracteres)</small>
+          <small style="color: var(--color-fog);">(mínimo <%= @minimum_password_length %> caracteres)</small>
         <% end %>
         <%= f.password_field :password, autocomplete: "new-password", placeholder: "Mínimo 6 caracteres" %>
       </div>

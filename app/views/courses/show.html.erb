@@ -43,9 +43,9 @@
          data-video-player-start-at-value="<%= start_at %>"
          data-duration="<%= episode.duration_seconds || 0 %>">
 
-      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
         <% if @course.is_series %>
-          <span style="color: var(--color-accent); font-size: 0.85rem;">Ep. <%= episode.position %></span>
+          <span style="color: var(--color-resend-violet); font-size: 14px;">Ep. <%= episode.position %></span>
         <% end %>
         <h3 style="margin: 0;"><%= episode.title %></h3>
         <% if is_completed %>
@@ -64,7 +64,7 @@
           </div>
 
           <% if start_at > 0 %>
-            <p style="margin-top: 0.5rem; font-size: 0.82rem; color: var(--color-accent);">
+            <p style="margin-top: 8px; font-size: 14px; color: var(--color-electric-blue);">
               ▶️ Retomando desde <%= start_at / 60 %>:<%= "%02d" % (start_at % 60) %>
             </p>
           <% end %>
@@ -72,8 +72,8 @@
           <%# Barra de progreso visual %>
           <% if episode.duration_seconds && episode.duration_seconds > 0 %>
             <% percent = [(start_at.to_f / episode.duration_seconds * 100), 100].min %>
-            <div class="progress-bar" style="margin-top: 0.5rem; height: 4px; background: var(--color-border); border-radius: 2px; overflow: hidden;">
-              <div class="progress-bar__fill" style="height: 100%; background: var(--color-accent); width: <%= percent %>%; transition: width 0.3s;"></div>
+            <div class="progress-bar" style="margin-top: 8px; height: 4px; background: var(--surface-ui-rail); border-radius: 2px; overflow: hidden;">
+              <div class="progress-bar__fill" style="height: 100%; background: var(--color-electric-blue); width: <%= percent %>%; transition: width 0.3s;"></div>
             </div>
           <% end %>
 
@@ -87,14 +87,14 @@
               allowfullscreen>
             </iframe>
           </div>
-          <p style="margin-top: 0.5rem; font-size: 0.82rem; color: var(--color-muted);">
+          <p style="margin-top: 8px; font-size: 14px; color: var(--color-fog);">
             💡 <%= link_to "Inicia sesión", new_user_session_path %> para guardar tu progreso y retomar donde lo dejaste.
           </p>
         <% end %>
       <% end %>
 
       <% if episode.duration_seconds && episode.duration_seconds > 0 %>
-        <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--color-muted);">
+        <p style="margin-top: 8px; font-size: 14px; color: var(--color-fog);">
           ⏱️ Duración: <%= episode.duration_seconds / 3600 %>h <%= (episode.duration_seconds % 3600) / 60 %>min
         </p>
       <% end %>

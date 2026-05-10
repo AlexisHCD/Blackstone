@@ -17,12 +17,12 @@
       <% end %>
       <div>
         <h1><%= @tool.name %></h1>
-        <p style="margin:0; font-size: 0.85rem;"><%= @tool.category.name %></p>
+        <p style="margin:0; font-size: 14px; color: var(--color-fog);"><%= @tool.category.name %></p>
       </div>
     </div>
 
     <% if @tool.description.present? %>
-      <p style="font-size: 1rem; color: var(--color-text); margin-top: 0.5rem;"><%= @tool.description %></p>
+      <p style="font-size: 16px; color: var(--color-fog); margin-top: 8px;"><%= @tool.description %></p>
     <% end %>
 
     <div class="tool-detail__meta">
