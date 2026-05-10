@@ -1,38 +1,94 @@
-<% if @featured_item && @featured_item.tool %>
-  <div class="featured-hero">
-    <p class="featured-hero__label">🌟 Herramienta destacada del día</p>
-    <h2><%= link_to @featured_item.tool.name, tool_path(@featured_item.tool) %></h2>
-    <p><%= @featured_item.tool.description %></p>
-    <div class="tool-card__badges" style="margin-top: 1rem;">
+<% icons  = { "Desarrollo" => "💻", "Ciberseguridad" => "🔒", "Redes" => "🌐", "Inteligencia" => "🧠", "Artificial" => "🤖", "IA" => "🤖", "DevOps" => "☁️", "Hosting" => "🗄️", "Datos" => "📊", "Diseño" => "🎨", "Productividad" => "⚡", "Aprendizaje" => "📚", "Carrera" => "🎓" } %>
+<% themes = { "Desarrollo" => 0, "Ciberseguridad" => 1, "Redes" => 1, "Inteligencia" => 2, "Artificial" => 2, "IA" => 2, "DevOps" => 3, "Hosting" => 3, "Datos" => 3, "Diseño" => 4, "Productividad" => 4, "Aprendizaje" => 5, "Carrera" => 5 } %>
+
+<%# ─── Hero Section ─── %>
+<section class="hero-section">
+  <div class="hero-badge">⚡ Herramienta destacada</div>
+  <% if @featured_item && @featured_item.tool %>
+    <h1 class="hero-title"><%= link_to @featured_item.tool.name, tool_path(@featured_item.tool) %></h1>
+    <p class="hero-desc"><%= @featured_item.tool.description %></p>
+    <div class="hero-meta">
       <% if @featured_item.tool.open_source %>
-        <span class="badge badge--green">🔓 Open Source</span>
+        <span class="hero-tag">🟢 Open Source</span>
       <% end %>
       <% if @featured_item.tool.free_tier %>
-        <span class="badge badge--yellow">🆓 Free Tier</span>
+        <span class="hero-tag">🟡 Free Tier</span>
       <% end %>
       <% if @featured_item.tool.platform.present? %>
-        <span class="badge badge--blue"><%= @featured_item.tool.platform %></span>
+        <span class="hero-tag"><%= @featured_item.tool.platform %></span>
       <% end %>
     </div>
-    <div style="margin-top: 24px;">
-      <%= link_to "Ver herramienta →", tool_path(@featured_item.tool), class: "btn btn-primary" %>
+    <%= link_to "Explorar herramienta →", tool_path(@featured_item.tool), class: "hero-cta" %>
+  <% else %>
+    <h1 class="hero-title">Blackstone</h1>
+    <p class="hero-desc">Directorio de herramientas y recursos para estudiantes de programación.</p>
+  <% end %>
+</section>
+
+<%# ─── Categories Carousel ─── %>
+<section class="carousel-section">
+  <div class="carousel-noise"></div>
+
+  <div class="carousel-header">
+    <span class="carousel-badge">Explorar</span>
+    <h2>Navegá por categorías</h2>
+    <p>Herramientas y cursos seleccionados para cada área del desarrollo</p>
+  </div>
+
+  <div class="swiper categories-swiper">
+    <div class="swiper-wrapper">
+      <% @categories.each_with_index do |category, idx| %>
+        <% theme_idx = category.name.split(/[\s&]+/).find { |w| themes[w] } ? themes[category.name.split(/[\s&]+/).find { |w| themes[w] }] : (idx % 6) %>
+        <% cat_icon = category.name.split(/[\s&]+/).find { |w| icons[w] } ? icons[category.name.split(/[\s&]+/).find { |w| icons[w] }] : "📦" %>
+        <div class="swiper-slide">
+          <a href="<%= category_path(category) %>" class="cyber-card" data-theme="<%= theme_idx %>">
+            <div class="cyber-card__bg"></div>
+            <div class="cyber-card__overlay"></div>
+            <div class="cyber-card__glass-bar"></div>
+            <div class="cyber-card__content">
+              <div class="cyber-card__icon"><%= cat_icon %></div>
+              <h3 class="cyber-card__title"><%= category.name %></h3>
+              <% if category.description.present? %>
+                <p class="cyber-card__desc"><%= category.description %></p>
+              <% end %>
+              <div class="cyber-card__badges">
+                <span class="cyber-badge"><%= category.tools.count %> tools</span>
+                <span class="cyber-badge"><%= category.courses.count %> cursos</span>
+              </div>
+              <span class="cyber-card__cta">
+                Explorar <span class="cyber-card__arrow">→</span>
+              </span>
+            </div>
+          </a>
+        </div>
+      <% end %>
     </div>
   </div>
-<% end %>
+</section>
 
-<div class="page-header">
-  <p class="section-title">Explorar categorías</p>
-  <h1>Herramientas para Devs</h1>
-  <p>Un directorio de herramientas seleccionadas para estudiantes de programación.</p>
-</div>
+<script>
+  document.addEventListener('turbo:load', function() {
+    if (window.categorySwiper) window.categorySwiper.destroy(true, true);
 
-<div class="categories-grid">
-  <% @categories.each do |category| %>
-    <div class="category-card">
-      <%= link_to category.name, category_path(category) %>
-      <% if category.description.present? %>
-        <p><%= truncate(category.description, length: 80) %></p>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+    window.categorySwiper = new Swiper('.categories-swiper', {
+      slidesPerView: 'auto',
+      spaceBetween: 24,
+      grabCursor: true,
+      freeMode: {
+        enabled: true,
+        momentum: true,
+        momentumRatio: 0.5,
+        momentumVelocityRatio: 0.5
+      },
+      mousewheel: {
+        forceToAxis: true,
+        sensitivity: 0.8
+      },
+      breakpoints: {
+        0: { spaceBetween: 16 },
+        768: { spaceBetween: 24 },
+        1200: { spaceBetween: 32 }
+      }
+    });
+  });
+</script>

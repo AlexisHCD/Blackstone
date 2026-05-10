@@ -280,16 +280,113 @@ p  { color: var(--color-fog); font-size: 16px; margin-bottom: 0.75rem; line-heig
 .badge--purple { color: var(--color-resend-violet); border-color: rgba(146, 129, 247, 0.3); }
 
 /* ===========================
-   PAGE HEADER / HERO
-=========================== */
+   HERO SECTION
+============================ */
+.hero-section {
+  position: relative;
+  text-align: center;
+  padding: 80px 0 64px;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(146, 129, 247, 0.08), transparent 60%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-family: var(--font-commitmono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-resend-violet);
+  border: 1px solid rgba(146, 129, 247, 0.3);
+  border-radius: 16px;
+  padding: 4px 14px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hero-title {
+  font-family: var(--font-domaine);
+  font-size: 64px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  color: var(--color-pure-white);
+  margin-bottom: 20px;
+}
+
+.hero-title a {
+  color: var(--color-pure-white);
+  background: linear-gradient(135deg, var(--color-pure-white) 30%, var(--color-resend-violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  font-family: var(--font-inter);
+  font-size: 18px;
+  color: var(--color-fog);
+  max-width: 560px;
+  margin: 0 auto 28px;
+  line-height: 1.65;
+}
+
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.hero-tag {
+  font-family: var(--font-commitmono);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-mist);
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-inter);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-pure-white);
+  background: transparent;
+  border: 1px solid var(--color-electric-blue);
+  border-radius: 8px;
+  padding: 10px 24px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.hero-cta:hover {
+  background: rgba(59, 158, 255, 0.12);
+  border-color: rgba(59, 158, 255, 0.8);
+  color: var(--color-pure-white);
+  text-decoration: none;
+}
+
+/* ===========================
+   PAGE HEADER (used by inner pages)
+============================ */
 .page-header {
   margin-bottom: 64px;
 }
-
-.page-header h1 {
-  margin-top: 16px;
-}
-
+.page-header h1 { margin-top: 16px; }
 .page-header .breadcrumb {
   font-family: var(--font-inter);
   font-size: 14px;
@@ -297,28 +394,6 @@ p  { color: var(--color-fog); font-size: 16px; margin-bottom: 0.75rem; line-heig
   margin-bottom: 8px;
 }
 .page-header .breadcrumb a { color: var(--color-mist); }
-
-.featured-hero {
-  background: var(--surface-card-surface);
-  border: 1px solid var(--surface-ui-rail);
-  border-radius: var(--radius-cards);
-  padding: 48px;
-  margin-bottom: 64px;
-  position: relative;
-  overflow: hidden;
-}
-
-.featured-hero__label {
-  font-family: var(--font-inter);
-  font-size: 14px;
-  color: var(--color-resend-violet);
-  font-weight: 500;
-  margin-bottom: 16px;
-  display: inline-block;
-  border: 1px solid rgba(146, 129, 247, 0.3);
-  padding: 4px 12px;
-  border-radius: 16px;
-}
 
 /* ===========================
    TOOL DETAIL & ACTIONS
@@ -418,3 +493,371 @@ p  { color: var(--color-fog); font-size: 16px; margin-bottom: 0.75rem; line-heig
 .auth-card h2 { margin-top: 0; margin-bottom: 32px; text-align: center; font-family: var(--font-abcfavorit); }
 .auth-links { margin-top: 24px; text-align: center; font-size: 14px; display: flex; flex-direction: column; gap: 8px; }
 .auth-links a { color: var(--color-mist); }
+
+/* ===========================
+   CYBERPUNK CATEGORIES CAROUSEL
+============================ */
+.carousel-section {
+  position: relative;
+  padding: 100px 0 120px;
+  margin: 0 -1.5rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ── Animated Mesh Gradient Background ── */
+.carousel-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 10% 50%, rgba(34, 211, 238, 0.07), transparent 50%),
+    radial-gradient(ellipse at 90% 20%, rgba(167, 139, 250, 0.07), transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(129, 140, 248, 0.05), transparent 50%),
+    radial-gradient(ellipse at 30% 100%, rgba(244, 114, 182, 0.04), transparent 40%);
+  animation: meshFloat 20s ease-in-out infinite;
+}
+
+@keyframes meshFloat {
+  0%, 100%  { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(1.5%, -1%) scale(1.03); }
+  50%  { transform: translate(-1%, 1.5%) scale(0.97); }
+  75%  { transform: translate(1%, -0.5%) scale(1.02); }
+}
+
+/* ── Subtle Grid Overlay ── */
+.carousel-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Noise Texture ── */
+.carousel-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+}
+
+/* ── Section Header ── */
+.carousel-header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: 64px;
+  padding: 0 1.5rem;
+}
+
+.carousel-badge {
+  display: inline-block;
+  font-family: var(--font-commitmono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-resend-violet);
+  border: 1px solid rgba(146, 129, 247, 0.3);
+  border-radius: 16px;
+  padding: 4px 12px;
+  margin-bottom: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.carousel-header h2 {
+  font-family: var(--font-abcfavorit);
+  font-size: 48px;
+  font-weight: 500;
+  color: var(--color-pure-white);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.carousel-header p {
+  font-family: var(--font-inter);
+  font-size: 18px;
+  color: var(--color-fog);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ── Swiper Overrides ── */
+.categories-swiper {
+  position: relative;
+  z-index: 2;
+  padding: 0 1.5rem;
+  overflow: visible !important;
+}
+
+.categories-swiper .swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.categories-swiper .swiper-slide {
+  height: auto;
+  width: 340px;
+}
+
+/* ── Cyber Card ── */
+.cyber-card {
+  --card-accent: rgba(34, 211, 238, 0.5);
+  position: relative;
+  border-radius: 20px;
+  height: 440px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+  background: linear-gradient(160deg, rgba(12, 12, 18, 0.97), rgba(6, 6, 10, 0.99));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  isolation: isolate;
+}
+
+/* ── Card Background Glow Layer ── */
+.cyber-card__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    circle at 50% 0%,
+    var(--card-accent, rgba(34, 211, 238, 0.12)),
+    transparent 60%
+  );
+  opacity: 0.5;
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.cyber-card:hover .cyber-card__bg {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+/* ── Card Gradient Overlay ── */
+.cyber-card__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    transparent 30%,
+    rgba(6, 6, 10, 0.6) 60%,
+    rgba(6, 6, 10, 0.95) 85%,
+    rgba(6, 6, 10, 1) 100%
+  );
+}
+
+/* ── Card Content ── */
+.cyber-card__content {
+  position: relative;
+  z-index: 2;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.cyber-card:hover .cyber-card__content {
+  transform: translateY(-4px);
+}
+
+/* ── Card Icon ── */
+.cyber-card__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.35s ease;
+  flex-shrink: 0;
+}
+
+.cyber-card:hover .cyber-card__icon {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--card-accent, rgba(34, 211, 238, 0.4));
+  box-shadow: 0 0 20px -4px var(--card-accent, rgba(34, 211, 238, 0.2));
+  transform: scale(1.05);
+}
+
+/* ── Card Title ── */
+.cyber-card__title {
+  font-family: var(--font-abcfavorit);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-pure-white);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* ── Card Description ── */
+.cyber-card__desc {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  color: var(--color-fog);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* ── Card Badges ── */
+.cyber-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cyber-badge {
+  font-family: var(--font-commitmono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-mist);
+  transition: all 0.3s ease;
+}
+
+.cyber-card:hover .cyber-badge {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--color-frost);
+}
+
+/* ── CTA Button ── */
+.cyber-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-frost);
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 4px;
+}
+
+.cyber-card__arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.cyber-card:hover .cyber-card__arrow {
+  transform: translateX(4px);
+}
+
+.cyber-card:hover .cyber-card__cta {
+  color: var(--color-pure-white);
+}
+
+/* ── Hover State ── */
+.cyber-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 1px var(--card-accent, rgba(34, 211, 238, 0.3)),
+    0 0 40px -10px var(--card-accent, rgba(34, 211, 238, 0.15));
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Animated Border Glow on Hover ── */
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(
+    140deg,
+    transparent 40%,
+    var(--card-accent, rgba(34, 211, 238, 0.6)) 50%,
+    transparent 60%
+  );
+  background-size: 200% 200%;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.cyber-card:hover::before {
+  opacity: 1;
+  animation: borderGlow 3s linear infinite;
+}
+
+@keyframes borderGlow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 200%; }
+}
+
+/* ── Glass Bottom Section ── */
+.cyber-card__glass-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 180px;
+  background: rgba(6, 6, 10, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  mask-image: linear-gradient(to top, black 30%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 30%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ── Category Theme Variables ── */
+.cyber-card[data-theme="0"] { --card-accent: rgba(34, 211, 238, 0.5); }
+.cyber-card[data-theme="1"] { --card-accent: rgba(167, 139, 250, 0.5); }
+.cyber-card[data-theme="2"] { --card-accent: rgba(129, 140, 248, 0.5); }
+.cyber-card[data-theme="3"] { --card-accent: rgba(96, 165, 250, 0.5); }
+.cyber-card[data-theme="4"] { --card-accent: rgba(244, 114, 182, 0.5); }
+.cyber-card[data-theme="5"] { --card-accent: rgba(52, 211, 153, 0.5); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .carousel-section {
+    padding: 60px 0 80px;
+  }
+  .carousel-header h2 {
+    font-size: 32px;
+  }
+  .carousel-header p {
+    font-size: 16px;
+  }
+  .categories-swiper .swiper-slide {
+    width: 280px;
+  }
+  .cyber-card {
+    height: 380px;
+  }
+  .cyber-card__title {
+    font-size: 19px;
+  }
+}
