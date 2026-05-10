@@ -1,34 +1,40 @@
-<h2>Crear cuenta</h2>
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Crear cuenta</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <p><%= f.label :name, "Nombre" %></p>
-    <p><%= f.text_field :name, autofocus: true, autocomplete: "name" %></p>
-  </div>
+      <div class="modal-field">
+        <%= f.label :name, "Nombre" %>
+        <%= f.text_field :name, autofocus: true, autocomplete: "name", placeholder: "Tu nombre" %>
+      </div>
 
-  <div class="field">
-    <p><%= f.label :email, "Correo electrónico" %></p>
-    <p><%= f.email_field :email, autocomplete: "email" %></p>
-  </div>
+      <div class="modal-field">
+        <%= f.label :email, "Correo electrónico" %>
+        <%= f.email_field :email, autocomplete: "email", placeholder: "tu@email.com" %>
+      </div>
 
-  <div class="field">
-    <p><%= f.label :password, "Contraseña" %></p>
-    <% if @minimum_password_length %>
-      <p><em>(mínimo <%= @minimum_password_length %> caracteres)</em></p>
+      <div class="modal-field">
+        <%= f.label :password, "Contraseña" %>
+        <% if @minimum_password_length %>
+          <small style="color: var(--color-muted);">(mínimo <%= @minimum_password_length %> caracteres)</small>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", placeholder: "Mínimo 6 caracteres" %>
+      </div>
+
+      <div class="modal-field">
+        <%= f.label :password_confirmation, "Confirmar contraseña" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Repite tu contraseña" %>
+      </div>
+
+      <div style="margin-top: 1.25rem;">
+        <%= f.submit "Registrarse", class: "btn btn-primary", style: "width: 100%;" %>
+      </div>
     <% end %>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-  </div>
 
-  <div class="field">
-    <p><%= f.label :password_confirmation, "Confirmar contraseña" %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
+    <div class="auth-links">
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
-
-  <div class="actions" style="margin-top: 1rem;">
-    <%= f.submit "Registrarse", class: "btn btn-primary" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

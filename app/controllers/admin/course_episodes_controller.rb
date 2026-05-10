@@ -1,4 +1,4 @@
-class Admin::CourseEpisodesController < ApplicationController
+class Admin::CourseEpisodesController < Admin::BaseController
   before_action :set_course
   before_action :set_episode, only: [:edit, :update, :destroy]
 

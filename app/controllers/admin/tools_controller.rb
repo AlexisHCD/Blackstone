@@ -1,4 +1,4 @@
-class Admin::ToolsController < ApplicationController
+class Admin::ToolsController < Admin::BaseController
   before_action :set_tool, only: [:edit, :update, :destroy]
   before_action :set_categories, only: [:new, :create, :edit, :update]
 

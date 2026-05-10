@@ -1,4 +1,4 @@
-class Admin::ContactMessagesController < ApplicationController
+class Admin::ContactMessagesController < Admin::BaseController
   before_action :set_message, only: [:show, :mark_read, :destroy]
 
   def index
