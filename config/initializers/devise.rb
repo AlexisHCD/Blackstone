@@ -287,6 +287,15 @@ Devise.setup do |config|
       image_size: 50
     }
 
+  config.omniauth :microsoft_graph,
+    ENV.fetch('AZURE_APPLICATION_CLIENT_ID', nil),
+    ENV.fetch('AZURE_APPLICATION_CLIENT_SECRET', nil),
+    {
+      name: :microsoft_graph,
+      scope: 'User.Read email profile openid',
+      prompt: 'select_account'
+    }
+
   # Use GET instead of POST for OmniAuth request phase to avoid CSRF issues
   OmniAuth.config.allowed_request_methods = [:get, :post]
   OmniAuth.config.silence_get_warning = true

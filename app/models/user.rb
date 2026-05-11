@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+          :omniauthable, omniauth_providers: [:google_oauth2, :microsoft_graph]
 
   has_many :video_progresses, dependent: :destroy
   has_many :favorite_tools, dependent: :destroy
@@ -10,13 +10,26 @@ class User < ApplicationRecord
   has_many :favorited_courses, through: :favorite_courses, source: :course
 
   def self.from_omniauth(auth)
-    user = find_or_initialize_by(provider: auth.provider, uid: auth.uid)
+    user = find_by(provider: auth.provider, uid: auth.uid)
 
-    user.email      = auth.info.email
-    user.name     ||= auth.info.name
-    user.password   = Devise.friendly_token[0, 20] if user.new_record?
+    unless user
+      user = find_by(email: auth.info.email)
 
-    user.save!
+      if user
+        user.update!(provider: auth.provider, uid: auth.uid)
+      else
+        user = new(
+          email:    auth.info.email,
+          name:     auth.info.name,
+          provider: auth.provider,
+          uid:      auth.uid,
+          password: Devise.friendly_token[0, 20]
+        )
+        user.save!
+      end
+    end
+
+    user.name ||= auth.info.name if auth.info.name.present?
     user
   end
 end
