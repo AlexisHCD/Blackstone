@@ -38,7 +38,7 @@
     <meta name="twitter:image:alt" content="Blackstone - Directorio de herramientas y cursos">
     
     <%# Favicon %>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     
     <%# Structured Data (JSON-LD) %>
@@ -68,7 +68,10 @@
     
     <header class="site-header" role="banner">
       <div class="container">
-        <a href="<%= root_path %>" class="site-logo" aria-label="Blackstone - Inicio">⬛ Blackstone</a>
+        <a href="<%= root_path %>" class="site-logo" aria-label="Blackstone - Inicio">
+          <%= image_tag "logoBK.svg", alt: "", class: "site-logo-img" %>
+          <span class="site-logo-text">BLACKSTONE</span>
+        </a>
         
         <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
         <label for="nav-toggle" class="nav-toggle-label" aria-label="Abrir menú" aria-expanded="false">
