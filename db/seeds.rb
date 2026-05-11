@@ -143,6 +143,6 @@ courses_data.each do |data|
     end
   end
 end
-puts "   ✅ #{Course.count} cursos
+puts "   ✅ #{Course.count} cursos"
 
 puts "✅ Seeds completadas."
