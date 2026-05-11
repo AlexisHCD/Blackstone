@@ -1,33 +1,42 @@
-<h1>Gestión de Cursos</h1>
+<div class="admin-header">
+  <h1>Cursos</h1>
+  <p>Gestioná los cursos y tutoriales en video.</p>
+</div>
 
-<%= link_to "Nuevo Curso", new_admin_course_path %> |
-<%= link_to "Volver al Dashboard", admin_root_path %>
+<div class="admin-nav-strip">
+  <%= link_to "← Dashboard", admin_root_path %>
+  <span class="sep">|</span>
+  <%= link_to "+ Nuevo Curso", new_admin_course_path %>
+</div>
 
-<table border="1" cellpadding="5" style="margin-top: 20px; width: 100%; text-align: left;">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Título</th>
-      <th>Categoría</th>
-      <th>Tipo</th>
-      <th>Episodios</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @courses.each do |course| %>
+<div class="admin-table-card">
+  <table class="admin-table">
+    <thead>
       <tr>
-        <td><%= course.id %></td>
-        <td><strong><%= course.title %></strong></td>
-        <td><%= course.category&.name %></td>
-        <td><%= course.is_series ? "📚 Serie" : "🎬 Video único" %></td>
-        <td><%= course.course_episodes.size %></td>
-        <td>
-          <%= link_to "Ver episodios", admin_course_path(course) %> |
-          <%= link_to "Editar", edit_admin_course_path(course) %> |
-          <%= link_to "Eliminar", admin_course_path(course), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
-        </td>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Categoría</th>
+        <th>Tipo</th>
+        <th>Episodios</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @courses.each do |course| %>
+        <tr>
+          <td class="cell-mono">#<%= course.id %></td>
+          <td><strong><%= link_to course.title, admin_course_path(course) %></strong></td>
+          <td><span class="admin-badge"><%= course.category&.name %></span></td>
+          <td><%= course.is_series ? "📚 Serie" : "🎬 Video" %></td>
+          <td class="cell-mono"><%= course.course_episodes.count %></td>
+          <td class="cell-actions">
+            <%= link_to "Episodios", admin_course_path(course), class: "admin-btn-sm admin-btn-sm--primary" %>
+            <%= link_to "Editar", edit_admin_course_path(course), class: "admin-btn-sm admin-btn-sm--primary" %>
+            <%= link_to "Eliminar", admin_course_path(course), class: "admin-btn-sm admin-btn-sm--danger",
+                  data: { turbo_method: :delete, turbo_confirm: "¿Eliminar #{course.title}?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

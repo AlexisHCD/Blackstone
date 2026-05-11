@@ -1,27 +1,33 @@
-<h1>Mensaje de: <%= @message.name %></h1>
+<div class="admin-header">
+  <h1>Mensaje de: <%= @message.name %></h1>
+</div>
 
-<div style="background: var(--surface-card-surface); border: 1px solid var(--surface-ui-rail); border-radius: 8px; padding: 24px; margin-top: 16px;">
-  <p><strong>De:</strong> <%= @message.name %> (<%= mail_to @message.email %>)</p>
-  <p><strong>Tipo:</strong> <%= @message.message_type&.humanize %></p>
+<div class="admin-nav-strip">
+  <%= link_to "← Mensajes", admin_contact_messages_path %>
+  <% unless @message.read? %>
+    <span class="sep">|</span>
+    <%= link_to "Marcar como leído", mark_read_admin_contact_message_path(@message),
+          data: { turbo_method: :patch } %>
+  <% end %>
+</div>
+
+<div class="admin-detail-card">
+  <p><strong>De:</strong> <%= @message.name %> &lt;<%= mail_to @message.email, @message.email %>&gt;</p>
+  <p><strong>Tipo:</strong> <span class="admin-badge"><%= @message.message_type&.humanize %></span></p>
   <p><strong>Fecha:</strong> <%= @message.created_at.strftime("%d/%m/%Y a las %H:%M") %></p>
-  <p><strong>Estado:</strong> <%= @message.read ? "✅ Leído" : "🔵 Sin leer" %></p>
+  <p>
+    <strong>Estado:</strong>
+    <span class="admin-status <%= @message.read? ? 'admin-status--read' : 'admin-status--unread' %>">
+      <%= @message.read? ? "Leído" : "Nuevo" %>
+    </span>
+  </p>
 
-  <% if @message.tool_id.present? %>
-    <% tool = Tool.find_by(id: @message.tool_id) %>
-    <% if tool %>
-      <p><strong>Herramienta relacionada:</strong> <%= tool.name %></p>
-    <% end %>
+  <% if @message.tool_id.present? && (tool = Tool.find_by(id: @message.tool_id)) %>
+    <p><strong>Herramienta relacionada:</strong> <%= link_to tool.name, tool_path(tool) %></p>
   <% end %>
 
-  <hr style="border: 0; border-top: 1px solid var(--surface-ui-rail); margin: 16px 0;">
+  <hr>
 
   <p><strong>Mensaje:</strong></p>
   <p><%= simple_format(@message.body) %></p>
-</div>
-
-<div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
-  <% unless @message.read %>
-    <%= link_to "Marcar como leído", mark_read_admin_contact_message_path(@message), data: { turbo_method: :patch }, class: "btn btn-primary" %>
-  <% end %>
-  <%= link_to "← Volver a mensajes", admin_contact_messages_path, class: "btn btn-secondary" %>
 </div>

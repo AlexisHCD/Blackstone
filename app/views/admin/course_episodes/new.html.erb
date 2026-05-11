@@ -1,4 +1,7 @@
-<h1>Agregar episodio a: <%= @course.title %></h1>
+<div class="admin-header">
+  <h1>Agregar episodio a: <%= @course.title %></h1>
+</div>
+<div class="admin-nav-strip">
+  <%= link_to "← Curso", admin_course_path(@course) %>
+</div>
 <%= render "form", episode: @episode %>
-<br>
-<%= link_to "Volver al curso", admin_course_path(@course) %>

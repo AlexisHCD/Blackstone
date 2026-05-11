@@ -1,43 +1,54 @@
-<h1><%= @course.title %></h1>
-<p><strong>Categoría:</strong> <%= @course.category&.name %></p>
-<p><strong>Tipo:</strong> <%= @course.is_series ? "Serie (múltiples episodios)" : "Video único" %></p>
-<p><%= @course.description %></p>
+<div class="admin-header">
+  <h1><%= @course.title %></h1>
+</div>
 
-<hr>
+<div class="admin-nav-strip">
+  <%= link_to "← Cursos", admin_courses_path %>
+  <span class="sep">|</span>
+  <%= link_to "Editar", edit_admin_course_path(@course) %>
+  <span class="sep">|</span>
+  <%= link_to "+ Agregar Episodio", new_admin_course_course_episode_path(@course) %>
+</div>
 
-<h2>Episodios (<%= @episodes.size %>)</h2>
+<div class="admin-detail-card">
+  <p><strong>Categoría:</strong> <%= @course.category&.name || "—" %></p>
+  <p><strong>Tipo:</strong> <%= @course.is_series ? "📚 Serie" : "🎬 Video único" %></p>
+  <% if @course.description.present? %>
+    <p><%= @course.description %></p>
+  <% end %>
+</div>
 
-<%= link_to "Agregar episodio", new_admin_course_course_episode_path(@course) %>
+<h2 style="margin-bottom: 16px;">Episodios (<%= @course.course_episodes.count %>)</h2>
 
-<% if @episodes.any? %>
-  <table border="1" cellpadding="5" style="margin-top: 15px; width: 100%; text-align: left;">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Título</th>
-        <th>YouTube ID</th>
-        <th>Duración</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @episodes.each do |ep| %>
+<% if @course.course_episodes.any? %>
+  <div class="admin-table-card">
+    <table class="admin-table">
+      <thead>
         <tr>
-          <td><%= ep.position %></td>
-          <td><%= ep.title %></td>
-          <td><code><%= ep.youtube_id %></code></td>
-          <td><%= ep.duration_seconds ? "#{ep.duration_seconds / 60}min" : "-" %></td>
-          <td>
-            <%= link_to "Editar", edit_admin_course_course_episode_path(@course, ep) %> |
-            <%= link_to "Eliminar", admin_course_course_episode_path(@course, ep), data: { turbo_method: :delete, turbo_confirm: "¿Seguro?" } %>
-          </td>
+          <th>#</th>
+          <th>Título</th>
+          <th>YouTube ID</th>
+          <th>Duración</th>
+          <th></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @course.course_episodes.each do |ep| %>
+          <tr>
+            <td class="cell-mono"><%= ep.position %></td>
+            <td><strong><%= ep.title %></strong></td>
+            <td><code><%= ep.youtube_id %></code></td>
+            <td class="cell-mono"><%= (ep.duration_seconds.to_f / 60).round %> min</td>
+            <td class="cell-actions">
+              <%= link_to "Editar", edit_admin_course_course_episode_path(@course, ep), class: "admin-btn-sm admin-btn-sm--primary" %>
+              <%= link_to "Eliminar", admin_course_course_episode_path(@course, ep), class: "admin-btn-sm admin-btn-sm--danger",
+                    data: { turbo_method: :delete, turbo_confirm: "¿Eliminar #{ep.title}?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
-  <p>No hay episodios aún. Agrega el primero.</p>
+  <p style="color: var(--color-fog);">No hay episodios todavía.</p>
 <% end %>
-
-<br>
-<%= link_to "← Volver a cursos", admin_courses_path %>

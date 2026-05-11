@@ -1,28 +1,57 @@
 <% icons  = { "Desarrollo" => "💻", "Ciberseguridad" => "🔒", "Redes" => "🌐", "Inteligencia" => "🧠", "Artificial" => "🤖", "IA" => "🤖", "DevOps" => "☁️", "Hosting" => "🗄️", "Datos" => "📊", "Diseño" => "🎨", "Productividad" => "⚡", "Aprendizaje" => "📚", "Carrera" => "🎓" } %>
 <% themes = { "Desarrollo" => 0, "Ciberseguridad" => 1, "Redes" => 1, "Inteligencia" => 2, "Artificial" => 2, "IA" => 2, "DevOps" => 3, "Hosting" => 3, "Datos" => 3, "Diseño" => 4, "Productividad" => 4, "Aprendizaje" => 5, "Carrera" => 5 } %>
 
-<%# ─── Hero Section ─── %>
-<section class="hero-section">
-  <div class="hero-badge">⚡ Herramienta destacada</div>
-  <% if @featured_item && @featured_item.tool %>
-    <h1 class="hero-title"><%= link_to @featured_item.tool.name, tool_path(@featured_item.tool) %></h1>
-    <p class="hero-desc"><%= @featured_item.tool.description %></p>
-    <div class="hero-meta">
-      <% if @featured_item.tool.open_source %>
-        <span class="hero-tag">🟢 Open Source</span>
-      <% end %>
-      <% if @featured_item.tool.free_tier %>
-        <span class="hero-tag">🟡 Free Tier</span>
-      <% end %>
-      <% if @featured_item.tool.platform.present? %>
-        <span class="hero-tag"><%= @featured_item.tool.platform %></span>
+<%# ─── Premium Layered Glassmorphism Hero ─── %>
+<section class="hero-premium" id="hero-tilt-area">
+  <div class="hero-premium__bg"></div>
+
+  <div class="hero-premium__container">
+    <div class="hero-premium__content">
+      <span class="hero-premium__badge">Herramienta destacada</span>
+
+      <% if @featured_item && @featured_item.tool %>
+        <h1 class="hero-premium__title"><%= @featured_item.tool.name %></h1>
+        <p class="hero-premium__subtitle"><%= truncate(@featured_item.tool.description.presence || "Explorá esta herramienta seleccionada por la comunidad.", length: 100) %></p>
+        <div class="hero-premium__actions">
+          <%= link_to "Explorar →", tool_path(@featured_item.tool), class: "hero-premium__cta" %>
+          <a href="<%= categories_path %>" class="hero-premium__ghost">Ver todas las categorías</a>
+        </div>
+
+        <div class="hero-premium__trust">
+          <div class="hero-premium__trust-icon">⭐</div>
+          <span class="hero-premium__trust-text">
+            <% if @featured_item.tool.open_source %>Open Source<% else %>Popular<% end %>
+            en <%= @featured_item.tool.category&.name || "la comunidad" %>
+          </span>
+        </div>
+      <% else %>
+        <h1 class="hero-premium__title">Blackstone</h1>
+        <p class="hero-premium__subtitle">Directorio de herramientas y recursos seleccionados para estudiantes de programación.</p>
+        <div class="hero-premium__actions">
+          <%= link_to "Explorar →", categories_path, class: "hero-premium__cta" %>
+        </div>
       <% end %>
     </div>
-    <%= link_to "Explorar herramienta →", tool_path(@featured_item.tool), class: "hero-cta" %>
-  <% else %>
-    <h1 class="hero-title">Blackstone</h1>
-    <p class="hero-desc">Directorio de herramientas y recursos para estudiantes de programación.</p>
-  <% end %>
+
+    <div class="hero-premium__visual" id="hero-visual-tilt">
+      <!-- Back floating layer -->
+      <div class="hero-premium__card-back"></div>
+
+      <!-- Front layer with tool logo -->
+      <div class="hero-premium__card-front hero-premium__card-front-tilt" id="hero-tilt-card">
+        <% if @featured_item && @featured_item.tool && @featured_item.tool.logo.attached? %>
+          <div class="hero-premium__logo-wrapper">
+            <%= image_tag @featured_item.tool.logo, class: "hero-premium__logo", alt: @featured_item.tool.name %>
+          </div>
+        <% else %>
+          <div class="hero-premium__logo-placeholder">
+            <% featured_name = @featured_item&.tool&.name.to_s.first(2).upcase %>
+            <%= featured_name.presence || "⬛" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </section>
 
 <%# ─── Categories Carousel ─── %>
@@ -67,6 +96,7 @@
 </section>
 
 <script>
+  // ─── Swiper Carousel ───
   document.addEventListener('turbo:load', function() {
     if (window.categorySwiper) window.categorySwiper.destroy(true, true);
 
@@ -90,5 +120,39 @@
         1200: { spaceBetween: 32 }
       }
     });
+  });
+
+  // ─── 3D Tilt Effect ───
+  document.addEventListener('turbo:load', function() {
+    const tiltArea = document.getElementById('hero-tilt-area');
+    const tiltCard = document.getElementById('hero-tilt-card');
+    const tiltVisual = document.getElementById('hero-visual-tilt');
+    if (!tiltArea || !tiltCard) return;
+
+    function handleTilt(e) {
+      const rect = tiltArea.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const maxTilt = 8;
+
+      const rotateY = ((x - centerX) / centerX) * maxTilt;
+      const rotateX = -((y - centerY) / centerY) * maxTilt;
+
+      const shadowX = -rotateY * 0.15;
+      const shadowY = rotateX * 0.15;
+
+      tiltCard.style.setProperty('--tilt-transform', `rotate3d(0, 1, 0, ${rotateY}deg) rotate3d(1, 0, 0, ${rotateX}deg)`);
+      tiltCard.style.setProperty('--tilt-shadow', `${shadowX}px ${shadowY}px 40px rgba(146, 129, 247, 0.15)`);
+    }
+
+    function resetTilt() {
+      tiltCard.style.setProperty('--tilt-transform', 'rotate3d(0, 0, 0, 0deg)');
+      tiltCard.style.setProperty('--tilt-shadow', '0 0 0 transparent');
+    }
+
+    tiltArea.addEventListener('mousemove', handleTilt, { passive: true });
+    tiltArea.addEventListener('mouseleave', resetTilt);
   });
 </script>

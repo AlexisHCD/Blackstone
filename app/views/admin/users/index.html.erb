@@ -1,47 +1,45 @@
-<div class="page-header">
-  <div class="breadcrumb">
-    <%= link_to "Dashboard", admin_root_path %> / Usuarios
-  </div>
-  <h1>Gestión de Usuarios</h1>
+<div class="admin-header">
+  <h1>Usuarios</h1>
+  <p>Gestioná los usuarios registrados en la plataforma.</p>
 </div>
 
-<div style="background: var(--surface-card-surface); border: 1px solid var(--surface-ui-rail); border-radius: 16px; overflow: hidden;">
-  <table style="width: 100%; text-align: left; border-collapse: collapse;">
+<div class="admin-nav-strip">
+  <%= link_to "← Dashboard", admin_root_path %>
+</div>
+
+<div class="admin-table-card">
+  <table class="admin-table">
     <thead>
-      <tr style="border-bottom: 1px solid var(--surface-ui-rail); background: rgba(0,0,0,0.2);">
-        <th style="padding: 16px 24px; font-weight: 500; color: var(--color-fog); font-size: 14px;">ID</th>
-        <th style="padding: 16px 24px; font-weight: 500; color: var(--color-fog); font-size: 14px;">Nombre</th>
-        <th style="padding: 16px 24px; font-weight: 500; color: var(--color-fog); font-size: 14px;">Email</th>
-        <th style="padding: 16px 24px; font-weight: 500; color: var(--color-fog); font-size: 14px;">Rol</th>
-        <th style="padding: 16px 24px; font-weight: 500; color: var(--color-fog); font-size: 14px; text-align: right;">Acciones</th>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <% @users.each do |user| %>
-        <tr style="border-bottom: 1px solid var(--surface-ui-rail);">
-          <td style="padding: 16px 24px; font-family: var(--font-commitmono); font-size: 14px; color: var(--color-ash);">
-            #<%= user.id %>
-          </td>
-          <td style="padding: 16px 24px; font-weight: 500;">
-            <%= user.name.presence || "Sin nombre" %>
-          </td>
-          <td style="padding: 16px 24px; color: var(--color-fog); font-size: 14px;">
-            <%= user.email %>
-          </td>
-          <td style="padding: 16px 24px;">
+        <tr>
+          <td class="cell-mono">#<%= user.id %></td>
+          <td><strong><%= user.name.presence || "Sin nombre" %></strong></td>
+          <td class="cell-muted"><%= user.email %></td>
+          <td>
             <% if user.admin? %>
-              <span class="badge badge--purple">Administrador</span>
+              <span class="badge badge--purple">Admin</span>
             <% else %>
-              <span class="badge" style="color: var(--color-fog);">Usuario</span>
+              <span class="badge">Usuario</span>
             <% end %>
           </td>
-          <td style="padding: 16px 24px; text-align: right;">
+          <td class="cell-actions">
             <% if user == current_user %>
-              <span style="color: var(--color-ash); font-size: 12px; font-family: var(--font-inter);">Tú (Admin)</span>
+              <span class="cell-muted">Sos vos</span>
             <% else %>
-              <%= button_to toggle_admin_admin_user_path(user), method: :patch, class: "btn #{user.admin? ? 'btn-secondary' : 'btn-primary'}", style: "padding: 6px 12px; font-size: 12px;", form: { style: "display: inline-block;" } do %>
-                <%= user.admin? ? "Revocar Admin" : "Hacer Admin" %>
-              <% end %>
+              <%= button_to user.admin? ? "Quitar admin" : "Hacer admin",
+                    toggle_admin_admin_user_path(user),
+                    method: :patch,
+                    class: user.admin? ? "admin-btn-sm admin-btn-sm--danger" : "admin-btn-sm admin-btn-sm--success",
+                    data: { turbo_confirm: "¿Cambiar rol de #{user.name || user.email}?" } %>
             <% end %>
           </td>
         </tr>

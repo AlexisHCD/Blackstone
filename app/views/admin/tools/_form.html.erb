@@ -1,61 +1,68 @@
-<%= form_with(model: [:admin, tool], local: true) do |form| %>
+<%= form_with model: [:admin, tool], local: true, html: { class: "admin-form-card" } do |f| %>
   <% if tool.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(tool.errors.count, "error") %> prohibited this tool from being saved:</h2>
+    <div class="admin-form-errors">
+      <h3><%= pluralize(tool.errors.count, "error") %> impidieron guardar:</h3>
       <ul>
-        <% tool.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% tool.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, "Nombre", style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="admin-field">
+    <%= f.label :name, "Nombre" %>
+    <%= f.text_field :name, placeholder: "Ej. VS Code" %>
   </div>
 
-  <div>
-    <%= form.label :category_id, "Categoría", style: "display: block" %>
-    <%= form.collection_select :category_id, @categories, :id, :name, prompt: "Selecciona una categoría" %>
+  <div class="admin-field">
+    <%= f.label :category_id, "Categoría" %>
+    <%= f.collection_select :category_id, @categories, :id, :name, { prompt: "Seleccioná una categoría" } %>
   </div>
 
-  <div>
-    <%= form.label :description, "Descripción corta (máx 300 char)", style: "display: block" %>
-    <%= form.text_area :description, rows: 4, style: "width: 100%; max-width: 600px;" %>
+  <div class="admin-field">
+    <%= f.label :description, "Descripción" %>
+    <%= f.text_area :description, rows: 3, placeholder: "¿Qué hace esta herramienta?" %>
+    <small>Máximo 300 caracteres.</small>
   </div>
 
-  <div>
-    <%= form.label :logo, "Logo/Imagen", style: "display: block" %>
-    <%= form.file_field :logo %>
+  <div class="admin-field">
+    <%= f.label :logo, "Logo" %>
+    <% if tool.logo.attached? %>
+      <div style="margin-bottom: 8px;">
+        <%= image_tag tool.logo, style: "width: 80px; height: 80px; object-fit: contain; border-radius: 12px; background: var(--surface-canvas); border: 1px solid var(--surface-ui-rail); padding: 8px;" %>
+      </div>
+    <% end %>
+    <%= f.file_field :logo %>
   </div>
 
-  <div>
-    <%= form.label :website_url, "URL del sitio web", style: "display: block" %>
-    <%= form.text_field :website_url %>
+  <div class="admin-field">
+    <%= f.label :website_url, "URL del sitio web" %>
+    <%= f.text_field :website_url, placeholder: "https://..." %>
   </div>
 
-  <div>
-    <%= form.label :open_source, style: "display: inline-block" %>
-    <%= form.check_box :open_source %>
+  <div class="admin-field admin-field--inline">
+    <%= f.check_box :open_source %>
+    <%= f.label :open_source, "¿Es Open Source?" %>
   </div>
 
-  <div>
-    <%= form.label :free_tier, style: "display: inline-block" %>
-    <%= form.check_box :free_tier %>
+  <div class="admin-field admin-field--inline">
+    <%= f.check_box :free_tier %>
+    <%= f.label :free_tier, "¿Tiene Free Tier?" %>
   </div>
 
-  <div>
-    <%= form.label :platform, "Plataforma", style: "display: block" %>
-    <%= form.select :platform, Tool::PLATFORMS, prompt: "Selecciona una plataforma" %>
+  <div class="admin-field">
+    <%= f.label :platform, "Plataforma" %>
+    <%= f.select :platform, Tool::PLATFORMS.map { |p| [p, p] }, { prompt: "Seleccioná..." } %>
   </div>
 
-  <div>
-    <%= form.label :level, "Nivel de usuario", style: "display: block" %>
-    <%= form.select :level, Tool::LEVELS, prompt: "Selecciona el nivel" %>
+  <div class="admin-field">
+    <%= f.label :level, "Nivel" %>
+    <%= f.select :level, Tool::LEVELS.map { |l| [l, l] }, { prompt: "Seleccioná..." } %>
   </div>
 
-  <div style="margin-top: 15px;">
-    <%= form.submit "Guardar Herramienta" %>
+  <div class="admin-field--submit">
+    <%= f.submit "Guardar Herramienta", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", admin_tools_path, class: "btn btn-secondary" %>
   </div>
 <% end %>

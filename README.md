@@ -1,24 +1,123 @@
-# README
+# Blackstone
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+> Directorio de herramientas de desarrollo y cursos para estudiantes de programación.
 
-Things you may want to cover:
+[![Rails](https://img.shields.io/badge/Rails-7.1.3-CC0000?style=flat-square&logo=ruby-on-rails)](https://rubyonrails.org)
+[![Ruby](https://img.shields.io/badge/Ruby-3.3.0-701516?style=flat-square&logo=ruby)](https://www.ruby-lang.org)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org)
+[![Hotwire](https://img.shields.io/badge/Hotwire-Turbo-FF6B35?style=flat-square)](https://hotwire.dev)
 
-* Ruby version
+## Quick Start
 
-* System dependencies
+```bash
+# Clonar y entrar al directorio
+cd blackstone
 
-* Configuration
+# Instalar dependencias
+bundle install
 
-* Database creation
+# Configurar base de datos
+cp config/database.yml.example config/database.yml  # Editar credenciales
+rails db:create db:migrate
 
-* Database initialization
+# Iniciar servidor
+rails server
+```
 
-* How to run the test suite
+Visita [http://localhost:3000](http://localhost:3000)
 
-* Services (job queues, cache servers, search engines, etc.)
+## Características
 
-* Deployment instructions
+- **Directorio de herramientas** categorizadas (Desarrollo, Ciberseguridad, Redes, IA, DevOps)
+- **Catálogo de cursos** en video con tracking de progreso
+- **Sistema de favoritos** para herramientas y cursos
+- **Progreso de video** con auto-save cada 15s y marca de completado al 90%
+- **Herramienta destacada del día** (seleccionada automáticamente)
+- **Panel de administración** completo
+- **Dark theme premium** inspirado en Resend/Linear
 
-* ...
+## Tech Stack
+
+| Componente | Tecnología |
+|------------|------------|
+| Framework | Rails 7.1.3 |
+| Lenguaje | Ruby 3.3.0 |
+| Base de datos | PostgreSQL 14+ |
+| Frontend | Hotwire (Turbo + Stimulus) |
+| Autenticación | Devise |
+| Storage | Active Storage |
+| Video | YouTube IFrame API |
+
+## Documentation
+
+Toda la documentación técnica está en [/docs/](./docs/)
+
+| Documento | Descripción |
+|-----------|-------------|
+| [documentacion-general.md](./docs/documentacion-general.md) | Índice principal - visión completa del proyecto |
+| [requerimientos.md](./docs/requerimientos.md) | Requerimientos funcionales y no funcionales |
+| [diccionario-datos.md](./docs/diccionario-datos.md) | Modelo de datos, tablas, relaciones |
+| [arquitectura.md](./docs/arquitectura.md) | Arquitectura del sistema, diagramas |
+| [auth.md](./docs/auth.md) | Sistema de autenticación con Devise |
+| [api.md](./docs/api.md) | Endpoints y documentación de la API |
+| [design.md](./docs/design.md) | Sistema de diseño visual (tokens, colores, tipografía) |
+| [metodologia.md](./docs/metodologia.md) | Metodología de desarrollo |
+| [sprint-planning.md](./docs/sprint-planning.md) | Planificación de sprints |
+| [/docs/decisions/](./docs/decisions/) | Decisiones técnicas (ADRs) |
+
+## Estructura del Proyecto
+
+```
+blackstone/
+├── app/
+│   ├── controllers/       # Controladores (public + admin)
+│   ├── models/            # Modelos ActiveRecord
+│   ├── views/            # Plantillas ERB
+│   └── javascript/
+│       └── controllers/   # Stimulus controllers
+├── config/
+│   ├── routes.rb         # Rutas de la aplicación
+│   └── database.yml      # Configuración de BD
+├── db/
+│   ├── migrate/          # Migraciones
+│   └── schema.rb         # Schema generado
+└── docs/                 # Documentación técnica
+    ├── documentacion-general.md
+    ├── diccionario-datos.md
+    ├── arquitectura.md
+    ├── auth.md
+    ├── api.md
+    ├── design.md
+    ├── metodologia.md
+    ├── sprint-planning.md
+    ├── requerimientos.md
+    ├── assets/           # Diagramas, mockups
+    └── decisions/        # ADRs
+```
+
+## Rutas Principales
+
+| Ruta | Descripción |
+|------|-------------|
+| `/` | Home con herramienta destacada |
+| `/categories` | Lista de categorías |
+| `/tools` | Directorio de herramientas |
+| `/courses` | Catálogo de cursos |
+| `/mis-favoritos` | Favoritos del usuario |
+| `/admin` | Panel de administración |
+
+## Deployment
+
+Ver [documentacion-general.md](./docs/documentacion-general.md) para instrucciones completas de deployment.
+
+### Producción
+
+```bash
+RAILS_ENV=production rails db:migrate
+RAILS_ENV=production rails assets:precompile
+rails server -e production
+```
+
+## Licencia
+
+MIT

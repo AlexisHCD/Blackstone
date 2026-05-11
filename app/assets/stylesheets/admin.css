@@ -1,0 +1,383 @@
+/* ===========================
+   ADMIN PANEL — Cyberpunk Dark
+============================ */
+
+/* ── Page Header ── */
+.admin-header {
+  margin-bottom: 48px;
+}
+.admin-header h1 {
+  font-family: var(--font-abcfavorit);
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--color-pure-white);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.admin-header p {
+  font-size: 15px;
+  color: var(--color-fog);
+  margin: 0;
+}
+
+/* ── Nav Strip ── */
+.admin-nav-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--surface-ui-rail);
+}
+.admin-nav-strip a, .admin-nav-strip span {
+  font-family: var(--font-commitmono);
+  font-size: 12px;
+  color: var(--color-mist);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+.admin-nav-strip a:hover {
+  color: var(--color-pure-white);
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+}
+.admin-nav-strip .sep {
+  color: var(--color-ash);
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+/* ── Dashboard Grid ── */
+.admin-dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.admin-dash-card {
+  background: var(--surface-card-surface);
+  border: 1px solid var(--surface-ui-rail);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: block;
+}
+.admin-dash-card:hover {
+  border-color: rgba(146, 129, 247, 0.3);
+  box-shadow: 0 0 30px -10px rgba(146, 129, 247, 0.1);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.admin-dash-card__icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: block;
+}
+.admin-dash-card__title {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-pure-white);
+  margin-bottom: 6px;
+}
+.admin-dash-card__meta {
+  font-family: var(--font-commitmono);
+  font-size: 12px;
+  color: var(--color-mist);
+}
+
+/* ── Table Card Wrapper ── */
+.admin-table-card {
+  background: var(--surface-card-surface);
+  border: 1px solid var(--surface-ui-rail);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ── Tables ── */
+.admin-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.admin-table thead tr {
+  border-bottom: 1px solid var(--surface-ui-rail);
+  background: rgba(0, 0, 0, 0.25);
+}
+.admin-table th {
+  padding: 14px 20px;
+  font-family: var(--font-inter);
+  font-weight: 500;
+  color: var(--color-fog);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.admin-table td {
+  padding: 14px 20px;
+  color: var(--color-frost);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.admin-table tbody tr {
+  transition: background 0.15s ease;
+}
+.admin-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.015);
+}
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Cell variants */
+.admin-table .cell-mono {
+  font-family: var(--font-commitmono);
+  font-size: 13px;
+  color: var(--color-ash);
+}
+.admin-table .cell-muted {
+  color: var(--color-fog);
+}
+.admin-table .cell-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* Highlighted row */
+.admin-table tr.row-highlight {
+  background: rgba(59, 158, 255, 0.06);
+}
+.admin-table tr.row-highlight:hover {
+  background: rgba(59, 158, 255, 0.1);
+}
+
+/* ── Action Buttons Row ── */
+.admin-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+/* ── Inline Buttons (table actions) ── */
+.admin-btn-sm {
+  display: inline-block;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  background: transparent;
+  line-height: 1.4;
+}
+.admin-btn-sm--primary {
+  color: var(--color-pure-white);
+  border-color: rgba(59, 158, 255, 0.4);
+}
+.admin-btn-sm--primary:hover {
+  background: rgba(59, 158, 255, 0.1);
+  border-color: rgba(59, 158, 255, 0.8);
+}
+.admin-btn-sm--danger {
+  color: var(--color-bounced-red);
+  border-color: rgba(255, 149, 146, 0.2);
+}
+.admin-btn-sm--danger:hover {
+  background: rgba(255, 149, 146, 0.08);
+  border-color: rgba(255, 149, 146, 0.5);
+}
+.admin-btn-sm--success {
+  color: var(--color-delivered-green);
+  border-color: rgba(58, 211, 137, 0.2);
+}
+.admin-btn-sm--success:hover {
+  background: rgba(58, 211, 137, 0.08);
+  border-color: rgba(58, 211, 137, 0.5);
+}
+
+/* ── Forms ── */
+.admin-form-card {
+  background: var(--surface-card-surface);
+  border: 1px solid var(--surface-ui-rail);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 680px;
+}
+
+.admin-field {
+  margin-bottom: 22px;
+}
+.admin-field label {
+  display: block;
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-mist);
+  margin-bottom: 8px;
+}
+.admin-field input[type="text"],
+.admin-field input[type="number"],
+.admin-field input[type="url"],
+.admin-field input[type="file"],
+.admin-field input[type="password"],
+.admin-field select,
+.admin-field textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--surface-canvas);
+  border: 1px solid var(--surface-ui-rail);
+  border-radius: 8px;
+  color: var(--color-pure-white);
+  font-size: 14px;
+  font-family: var(--font-inter);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.admin-field input:focus,
+.admin-field select:focus,
+.admin-field textarea:focus {
+  outline: none;
+  border-color: rgba(146, 129, 247, 0.6);
+  box-shadow: 0 0 0 3px rgba(146, 129, 247, 0.1);
+}
+.admin-field textarea {
+  max-width: 100%;
+  min-height: 80px;
+  line-height: 1.5;
+}
+.admin-field small {
+  display: block;
+  font-size: 12px;
+  color: var(--color-ash);
+  margin-top: 5px;
+}
+.admin-field--inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-field--inline label {
+  margin-bottom: 0;
+  cursor: pointer;
+}
+.admin-field--inline input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-resend-violet);
+  cursor: pointer;
+}
+
+/* Error block */
+.admin-form-errors {
+  background: rgba(255, 149, 146, 0.06);
+  border: 1px solid rgba(255, 149, 146, 0.2);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+.admin-form-errors h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-bounced-red);
+  margin-bottom: 8px;
+}
+.admin-form-errors ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.admin-form-errors li {
+  font-size: 13px;
+  color: var(--color-bounced-red);
+  margin-bottom: 2px;
+}
+
+.admin-field--submit {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--surface-ui-rail);
+}
+
+/* ── Detail Card ── */
+.admin-detail-card {
+  background: var(--surface-card-surface);
+  border: 1px solid var(--surface-ui-rail);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+.admin-detail-card h2 {
+  font-family: var(--font-abcfavorit);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-pure-white);
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+.admin-detail-card p {
+  font-size: 15px;
+  color: var(--color-fog);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.admin-detail-card strong {
+  color: var(--color-mist);
+  font-weight: 500;
+}
+.admin-detail-card hr {
+  border: 0;
+  border-top: 1px solid var(--surface-ui-rail);
+  margin: 20px 0;
+}
+.admin-detail-card code {
+  font-family: var(--font-commitmono);
+  font-size: 13px;
+  color: var(--color-resend-violet);
+  background: rgba(146, 129, 247, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ── Status Dot ── */
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.admin-status::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.admin-status--read::before { background: var(--color-delivered-green); }
+.admin-status--unread::before { background: var(--color-electric-blue); box-shadow: 0 0 6px var(--color-electric-blue); }
+.admin-status--read { color: var(--color-delivered-green); }
+.admin-status--unread { color: var(--color-electric-blue); font-weight: 500; }
+
+/* ── Badge Status ── */
+.admin-badge {
+  display: inline-block;
+  font-family: var(--font-commitmono);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-mist);
+  font-weight: 400;
+}
+.admin-badge--active { color: var(--color-delivered-green); border-color: rgba(58, 211, 137, 0.2); }
+.admin-badge--inactive { color: var(--color-fog); }

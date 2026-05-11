@@ -1,46 +1,47 @@
-<h1>Gestión de Herramientas</h1>
+<div class="admin-header">
+  <h1>Herramientas</h1>
+  <p>Gestioná el directorio de herramientas para desarrolladores.</p>
+</div>
 
-<%= link_to "Nueva Herramienta", new_admin_tool_path %> |
-<%= link_to "Volver al Dashboard", admin_root_path %>
+<div class="admin-nav-strip">
+  <%= link_to "← Dashboard", admin_root_path %>
+  <span class="sep">|</span>
+  <%= link_to "+ Nueva Herramienta", new_admin_tool_path %>
+</div>
 
-<table border="1" cellpadding="5" style="margin-top: 20px; width: 100%; text-align: left;">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Logo</th>
-      <th>Nombre</th>
-      <th>Categoría</th>
-      <th>Plataforma</th>
-      <th>Nivel</th>
-      <th>Open Source</th>
-      <th>Free Tier</th>
-      <th>URL Web</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @tools.each do |tool| %>
+<div class="admin-table-card">
+  <table class="admin-table">
+    <thead>
       <tr>
-        <td><%= tool.id %></td>
-        <td><%= tool.logo.attached? ? "✅" : "❌" %></td>
-        <td><strong><%= tool.name %></strong></td>
-        <td><%= tool.category&.name %></td>
-        <td><%= tool.platform.presence || "-" %></td>
-        <td><%= tool.level.presence || "-" %></td>
-        <td><%= tool.open_source ? "✅ Sí" : "❌ No" %></td>
-        <td><%= tool.free_tier ? "✅ Sí" : "❌ No" %></td>
-        <td>
-          <% if tool.website_url.present? %>
-            <%= link_to "Link", tool.website_url, target: "_blank" %>
-          <% else %>
-            -
-          <% end %>
-        </td>
-        <td>
-          <%= link_to "Editar", edit_admin_tool_path(tool) %> |
-          <%= link_to "Eliminar", admin_tool_path(tool), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
-        </td>
+        <th>ID</th>
+        <th>Logo</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Plataforma</th>
+        <th>Nivel</th>
+        <th>OSS</th>
+        <th>Free</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @tools.each do |tool| %>
+        <tr>
+          <td class="cell-mono">#<%= tool.id %></td>
+          <td><%= tool.logo.attached? ? "✅" : "—" %></td>
+          <td><strong><%= link_to tool.name, tool_path(tool) %></strong></td>
+          <td class="cell-muted"><%= tool.category&.name %></td>
+          <td><span class="admin-badge"><%= tool.platform %></span></td>
+          <td><span class="admin-badge"><%= tool.level %></span></td>
+          <td><%= tool.open_source ? "✅" : "—" %></td>
+          <td><%= tool.free_tier ? "✅" : "—" %></td>
+          <td class="cell-actions">
+            <%= link_to "Editar", edit_admin_tool_path(tool), class: "admin-btn-sm admin-btn-sm--primary" %>
+            <%= link_to "Eliminar", admin_tool_path(tool), class: "admin-btn-sm admin-btn-sm--danger",
+                  data: { turbo_method: :delete, turbo_confirm: "¿Eliminar #{tool.name}?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

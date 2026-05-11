@@ -23,5 +23,11 @@ module Blackstone
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Allow SVG images to be served inline via Active Storage
+    # (Rails defaults SVG to binary/serve_as_binary for XSS protection —
+    #  we override this since our SVGs are trusted logos)
+    config.active_storage.content_types_to_serve_as_binary -= [ "image/svg+xml" ]
+    config.active_storage.content_types_allowed_inline += [ "image/svg+xml" ]
   end
 end

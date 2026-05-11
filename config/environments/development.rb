@@ -36,6 +36,11 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  # Allow SVG files to be served inline (instead of as binary octet-stream)
+  # Rails serves SVGs as binary by default for XSS protection - we trust our logos
+  config.active_storage.content_types_to_serve_as_binary -= [ "image/svg+xml" ]
+  config.active_storage.content_types_allowed_inline += [ "image/svg+xml" ]
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 

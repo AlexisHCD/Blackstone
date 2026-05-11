@@ -1,57 +1,99 @@
 <% if @tool %>
-  <div class="page-header">
+  <div class="page-header" style="margin-bottom: 24px;">
     <p class="breadcrumb">
-      <%= link_to "Inicio", root_path %> /
-      <%= link_to "Categorías", categories_path %> /
-      <%= link_to @tool.category.name, category_path(@tool.category) %> /
+      <%= link_to "Inicio", root_path %> <span>/</span>
+      <%= link_to "Categorías", categories_path %> <span>/</span>
+      <%= link_to @tool.category.name, category_path(@tool.category) %> <span>/</span>
       <%= @tool.name %>
     </p>
   </div>
 
-  <div class="tool-detail">
-    <div class="tool-detail__header">
-      <% if @tool.logo.attached? %>
-        <%= image_tag @tool.logo, class: "tool-card__logo", style: "width:56px;height:56px;", alt: @tool.name %>
-      <% else %>
-        <div class="tool-card__logo-placeholder" style="width:56px;height:56px;font-size:1.6rem;">🔧</div>
-      <% end %>
-      <div>
-        <h1><%= @tool.name %></h1>
-        <p style="margin:0; font-size: 14px; color: var(--color-fog);"><%= @tool.category.name %></p>
+  <section class="hero-premium" id="hero-tilt-area" style="padding-top: 30px;">
+    <div class="hero-premium__bg"></div>
+
+    <div class="hero-premium__container">
+      <div class="hero-premium__content">
+        <span class="hero-premium__badge"><%= @tool.category.name %></span>
+
+        <h1 class="hero-premium__title"><%= @tool.name %></h1>
+
+        <% if @tool.description.present? %>
+          <p class="hero-premium__subtitle"><%= @tool.description %></p>
+        <% end %>
+
+        <div class="tool-detail__meta" style="margin-top: 0;">
+          <% if @tool.open_source %>
+            <span class="badge badge--green">🔓 Open Source</span>
+          <% end %>
+          <% if @tool.free_tier %>
+            <span class="badge badge--yellow">🆓 Free Tier</span>
+          <% end %>
+          <% if @tool.platform.present? %>
+            <span class="badge badge--blue">📦 <%= @tool.platform %></span>
+          <% end %>
+          <% if @tool.level.present? %>
+            <span class="badge badge--purple">🎓 <%= @tool.level %></span>
+          <% end %>
+        </div>
+
+        <div class="hero-premium__actions" style="margin-top: 4px;">
+          <% if @tool.website_url.present? %>
+            <%= link_to "Ir al sitio web →", @tool.website_url, target: "_blank", rel: "noopener", class: "hero-premium__cta" %>
+          <% end %>
+          <% if user_signed_in? %>
+            <% if current_user.favorited_tools.include?(@tool) %>
+              <%= link_to "★ En favoritos", favorite_tool_path(@tool), data: { turbo_method: :delete }, class: "hero-premium__ghost" %>
+            <% else %>
+            <%= link_to "☆ Agregar a favoritos", favorite_tools_path(tool_id: @tool.id), data: { turbo_method: :post }, class: "hero-premium__ghost" %>
+            <% end %>
+          <% end %>
+          <%= link_to "← Volver", category_path(@tool.category), class: "hero-premium__ghost" %>
+        </div>
+      </div>
+
+      <div class="hero-premium__visual" id="hero-visual-tilt">
+        <div class="hero-premium__card-back"></div>
+
+        <div class="hero-premium__card-front hero-premium__card-front-tilt" id="hero-tilt-card">
+          <% if @tool.logo.attached? %>
+            <div class="hero-premium__logo-wrapper">
+              <%= image_tag @tool.logo, class: "hero-premium__logo", alt: @tool.name %>
+            </div>
+          <% else %>
+            <div class="hero-premium__logo-placeholder">
+              <%= @tool.name.first(2).upcase %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
+  </section>
 
-    <% if @tool.description.present? %>
-      <p style="font-size: 16px; color: var(--color-fog); margin-top: 8px;"><%= @tool.description %></p>
-    <% end %>
+  <script>
+    (function() {
+      var tiltArea = document.getElementById('hero-tilt-area');
+      var tiltCard = document.getElementById('hero-tilt-card');
+      if (!tiltArea || !tiltCard) return;
 
-    <div class="tool-detail__meta">
-      <% if @tool.open_source %>
-        <span class="badge badge--green">🔓 Open Source</span>
-      <% end %>
-      <% if @tool.free_tier %>
-        <span class="badge badge--yellow">🆓 Free Tier</span>
-      <% end %>
-      <% if @tool.platform.present? %>
-        <span class="badge badge--blue">📦 <%= @tool.platform %></span>
-      <% end %>
-      <% if @tool.level.present? %>
-        <span class="badge badge--purple">🎓 <%= @tool.level %></span>
-      <% end %>
-    </div>
+      tiltArea.addEventListener('mousemove', function(e) {
+        var rect = tiltArea.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var centerX = rect.width / 2;
+        var centerY = rect.height / 2;
+        var maxTilt = 8;
+        var rotateY = ((x - centerX) / centerX) * maxTilt;
+        var rotateX = -((y - centerY) / centerY) * maxTilt;
+        var shadowX = -rotateY * 0.15;
+        var shadowY = rotateX * 0.15;
+        tiltCard.style.setProperty('--tilt-transform', 'rotate3d(0, 1, 0, ' + rotateY + 'deg) rotate3d(1, 0, 0, ' + rotateX + 'deg)');
+        tiltCard.style.setProperty('--tilt-shadow', shadowX + 'px ' + shadowY + 'px 40px rgba(146, 129, 247, 0.15)');
+      }, { passive: true });
 
-    <div class="tool-detail__actions">
-      <% if @tool.website_url.present? %>
-        <%= link_to "Ir al sitio web →", @tool.website_url, target: "_blank", class: "btn btn-primary" %>
-      <% end %>
-      <% if user_signed_in? %>
-        <% if current_user.favorited_tools.include?(@tool) %>
-          <%= link_to "⭐ En favoritos", favorite_tool_path(@tool), data: { turbo_method: :delete }, class: "btn btn-secondary" %>
-        <% else %>
-          <%= button_to "☆ Agregar a favoritos", favorite_tools_path(tool_id: @tool.id), method: :post, class: "btn btn-secondary" %>
-        <% end %>
-      <% end %>
-      <%= link_to "← Volver", category_path(@tool.category), class: "btn btn-secondary" %>
-    </div>
-  </div>
+      tiltArea.addEventListener('mouseleave', function() {
+        tiltCard.style.setProperty('--tilt-transform', 'rotate3d(0, 0, 0, 0deg)');
+        tiltCard.style.setProperty('--tilt-shadow', '0 0 0 transparent');
+      });
+    })();
+  </script>
 <% end %>

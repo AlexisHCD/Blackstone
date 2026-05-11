@@ -1,40 +1,55 @@
-<h1>📬 Mensajes de Contacto (<%= @unread_count %> sin leer)</h1>
+<div class="admin-header">
+  <h1>Mensajes de Contacto</h1>
+  <p><%= @unread_count %> mensajes sin leer de <%= @messages.count %> totales.</p>
+</div>
 
-<%= link_to "Volver al Dashboard", admin_root_path %>
+<div class="admin-nav-strip">
+  <%= link_to "← Dashboard", admin_root_path %>
+</div>
 
 <% if @messages.any? %>
-  <table border="1" cellpadding="5" style="margin-top: 20px; width: 100%; text-align: left;">
-    <thead>
-      <tr>
-        <th>Estado</th>
-        <th>Tipo</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Mensaje (resumen)</th>
-        <th>Fecha</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @messages.each do |msg| %>
-        <tr style="<%= msg.read ? '' : 'font-weight: 600; background: rgba(59, 158, 255, 0.1);' %>">
-          <td><%= msg.read ? "✅ Leído" : "🔵 Nuevo" %></td>
-          <td><%= msg.message_type&.humanize %></td>
-          <td><%= msg.name %></td>
-          <td><%= msg.email %></td>
-          <td><%= truncate(msg.body, length: 50) %></td>
-          <td><%= msg.created_at.strftime("%d/%m/%Y %H:%M") %></td>
-          <td>
-            <%= link_to "Ver", admin_contact_message_path(msg) %> |
-            <% unless msg.read %>
-              <%= link_to "Marcar leído", mark_read_admin_contact_message_path(msg), data: { turbo_method: :patch } %> |
-            <% end %>
-            <%= link_to "Eliminar", admin_contact_message_path(msg), data: { turbo_method: :delete, turbo_confirm: "¿Eliminar este mensaje?" } %>
-          </td>
+  <div class="admin-table-card">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Estado</th>
+          <th>Tipo</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Mensaje</th>
+          <th>Fecha</th>
+          <th></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @messages.each do |msg| %>
+          <tr class="<%= 'row-highlight' unless msg.read? %>">
+            <td>
+              <span class="admin-status <%= msg.read? ? 'admin-status--read' : 'admin-status--unread' %>">
+                <%= msg.read? ? "Leído" : "Nuevo" %>
+              </span>
+            </td>
+            <td><span class="admin-badge"><%= msg.message_type&.humanize %></span></td>
+            <td><strong><%= msg.name %></strong></td>
+            <td class="cell-muted"><%= msg.email %></td>
+            <td class="cell-muted"><%= truncate(msg.body, length: 50) %></td>
+            <td class="cell-mono"><%= msg.created_at.strftime("%d/%m/%Y") %></td>
+            <td class="cell-actions">
+              <%= link_to "Ver", admin_contact_message_path(msg), class: "admin-btn-sm admin-btn-sm--primary" %>
+              <% unless msg.read? %>
+                <%= link_to "Marcar leído", mark_read_admin_contact_message_path(msg),
+                      class: "admin-btn-sm admin-btn-sm--success",
+                      data: { turbo_method: :patch } %>
+              <% end %>
+              <%= link_to "Eliminar", admin_contact_message_path(msg),
+                    class: "admin-btn-sm admin-btn-sm--danger",
+                    data: { turbo_method: :delete, turbo_confirm: "¿Eliminar mensaje de #{msg.name}?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
-  <p style="margin-top: 1rem;">No hay mensajes aún. 🎉</p>
+  <p style="color: var(--color-fog);">No hay mensajes todavía.</p>
 <% end %>

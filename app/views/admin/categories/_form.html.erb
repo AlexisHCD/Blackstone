@@ -1,26 +1,27 @@
-<%= form_with(model: [:admin, category]) do |form| %>
+<%= form_with model: [:admin, category], html: { class: "admin-form-card" } do |f| %>
   <% if category.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
+    <div class="admin-form-errors">
+      <h3><%= pluralize(category.errors.count, "error") %> impidieron guardar:</h3>
       <ul>
-        <% category.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% category.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="admin-field">
+    <%= f.label :name, "Nombre" %>
+    <%= f.text_field :name, placeholder: "Ej. Desarrollo" %>
   </div>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_area :description %>
+  <div class="admin-field">
+    <%= f.label :description, "Descripción" %>
+    <%= f.text_area :description, rows: 3, placeholder: "Breve descripción de la categoría..." %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="admin-field--submit">
+    <%= f.submit "Guardar Categoría", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", admin_categories_path, class: "btn btn-secondary" %>
   </div>
 <% end %>

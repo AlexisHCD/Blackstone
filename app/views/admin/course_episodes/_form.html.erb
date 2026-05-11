@@ -1,37 +1,39 @@
-<%= form_with(model: [:admin, @course, episode]) do |form| %>
+<%= form_with model: [:admin, @course, episode], html: { class: "admin-form-card" } do |f| %>
   <% if episode.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(episode.errors.count, "error") %>:</h2>
+    <div class="admin-form-errors">
+      <h3><%= pluralize(episode.errors.count, "error") %> impidieron guardar:</h3>
       <ul>
-        <% episode.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% episode.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, "Título del episodio", style: "display: block" %>
-    <%= form.text_field :title, style: "width: 100%; max-width: 600px;" %>
+  <div class="admin-field">
+    <%= f.label :title, "Título del episodio" %>
+    <%= f.text_field :title, placeholder: "Ej. Introducción al framework" %>
   </div>
 
-  <div>
-    <%= form.label :youtube_url, "URL de YouTube", style: "display: block" %>
-    <%= form.text_field :youtube_url, placeholder: "https://www.youtube.com/watch?v=...", style: "width: 100%; max-width: 600px;" %>
-    <small>El ID del video se extraerá automáticamente.</small>
+  <div class="admin-field">
+    <%= f.label :youtube_url, "URL de YouTube" %>
+    <%= f.text_field :youtube_url, placeholder: "https://www.youtube.com/watch?v=..." %>
+    <small>Pegá la URL completa, el ID se extrae automáticamente.</small>
   </div>
 
-  <div>
-    <%= form.label :position, "Posición / Número de episodio", style: "display: block" %>
-    <%= form.number_field :position, min: 1, value: episode.position || 1 %>
+  <div class="admin-field">
+    <%= f.label :position, "Posición (orden)" %>
+    <%= f.number_field :position, min: 1, value: (episode.position || @course.course_episodes.maximum(:position).to_i + 1) %>
   </div>
 
-  <div>
-    <%= form.label :duration_seconds, "Duración (en segundos)", style: "display: block" %>
-    <%= form.number_field :duration_seconds, min: 0, placeholder: "ej. 3600 = 1 hora" %>
+  <div class="admin-field">
+    <%= f.label :duration_seconds, "Duración (segundos)" %>
+    <%= f.number_field :duration_seconds, min: 0, placeholder: "Ej. 600 para 10 minutos" %>
+    <small>Duración total en segundos.</small>
   </div>
 
-  <div style="margin-top: 15px;">
-    <%= form.submit "Guardar Episodio" %>
+  <div class="admin-field--submit">
+    <%= f.submit "Guardar Episodio", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", admin_course_path(@course), class: "btn btn-secondary" %>
   </div>
 <% end %>

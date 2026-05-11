@@ -1,4 +1,7 @@
-<h1>Nueva Herramienta</h1>
+<div class="admin-header">
+  <h1><%= @tool.persisted? ? "Editar Herramienta" : "Nueva Herramienta" %></h1>
+</div>
+<div class="admin-nav-strip">
+  <%= link_to "← Herramientas", admin_tools_path %>
+</div>
 <%= render "form", tool: @tool %>
-<br>
-<%= link_to "Volver", admin_tools_path %>

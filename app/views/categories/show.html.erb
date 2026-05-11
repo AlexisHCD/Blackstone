@@ -1,5 +1,5 @@
 <div class="page-header">
-  <p class="breadcrumb"><%= link_to "Inicio", root_path %> / <%= link_to "Categorías", categories_path %> / <%= @category.name %></p>
+  <p class="breadcrumb"><%= link_to "Inicio", root_path %> <span>/</span> <%= link_to "Categorías", categories_path %> <span>/</span> <%= @category.name %></p>
   <h1><%= @category.name %></h1>
   <% if @category.description.present? %>
     <p><%= @category.description %></p>

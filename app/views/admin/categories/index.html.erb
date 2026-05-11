@@ -1,26 +1,41 @@
-<h1>Gestión de Categorías</h1>
+<div class="admin-header">
+  <h1>Categorías</h1>
+  <p>Organizá las herramientas y cursos por categoría.</p>
+</div>
 
-<%= link_to "Nueva Categoría", new_admin_category_path %> |
-<%= link_to "Volver al Dashboard", admin_root_path %>
+<div class="admin-nav-strip">
+  <%= link_to "← Dashboard", admin_root_path %>
+  <span class="sep">|</span>
+  <%= link_to "+ Nueva Categoría", new_admin_category_path %>
+</div>
 
-<table border="1" cellpadding="5" style="margin-top: 20px;">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @categories.each do |category| %>
+<div class="admin-table-card">
+  <table class="admin-table">
+    <thead>
       <tr>
-        <td><%= category.id %></td>
-        <td><%= category.name %></td>
-        <td>
-          <%= link_to "Editar", edit_admin_category_path(category) %> |
-          <%= link_to "Eliminar", admin_category_path(category), data: { turbo_method: :delete, turbo_confirm: "¿Estás seguro?" } %>
-        </td>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Tools</th>
+        <th>Cursos</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @categories.each do |cat| %>
+        <tr>
+          <td class="cell-mono">#<%= cat.id %></td>
+          <td><strong><%= cat.name %></strong></td>
+          <td class="cell-muted"><%= truncate(cat.description.presence || "—", length: 60) %></td>
+          <td class="cell-mono"><%= cat.tools.count %></td>
+          <td class="cell-mono"><%= cat.courses.count %></td>
+          <td class="cell-actions">
+            <%= link_to "Editar", edit_admin_category_path(cat), class: "admin-btn-sm admin-btn-sm--primary" %>
+            <%= link_to "Eliminar", admin_category_path(cat), class: "admin-btn-sm admin-btn-sm--danger",
+                  data: { turbo_method: :delete, turbo_confirm: "¿Eliminar #{cat.name}?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

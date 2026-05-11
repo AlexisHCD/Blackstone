@@ -1,4 +1,9 @@
-<h1>Nueva Categoría</h1>
-<%= render "form", category: @category %>
-<br>
-<%= link_to "Volver", admin_categories_path %>
+<div class="admin-header">
+  <h1><%= category.persisted? ? "Editar Categoría" : "Nueva Categoría" %></h1>
+</div>
+
+<div class="admin-nav-strip">
+  <%= link_to "← Categorías", admin_categories_path %>
+</div>
+
+<%= render "form", category: category %>

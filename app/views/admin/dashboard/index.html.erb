@@ -1,11 +1,36 @@
-<h1>Panel de Administración</h1>
-<p>Bienvenido al panel. Desde aquí puedes gestionar los datos internos.</p>
-<ul>
-  <li style="margin-bottom: 8px;"><%= link_to "📁 Gestionar Categorías", admin_categories_path %></li>
-  <li style="margin-bottom: 8px;"><%= link_to "🛠️ Gestionar Herramientas", admin_tools_path %></li>
-  <li style="margin-bottom: 8px;"><%= link_to "📺 Gestionar Cursos", admin_courses_path %></li>
-  <li style="margin-bottom: 8px;"><%= link_to "📬 Mensajes de Contacto (#{ContactMessage.where(read: false).count} sin leer)", admin_contact_messages_path %></li>
-  <li style="margin-bottom: 8px;"><%= link_to "👥 Gestionar Usuarios", admin_users_path %></li>
-</ul>
-<br>
-<%= link_to "← Volver a la vista pública", root_path %>
+<div class="admin-header">
+  <h1>Panel de Administración</h1>
+  <p>Gestioná herramientas, cursos, categorías y usuarios del sistema.</p>
+</div>
+
+<div class="admin-dash-grid">
+  <a href="<%= admin_categories_path %>" class="admin-dash-card">
+    <span class="admin-dash-card__icon">📂</span>
+    <div class="admin-dash-card__title">Categorías</div>
+    <div class="admin-dash-card__meta"><%= Category.count %> registros</div>
+  </a>
+
+  <a href="<%= admin_tools_path %>" class="admin-dash-card">
+    <span class="admin-dash-card__icon">🛠️</span>
+    <div class="admin-dash-card__title">Herramientas</div>
+    <div class="admin-dash-card__meta"><%= Tool.count %> registros</div>
+  </a>
+
+  <a href="<%= admin_courses_path %>" class="admin-dash-card">
+    <span class="admin-dash-card__icon">🎬</span>
+    <div class="admin-dash-card__title">Cursos</div>
+    <div class="admin-dash-card__meta"><%= Course.count %> registros</div>
+  </a>
+
+  <a href="<%= admin_contact_messages_path %>" class="admin-dash-card">
+    <span class="admin-dash-card__icon">📬</span>
+    <div class="admin-dash-card__title">Mensajes</div>
+    <div class="admin-dash-card__meta"><%= ContactMessage.where(read: false).count %> sin leer</div>
+  </a>
+
+  <a href="<%= admin_users_path %>" class="admin-dash-card">
+    <span class="admin-dash-card__icon">👥</span>
+    <div class="admin-dash-card__title">Usuarios</div>
+    <div class="admin-dash-card__meta"><%= User.count %> registros</div>
+  </a>
+</div>
