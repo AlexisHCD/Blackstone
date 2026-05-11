@@ -1,7 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
+echo "=== Bundle install ==="
 bundle install
-bundle exec rake assets:clobber
+
+echo "=== Assets clobber ==="
+bundle exec rake assets:clobber || true
+
+echo "=== Assets precompile ==="
+SECRET_KEY_BASE=dummy bundle exec rake assets:precompile
+
+echo "=== DB migrate ==="
 bundle exec rake db:migrate
-bundle exec rake db:seed
+
+echo "=== DB seed ==="
+bundle exec rake db:seed || true
+
+echo "=== Build complete ==="
