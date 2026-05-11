@@ -69,11 +69,19 @@
     <header class="site-header" role="banner">
       <div class="container">
         <a href="<%= root_path %>" class="site-logo" aria-label="Blackstone - Inicio">⬛ Blackstone</a>
+        
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
+        <label for="nav-toggle" class="nav-toggle-label" aria-label="Abrir menú" aria-expanded="false">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </label>
+
         <nav class="site-nav" role="navigation" aria-label="Navegación principal">
-          <%= link_to "Herramientas", categories_path, aria: { current: current_page?(categories_path) ? 'page' : false } %>
-          <%= link_to "Cursos", courses_path, aria: { current: current_page?(courses_path) ? 'page' : false } %>
+          <%= link_to "Herramientas", categories_path %>
+          <%= link_to "Cursos", courses_path %>
           <% if user_signed_in? %>
-            <%= link_to "⭐ Favoritos", favorites_path, aria: { current: current_page?(favorites_path) ? 'page' : false } %>
+            <%= link_to "⭐ Favoritos", favorites_path %>
             <span style="color: var(--color-fog); font-size: 14px;"><%= current_user.name || current_user.email %></span>
             <%= link_to "Cerrar sesión", destroy_user_session_path, data: { turbo_method: :delete } %>
           <% else %>
@@ -108,44 +116,36 @@
     </footer>
 
     <%# ============ MODAL DE CONTACTO ============ %>
-    <div class="modal-overlay" data-modal-target="dialog" data-action="click->modal#clickOutside" style="display: none;" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+    <div class="modal-overlay" data-modal-target="dialog" data-action="click->modal#clickOutside" role="dialog" aria-labelledby="modal-title" aria-modal="true">
       <div class="modal-content">
         <div class="modal-header">
           <h2 id="modal-title">📬 Contáctanos</h2>
           <button data-action="click->modal#close" class="modal-close" aria-label="Cerrar modal">&times;</button>
         </div>
 
-        <%= form_with model: ContactMessage.new, url: contact_messages_path, local: true do |f| %>
-          <div class="modal-body">
-            <div class="modal-field">
-              <%= f.label :name, "Tu nombre" %>
-              <%= f.text_field :name, required: true, placeholder: "Ej. Juan Pérez", aria: { required: true } %>
-            </div>
-
-            <div class="modal-field">
-              <%= f.label :email, "Tu correo" %>
-              <%= f.email_field :email, required: true, placeholder: "tu@email.com", aria: { required: true } %>
-            </div>
-
-            <div class="modal-field">
-              <%= f.label :message_type, "Tipo de mensaje" %>
-              <%= f.select :message_type, ContactMessage::MESSAGE_TYPES.map { |t| [t.humanize.capitalize, t] }, prompt: "Selecciona una opción" %>
-            </div>
-
-            <div class="modal-field">
-              <%= f.label :body, "Mensaje" %>
-              <%= f.text_area :body, required: true, rows: 4, placeholder: "Describe tu sugerencia, reclamo o enlace roto...", aria: { required: true } %>
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <%= f.submit "Enviar mensaje", class: "btn btn-primary" %>
-            <button type="button" data-action="click->modal#close" class="btn btn-secondary">Cancelar</button>
-          </div>
-        <% end %>
+        <%= render "shared/contact_form" %>
       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <%# Mobile nav accessibility — close on link click, update aria %>
+    <script>
+      document.addEventListener('turbo:load', function() {
+        var toggle = document.getElementById('nav-toggle');
+        var label = document.querySelector('.nav-toggle-label');
+        if (!toggle || !label) return;
+
+        document.querySelectorAll('.site-nav a').forEach(function(link) {
+          link.addEventListener('click', function() { toggle.checked = false; });
+        });
+
+        label.addEventListener('click', function() {
+          setTimeout(function() {
+            label.setAttribute('aria-expanded', toggle.checked ? 'true' : 'false');
+          }, 50);
+        });
+      });
+    </script>
   </body>
 </html>

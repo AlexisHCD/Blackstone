@@ -44,7 +44,8 @@ Visita [http://localhost:3000](http://localhost:3000)
 | Lenguaje | Ruby 3.3.0 |
 | Base de datos | PostgreSQL 14+ |
 | Frontend | Hotwire (Turbo + Stimulus) |
-| Autenticación | Devise |
+| Autenticación | Devise + OmniAuth |
+| OAuth | Google (activo), Microsoft (pendiente) |
 | Storage | Active Storage |
 | Video | YouTube IFrame API |
 
@@ -57,13 +58,62 @@ Toda la documentación técnica está en [/docs/](./docs/)
 | [documentacion-general.md](./docs/documentacion-general.md) | Índice principal - visión completa del proyecto |
 | [requerimientos.md](./docs/requerimientos.md) | Requerimientos funcionales y no funcionales |
 | [diccionario-datos.md](./docs/diccionario-datos.md) | Modelo de datos, tablas, relaciones |
-| [arquitectura.md](./docs/arquitectura.md) | Arquitectura del sistema, diagramas |
+| [arquitectura.md](./docs/arquitectura.md) | Arquitectura del sistema, tech stack |
 | [auth.md](./docs/auth.md) | Sistema de autenticación con Devise |
 | [api.md](./docs/api.md) | Endpoints y documentación de la API |
 | [design.md](./docs/design.md) | Sistema de diseño visual (tokens, colores, tipografía) |
 | [metodologia.md](./docs/metodologia.md) | Metodología de desarrollo |
 | [sprint-planning.md](./docs/sprint-planning.md) | Planificación de sprints |
+| [descripcion-lenguajes.md](./docs/descripcion-lenguajes.md) | Descripción de lenguajes y tecnologías |
 | [/docs/decisions/](./docs/decisions/) | Decisiones técnicas (ADRs) |
+
+## Diagramas y Modelado
+
+La documentación visual y de análisis del sistema se encuentra en `/docs/assets`.
+
+Incluye:
+
+- Diagramas BPMN de procesos actuales y propuestos
+- Diagramas de casos de uso
+- Diagramas de secuencia
+- Diagramas de clases
+- Diagramas de componentes
+- Diagramas de despliegue
+- Diagramas entidad-relación (DER)
+- Arquitectura MVC del sistema
+- Flujos de autenticación
+- Wireframes y mockups UI
+
+### Estructura de assets
+
+```
+docs/assets/
+├── uml/              # Diagramas UML (PlantUML)
+│   ├── diagrama-casos-uso.md
+│   ├── diagrama-clases.md
+│   ├── diagrama-componentes.md
+│   ├── diagrama-despliegue.md
+│   ├── diagrama-secuencia.md
+│   ├── diagrama-secuencia-video.md
+│   ├── diagrama-actividades.md
+│   ├── diagrama-actividades-admin.md
+│   ├── diagrama-casos-narrativo.md
+│   └── diagrama-casos-narrativo-simple.md
+├── bpmn/             # Diagramas de procesos de negocio
+├── erd/              # Diagramas entidad-relación
+├── wireframes/       # Mockups y wireframes UI
+│   ├── wireframe-perfil-usuario.md
+│   ├── capturatools.png
+│   └── currentheroINTOOLS.png
+└── auth/             # Flujos de autenticación
+```
+
+### Herramientas utilizadas
+
+- **PlantUML** - Diagramas UML en texto
+- **Draw.io** - Diagramas BPMN y wireframes
+- **Figma** - Diseño de interfaces
+- **PostgreSQL DBML** - Documentación de esquema
 
 ## Estructura del Proyecto
 
@@ -91,7 +141,13 @@ blackstone/
     ├── metodologia.md
     ├── sprint-planning.md
     ├── requerimientos.md
-    ├── assets/           # Diagramas, mockups
+    ├── descripcion-lenguajes.md
+    ├── assets/           # Diagramas, wireframes, mockups
+    │   ├── uml/
+    │   ├── bpmn/
+    │   ├── erd/
+    │   ├── wireframes/
+    │   └── auth/
     └── decisions/        # ADRs
 ```
 

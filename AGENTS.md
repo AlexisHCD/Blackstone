@@ -72,3 +72,5 @@ Credentials in `config/database.yml`:
 ## UI/UX Rules
 
 - **All agents must consult and strictly follow the visual specifications defined in `DESIGN.md` for any UI/UX task**
+- **Idioma**: Todo el texto de la interfaz, vistas, mensajes flash, notificaciones y correos DEBE estar en **español neutro de Latinoamérica** (`es`). No se permite texto en inglés ni en otros dialectos del español (ej. español de España). Usar formas como "iniciar sesión" (no "iniciar sesión"), "correo electrónico" (no "email"), "contraseña" (no "password"), "herramientas" (no "tools"), "cursos" (no "courses").
+- El locale por defecto de la aplicación es `:es` (`config.i18n.default_locale = :es`)

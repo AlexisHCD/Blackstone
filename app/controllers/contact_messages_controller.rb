@@ -2,9 +2,15 @@ class ContactMessagesController < ApplicationController
   def create
     @message = ContactMessage.new(message_params)
     if @message.save
-      redirect_back fallback_location: root_path, notice: "¡Mensaje enviado! Gracias por tu feedback. 📬"
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: root_path, notice: "¡Mensaje enviado! Gracias por tu feedback." }
+      end
     else
-      redirect_back fallback_location: root_path, alert: "Hubo un error al enviar el mensaje. Por favor revisa los campos e intenta de nuevo."
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("contact-form", partial: "shared/contact_form", locals: { message: @message }) }
+        format.html { redirect_back fallback_location: root_path, alert: "Hubo un error al enviar el mensaje." }
+      end
     end
   end
 

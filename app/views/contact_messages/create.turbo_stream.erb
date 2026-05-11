@@ -1,0 +1,8 @@
+<%= turbo_stream.replace "contact-form" do %>
+  <div id="contact-form" class="modal-body" style="text-align: center; padding: 48px 32px;">
+    <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+    <h3 style="color: var(--color-pure-white); font-family: var(--font-abcfavorit); font-size: 22px; margin-bottom: 8px;">¡Mensaje enviado!</h3>
+    <p style="color: var(--color-fog); font-size: 15px; margin-bottom: 24px;">Gracias por tu feedback. Te responderemos pronto.</p>
+    <button type="button" data-action="click->modal#close" class="btn btn-primary">Cerrar</button>
+  </div>
+<% end %>

@@ -958,6 +958,40 @@ form.hero-premium__ghost button:hover {
   gap: 10px;
   width: 100%;
   padding: 11px 20px;
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-frost);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-microsoft:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-pure-white);
+  transform: translateY(-1px);
+}
+
+
+.btn-microsoft svg {
+  flex-shrink: 0;
+}
+
+/* Microsoft OAuth Button */
+.btn-microsoft {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 20px;
   margin-top: 10px;
   font-family: var(--font-inter);
   font-size: 14px;
@@ -1522,6 +1556,19 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1555,4 +1602,141 @@ button:focus-visible {
   .cyber-card--large .cyber-card__title {
     font-size: 21px;
   }
+}
+
+/* ===========================
+   MOBILE NAVIGATION
+============================ */
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 101;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-frost);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle-label {
+    display: flex;
+  }
+
+  .site-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(6, 6, 10, 0.97);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .site-nav a,
+  .site-nav span {
+    font-size: 20px;
+  }
+
+  #nav-toggle:checked ~ .site-nav {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  #nav-toggle:checked ~ .nav-toggle-label .nav-toggle-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  #nav-toggle:checked ~ .nav-toggle-label .nav-toggle-bar:nth-child(2) {
+    opacity: 0;
+  }
+  #nav-toggle:checked ~ .nav-toggle-label .nav-toggle-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+/* ===========================
+   MOBILE GENERAL IMPROVEMENTS
+============================ */
+@media (max-width: 768px) {
+  /* Typography */
+  h1 { font-size: 32px !important; }
+  h2 { font-size: 22px !important; }
+  .page-header h1 { font-size: 30px !important; }
+  .page-header { margin-bottom: 40px; }
+
+  /* Layout */
+  .main-content { padding: 40px 1rem; }
+  .container { padding: 0 1rem; }
+
+  /* Hero */
+  .hero-premium { padding: 30px 0 50px; border-radius: 16px; margin-bottom: 40px; }
+
+  /* Card grids */
+  .tools-grid, .categories-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .tool-card, .category-card {
+    padding: 24px;
+  }
+
+  /* Tool detail */
+  .tool-detail__header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .tool-detail__actions { flex-direction: column; align-items: stretch; }
+  .tool-detail__actions .btn { text-align: center; }
+
+  /* Auth */
+  .auth-card { padding: 28px; }
+  .auth-container { padding: 16px; min-height: calc(100vh - 120px); }
+
+  /* Carousel section */
+  .carousel-section { padding: 50px 0 70px; margin: 0 -1rem; }
+  .carousel-header { margin-bottom: 40px; }
+  .carousel-header h2 { font-size: 26px; }
+  .carousel-header p { font-size: 15px; }
+
+  /* Footer */
+  .site-footer { padding: 28px 0; }
+  .site-footer p { font-size: 13px; }
+
+  /* Modal */
+  .modal-content { margin: 0 8px; }
+  .modal-header, .modal-body, .modal-footer { padding-left: 20px; padding-right: 20px; }
+
+  /* Breadcrumb */
+  .page-header .breadcrumb { font-size: 11px; flex-wrap: wrap; }
+
+  /* Admin tables - horizontal scroll */
+  .admin-table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .admin-table { min-width: 600px; }
+  .admin-table th, .admin-table td { padding: 10px 14px; font-size: 13px; }
+  .admin-nav-strip { flex-wrap: wrap; gap: 10px; }
+
+  /* Admin dashboard */
+  .admin-dash-grid { grid-template-columns: 1fr; }
+  .admin-form-card { padding: 24px 20px; }
+
+  /* Courses show */
+  .admin-detail-card { padding: 24px 20px; }
+
+  /* Badges */
+  .badge { font-size: 11px; padding: 4px 10px; }
 }

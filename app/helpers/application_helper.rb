@@ -37,8 +37,8 @@ module ApplicationHelper
     content_for?(:canonical) ? content_for(:canonical) : request.original_url
   end
 
-  def structured_data(type, data)
-    case type
+  def structured_data(type, data = nil)
+    json = case type
     when :organization
       {
         "@context": "https://schema.org",
@@ -48,7 +48,7 @@ module ApplicationHelper
         "description": "Directorio de herramientas de desarrollo y cursos para estudiantes de programación",
         "logo": "#{request.base_url}/logo.png",
         "sameAs": []
-      }.to_json.html_safe
+      }.to_json
     when :website
       {
         "@context": "https://schema.org",
@@ -61,7 +61,7 @@ module ApplicationHelper
           "target": "#{request.base_url}/tools?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
-      }.to_json.html_safe
+      }.to_json
     when :breadcrumb
       {
         "@context": "https://schema.org",
@@ -74,7 +74,7 @@ module ApplicationHelper
             "item": item[:url]
           }
         }
-      }.to_json.html_safe
+      }.to_json
     when :software_application
       {
         "@context": "https://schema.org",
@@ -90,7 +90,7 @@ module ApplicationHelper
           "priceCurrency": "USD"
         } : nil,
         "aggregateRating": nil
-      }.compact.to_json.html_safe
+      }.compact.to_json
     when :course
       {
         "@context": "https://schema.org",
@@ -103,9 +103,10 @@ module ApplicationHelper
           "name": "Blackstone",
           "sameAs": request.base_url
         }
-      }.to_json.html_safe
-    else
-      nil
+      }.to_json
     end
+
+    return nil unless json
+    %(<script type="application/ld+json">\n#{json}\n</script>).html_safe
   end
 end

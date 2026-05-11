@@ -1,0 +1,30 @@
+<div id="contact-form">
+  <%= form_with model: (local_assigns[:message] || ContactMessage.new), url: contact_messages_path, data: { turbo: true } do |f| %>
+    <div class="modal-body">
+      <div class="modal-field">
+        <%= f.label :name, "Tu nombre" %>
+        <%= f.text_field :name, required: true, placeholder: "Ej. Juan Pérez", aria: { required: true } %>
+      </div>
+
+      <div class="modal-field">
+        <%= f.label :email, "Tu correo" %>
+        <%= f.email_field :email, required: true, placeholder: "tu@email.com", aria: { required: true } %>
+      </div>
+
+      <div class="modal-field">
+        <%= f.label :message_type, "Tipo de mensaje" %>
+        <%= f.select :message_type, ContactMessage::MESSAGE_TYPES.map { |t| [t.humanize.capitalize, t] }, { prompt: "Selecciona una opción" }, aria: { required: true } %>
+      </div>
+
+      <div class="modal-field">
+        <%= f.label :body, "Mensaje" %>
+        <%= f.text_area :body, required: true, rows: 4, placeholder: "Describe tu sugerencia, reclamo o enlace roto...", aria: { required: true } %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.submit "Enviar mensaje", class: "btn btn-primary" %>
+      <button type="button" data-action="click->modal#close" class="btn btn-secondary">Cancelar</button>
+    </div>
+  <% end %>
+</div>

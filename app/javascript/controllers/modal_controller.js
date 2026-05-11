@@ -1,20 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Conecta con data-controller="modal" en el HTML
 export default class extends Controller {
   static targets = ["dialog"]
 
-  open() {
-    this.dialogTarget.style.display = "flex"
-    document.body.style.overflow = "hidden"
+  open(event) {
+    event.preventDefault()
+    this.dialogTarget.classList.add("is-open")
   }
 
-  close() {
-    this.dialogTarget.style.display = "none"
-    document.body.style.overflow = ""
+  close(event) {
+    if (event) event.preventDefault()
+    this.dialogTarget.classList.remove("is-open")
   }
 
-  // Cerrar al hacer click fuera del modal
   clickOutside(event) {
     if (event.target === this.dialogTarget) {
       this.close()
