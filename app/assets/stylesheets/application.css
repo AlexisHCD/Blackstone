@@ -878,6 +878,51 @@ form.hero-premium__ghost button:hover {
 .auth-links { margin-top: 24px; text-align: center; font-size: 14px; display: flex; flex-direction: column; gap: 8px; }
 .auth-links a { color: var(--color-mist); }
 
+/* Google OAuth Button */
+.auth-oauth {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--surface-ui-rail);
+  text-align: center;
+}
+
+.auth-oauth__label {
+  font-size: 13px;
+  color: var(--color-ash);
+  margin-bottom: 14px;
+}
+
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 20px;
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-frost);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-google:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-pure-white);
+  transform: translateY(-1px);
+}
+
+.btn-google svg {
+  flex-shrink: 0;
+}
+
 /* ===========================
    CYBERPUNK CATEGORIES CAROUSEL
 ============================ */
@@ -1380,6 +1425,64 @@ form.hero-premium__ghost button:hover {
 .cyber-card--large .cyber-card__illustration svg {
   width: 90%;
   height: 90%;
+}
+
+/* ===========================
+   ACCESSIBILITY
+=========================== */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-electric-blue);
+  color: var(--color-pure-white);
+  padding: 8px 16px;
+  z-index: 10000;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-buttons) 0;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-electric-blue);
+  outline-offset: 2px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-electric-blue);
+  outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .tool-card,
+  .cyber-card {
+    border-width: 2px;
+  }
+  
+  .badge {
+    border-width: 2px;
+  }
 }
 
 @media (max-width: 768px) {

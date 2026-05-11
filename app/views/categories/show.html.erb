@@ -1,5 +1,37 @@
+<%# ─── SEO Meta Tags ─── %>
+<% page_title "Herramientas de #{@category.name} | Blackstone" %>
+<% page_description "Explora #{@category.tools.count} herramientas de #{@category.name} en Blackstone. #{@category.description}" %>
+
+<%# ─── Breadcrumb Structured Data ─── %>
+<% content_for :structured_data do %>
+  <%= structured_data(:breadcrumb, [
+    { name: "Inicio", url: root_url },
+    { name: "Categorías", url: categories_url },
+    { name: @category.name, url: category_url(@category) }
+  ]) %>
+<% end %>
+
 <div class="page-header">
-  <p class="breadcrumb"><%= link_to "Inicio", root_path %> <span>/</span> <%= link_to "Categorías", categories_path %> <span>/</span> <%= @category.name %></p>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <%= link_to "Inicio", root_path, itemprop: "item" %>
+        <meta itemprop="name" content="Inicio" />
+        <meta itemprop="position" content="1" />
+      </li>
+      <span>/</span>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <%= link_to "Categorías", categories_path, itemprop: "item" %>
+        <meta itemprop="name" content="Categorías" />
+        <meta itemprop="position" content="2" />
+      </li>
+      <span>/</span>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name"><%= @category.name %></span>
+        <meta itemprop="position" content="3" />
+      </li>
+    </ol>
+  </nav>
   <h1><%= @category.name %></h1>
   <% if @category.description.present? %>
     <p><%= @category.description %></p>

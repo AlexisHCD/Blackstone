@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Home -->
+  <url>
+    <loc>https://blackstone.dev/</loc>
+    <lastmod><%= Date.today.strftime('%Y-%m-%d') %></lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Categories -->
+  <url>
+    <loc>https://blackstone.dev/categories</loc>
+    <lastmod><%= Date.today.strftime('%Y-%m-%d') %></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <% Category.all.each do |category| %>
+  <url>
+    <loc>https://blackstone.dev/categories/<%= category.id %></loc>
+    <lastmod><%= category.updated_at.strftime('%Y-%m-%d') %></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <% end %>
+
+  <!-- Tools -->
+  <url>
+    <loc>https://blackstone.dev/tools</loc>
+    <lastmod><%= Date.today.strftime('%Y-%m-%d') %></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <% Tool.all.each do |tool| %>
+  <url>
+    <loc>https://blackstone.dev/tools/<%= tool.id %></loc>
+    <lastmod><%= tool.updated_at.strftime('%Y-%m-%d') %></lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <% end %>
+
+  <!-- Courses -->
+  <url>
+    <loc>https://blackstone.dev/courses</loc>
+    <lastmod><%= Date.today.strftime('%Y-%m-%d') %></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <% Course.all.each do |course| %>
+  <url>
+    <loc>https://blackstone.dev/courses/<%= course.id %></loc>
+    <lastmod><%= course.updated_at.strftime('%Y-%m-%d') %></lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <% end %>
+</urlset>

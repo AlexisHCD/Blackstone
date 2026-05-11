@@ -1,1 +1,23 @@
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+
+User-agent: *
+Allow: /
+
+# Allow all crawlers to index public pages
+Allow: /categories
+Allow: /tools
+Allow: /courses
+
+# Disallow admin and auth pages
+Disallow: /admin
+Disallow: /users/sign_in
+Disallow: /users/sign_up
+Disallow: /users/password
+Disallow: /mis-favoritos
+Disallow: /favorite_tools
+Disallow: /favorite_courses
+Disallow: /video_progress
+Disallow: /contact_messages
+
+# Sitemap location
+Sitemap: https://blackstone.dev/sitemap.xml

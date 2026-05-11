@@ -1,11 +1,47 @@
 <% if @tool %>
+  <%# ─── SEO Meta Tags ─── %>
+  <% page_title "#{@tool.name} - Herramienta de #{@tool.category.name} | Blackstone" %>
+  <% page_description "#{@tool.description} | #{@tool.platform} | #{@tool.level} | #{@tool.open_source ? 'Open Source' : ''} #{@tool.free_tier ? 'Free Tier' : ''}" %>
+  <% page_keywords "#{@tool.name}, #{@tool.category.name}, #{@tool.platform}, #{@tool.level}, #{@tool.open_source ? 'open source' : ''}, #{@tool.free_tier ? 'free tier' : ''}, herramientas desarrollo" %>
+
+  <%# ─── Software Application Structured Data ─── %>
+  <% content_for :structured_data do %>
+    <%= structured_data(:software_application, {
+      name: @tool.name,
+      description: @tool.description,
+      url: tool_url(@tool),
+      platform: @tool.platform,
+      free_tier: @tool.free_tier
+    }) %>
+  <% end %>
+
   <div class="page-header" style="margin-bottom: 24px;">
-    <p class="breadcrumb">
-      <%= link_to "Inicio", root_path %> <span>/</span>
-      <%= link_to "Categorías", categories_path %> <span>/</span>
-      <%= link_to @tool.category.name, category_path(@tool.category) %> <span>/</span>
-      <%= @tool.name %>
-    </p>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <%= link_to "Inicio", root_path, itemprop: "item" %>
+          <meta itemprop="name" content="Inicio" />
+          <meta itemprop="position" content="1" />
+        </li>
+        <span>/</span>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <%= link_to "Categorías", categories_path, itemprop: "item" %>
+          <meta itemprop="name" content="Categorías" />
+          <meta itemprop="position" content="2" />
+        </li>
+        <span>/</span>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <%= link_to @tool.category.name, category_path(@tool.category), itemprop: "item" %>
+          <meta itemprop="name" content="@tool.category.name" />
+          <meta itemprop="position" content="3" />
+        </li>
+        <span>/</span>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name"><%= @tool.name %></span>
+          <meta itemprop="position" content="4" />
+        </li>
+      </ol>
+    </nav>
   </div>
 
   <section class="hero-premium" id="hero-tilt-area" style="padding-top: 30px;">

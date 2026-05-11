@@ -1,31 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>Blackstone — Herramientas para Devs</title>
+    <title><%= page_title %></title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="Blackstone es un directorio de herramientas de desarrollo para estudiantes de programación.">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
     
+    <%# SEO Core %>
+    <meta name="description" content="<%= page_description %>">
+    <meta name="keywords" content="<%= page_keywords %>">
+    <meta name="author" content="Blackstone">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="language" content="Spanish">
+    <meta name="revisit-after" content="7 days">
+    
+    <%# Canonical URL %>
+    <link rel="canonical" href="<%= canonical_url %>">
+    
+    <%# Open Graph / Facebook %>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= canonical_url %>">
+    <meta property="og:title" content="<%= page_title %>">
+    <meta property="og:description" content="<%= page_description %>">
+    <meta property="og:image" content="<%= page_image %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Blackstone - Directorio de herramientas y cursos para desarrolladores">
+    <meta property="og:site_name" content="Blackstone">
+    <meta property="og:locale" content="es_ES">
+    
+    <%# Twitter Card %>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="<%= canonical_url %>">
+    <meta name="twitter:title" content="<%= page_title %>">
+    <meta name="twitter:description" content="<%= page_description %>">
+    <meta name="twitter:image" content="<%= page_image %>">
+    <meta name="twitter:image:alt" content="Blackstone - Directorio de herramientas y cursos">
+    
+    <%# Favicon %>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <%# Structured Data (JSON-LD) %>
+    <%= structured_data(:website) %>
+    <%= structured_data(:organization) %>
+    <%= yield :structured_data %>
+    
+    <%# Fonts %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 
+    <%# Swiper CSS %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <%# Rails Assets %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body data-controller="modal">
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
     <div id="global-bg"></div>
-    <header class="site-header">
+    
+    <header class="site-header" role="banner">
       <div class="container">
-        <a href="<%= root_path %>" class="site-logo">⬛ Blackstone</a>
-        <nav class="site-nav">
-          <%= link_to "Herramientas", categories_path %>
-          <%= link_to "Cursos", courses_path %>
+        <a href="<%= root_path %>" class="site-logo" aria-label="Blackstone - Inicio">⬛ Blackstone</a>
+        <nav class="site-nav" role="navigation" aria-label="Navegación principal">
+          <%= link_to "Herramientas", categories_path, aria: { current: current_page?(categories_path) ? 'page' : false } %>
+          <%= link_to "Cursos", courses_path, aria: { current: current_page?(courses_path) ? 'page' : false } %>
           <% if user_signed_in? %>
-            <%= link_to "⭐ Favoritos", favorites_path %>
+            <%= link_to "⭐ Favoritos", favorites_path, aria: { current: current_page?(favorites_path) ? 'page' : false } %>
             <span style="color: var(--color-fog); font-size: 14px;"><%= current_user.name || current_user.email %></span>
             <%= link_to "Cerrar sesión", destroy_user_session_path, data: { turbo_method: :delete } %>
           <% else %>
@@ -37,41 +85,46 @@
     </header>
 
     <% if notice %>
-      <div class="flash flash--notice"><%= notice %></div>
+      <div class="flash flash--notice" role="alert"><%= notice %></div>
     <% end %>
     <% if alert %>
-      <div class="flash flash--alert"><%= alert %></div>
+      <div class="flash flash--alert" role="alert"><%= alert %></div>
     <% end %>
 
-    <main class="container main-content">
+    <main id="main-content" class="container main-content" role="main">
       <%= yield %>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
       <div class="container">
         <p>Blackstone &copy; <%= Date.today.year %> — Directorio de herramientas para estudiantes de programación.</p>
         <p><small>¿Encontraste un error o quieres sugerir algo? <a href="#" data-action="click->modal#open">Contáctanos</a></small></p>
+        <nav aria-label="Navegación secundaria">
+          <%= link_to "Inicio", root_path %> ·
+          <%= link_to "Herramientas", categories_path %> ·
+          <%= link_to "Cursos", courses_path %>
+        </nav>
       </div>
     </footer>
 
     <%# ============ MODAL DE CONTACTO ============ %>
-    <div class="modal-overlay" data-modal-target="dialog" data-action="click->modal#clickOutside" style="display: none;">
+    <div class="modal-overlay" data-modal-target="dialog" data-action="click->modal#clickOutside" style="display: none;" role="dialog" aria-labelledby="modal-title" aria-modal="true">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>📬 Contáctanos</h2>
-          <button data-action="click->modal#close" class="modal-close">&times;</button>
+          <h2 id="modal-title">📬 Contáctanos</h2>
+          <button data-action="click->modal#close" class="modal-close" aria-label="Cerrar modal">&times;</button>
         </div>
 
         <%= form_with model: ContactMessage.new, url: contact_messages_path, local: true do |f| %>
           <div class="modal-body">
             <div class="modal-field">
               <%= f.label :name, "Tu nombre" %>
-              <%= f.text_field :name, required: true, placeholder: "Ej. Juan Pérez" %>
+              <%= f.text_field :name, required: true, placeholder: "Ej. Juan Pérez", aria: { required: true } %>
             </div>
 
             <div class="modal-field">
               <%= f.label :email, "Tu correo" %>
-              <%= f.email_field :email, required: true, placeholder: "tu@email.com" %>
+              <%= f.email_field :email, required: true, placeholder: "tu@email.com", aria: { required: true } %>
             </div>
 
             <div class="modal-field">
@@ -81,7 +134,7 @@
 
             <div class="modal-field">
               <%= f.label :body, "Mensaje" %>
-              <%= f.text_area :body, required: true, rows: 4, placeholder: "Describe tu sugerencia, reclamo o enlace roto..." %>
+              <%= f.text_area :body, required: true, rows: 4, placeholder: "Describe tu sugerencia, reclamo o enlace roto...", aria: { required: true } %>
             </div>
           </div>
 

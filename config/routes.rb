@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
   root "home#index"
+
+  # Sitemap
+  get "sitemap.xml", to: "sitemaps#index", defaults: { format: "xml" }
 
   resources :categories, only: [:index, :show]
   resources :tools, only: [:index, :show]

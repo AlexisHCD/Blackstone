@@ -8,9 +8,8 @@
 
 Ruby es un lenguaje de programación interpretado, dinámico y orientado a objetos, creado por Yukihiro Matsumoto en 1995. Lo que hace a Ruby especial es su filosofía de diseño centrada en la productividad del desarrollador, con una sintaxis intuitiva y expresiva que busca minimizar el trabajo repetitivo.
 
-Durante el desarrollo de Blackstone, aprendí que Ruby no es solo un lenguaje, sino un ecosistema completo. Bundler se encarga de gestionar las dependencias del proyecto, asegurándose de que cada gema esté en su versión correcta y sea compatible con las demás. Esto fue crucial cuando configuré Devise para la autenticación, ya que requería múltiples gemas que debían trabajar juntas sin conflictos.
 
-Una de las características más poderosas que descubrí son los **bloques** y **procs**. Estas closures permiten pasar fragmentos de código como argumentos a métodos, habilitando patrones como iteradores limpios:
+Durante el desarrollo de Blackstone, se entiende que Ruby no es solo un lenguaje, sino un ecosistema completo. Bundler se encarga de gestionar las dependencias del proyecto, asegurándose de que cada gema esté en su versión correcta y sea compatible con las demás. Esto fue crucial cuando configuré Devise para la autenticación, ya que requería múltiples gemas que debían trabajar juntas sin conflictos.
 
 ```ruby
 # Ejemplo real de Blackstone - Iterar sobre categorías

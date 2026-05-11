@@ -1,9 +1,38 @@
+<%# ─── SEO Meta Tags ─── %>
+<% page_title "#{@course.title} - Curso de #{@course.category&.name} | Blackstone" %>
+<% page_description "#{@course.description} | #{@episodes.size} episodios | #{@course.is_series ? 'Serie completa' : 'Video único'}" %>
+<% page_keywords "#{@course.title}, curso #{@course.category&.name}, programacion, tutorial, video, #{@course.is_series ? 'serie' : 'video unico'}" %>
+
+<%# ─── Course Structured Data ─── %>
+<% content_for :structured_data do %>
+  <%= structured_data(:course, {
+    title: @course.title,
+    description: @course.description,
+    url: course_url(@course)
+  }) %>
+<% end %>
+
 <div class="page-header">
-  <p class="breadcrumb">
-    <%= link_to "Inicio", root_path %> <span>/</span>
-    <%= link_to "Cursos", courses_path %> <span>/</span>
-    <%= @course.title %>
-  </p>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <%= link_to "Inicio", root_path, itemprop: "item" %>
+        <meta itemprop="name" content="Inicio" />
+        <meta itemprop="position" content="1" />
+      </li>
+      <span>/</span>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <%= link_to "Cursos", courses_path, itemprop: "item" %>
+        <meta itemprop="name" content="Cursos" />
+        <meta itemprop="position" content="2" />
+      </li>
+      <span>/</span>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name"><%= @course.title %></span>
+        <meta itemprop="position" content="3" />
+      </li>
+    </ol>
+  </nav>
   <h1><%= @course.title %></h1>
   <% if @course.description.present? %>
     <p><%= @course.description %></p>
