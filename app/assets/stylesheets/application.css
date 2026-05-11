@@ -734,6 +734,7 @@ form.hero-premium__ghost button:hover {
 @media (max-width: 768px) {
   .hero-premium__container {
     flex-direction: column;
+    align-items: center;
     gap: 48px;
     min-height: auto;
   }
@@ -1507,7 +1508,10 @@ form.hero-premium__ghost button:hover {
 }
 
 .cyber-card__icon svg {
-  transition: color 0.35s ease;
+  transition: all 0.35s ease;
+  color: var(--color-mist);
+  fill: var(--color-mist);
+  stroke: var(--color-mist);
 }
 
 .cyber-card:hover .cyber-card__icon {
@@ -1516,6 +1520,12 @@ form.hero-premium__ghost button:hover {
   box-shadow: 0 0 20px -4px var(--card-accent, rgba(34, 211, 238, 0.2));
   transform: scale(1.05);
   color: var(--color-pure-white);
+}
+
+.cyber-card:hover .cyber-card__icon svg {
+  color: var(--color-pure-white);
+  fill: var(--color-pure-white);
+  stroke: var(--color-pure-white);
 }
 
 /* ── Card Title ── */
