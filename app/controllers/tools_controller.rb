@@ -4,6 +4,6 @@ class ToolsController < ApplicationController
   end
 
   def show
-    @tool = Tool.find(params[:id])
+    @tool = Tool.find_by!(slug: params[:slug])
   end
 end

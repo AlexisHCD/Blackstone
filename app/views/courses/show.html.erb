@@ -1,136 +1,97 @@
-<%# ─── SEO Meta Tags ─── %>
-<% page_title "#{@course.title} - Curso de #{@course.category&.name} | Blackstone" %>
-<% page_description "#{@course.description} | #{@episodes.size} episodios | #{@course.is_series ? 'Serie completa' : 'Video único'}" %>
-<% page_keywords "#{@course.title}, curso #{@course.category&.name}, programacion, tutorial, video, #{@course.is_series ? 'serie' : 'video unico'}" %>
-
-<%# ─── Course Structured Data ─── %>
-<% content_for :structured_data do %>
-  <%= structured_data(:course, {
-    title: @course.title,
-    description: @course.description,
-    url: course_url(@course)
-  }) %>
-<% end %>
-
 <div class="page-header">
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <%= link_to "Inicio", root_path, itemprop: "item" %>
-        <meta itemprop="name" content="Inicio" />
-        <meta itemprop="position" content="1" />
-      </li>
-      <span>/</span>
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <%= link_to "Cursos", courses_path, itemprop: "item" %>
-        <meta itemprop="name" content="Cursos" />
-        <meta itemprop="position" content="2" />
-      </li>
-      <span>/</span>
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <span itemprop="name"><%= @course.title %></span>
-        <meta itemprop="position" content="3" />
-      </li>
-    </ol>
-  </nav>
+  <p class="breadcrumb">
+    <%= link_to "Inicio", root_path %> <span>/</span>
+    <%= link_to "Cursos", courses_path %> <span>/</span>
+    <%= @course.title %>
+  </p>
   <h1><%= @course.title %></h1>
   <% if @course.description.present? %>
-    <p><%= @course.description %></p>
+    <p style="max-width: 640px; font-size: 16px; line-height: 1.65;"><%= @course.description %></p>
   <% end %>
-  <div class="tool-card__badges" style="margin-top: 0.5rem;">
+  <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
     <span class="badge badge--purple"><%= @course.category&.name %></span>
     <% if @course.is_series %>
-      <span class="badge badge--blue">📚 Serie — <%= @episodes.size %> episodios</span>
+      <span class="badge badge--blue">📚 <%= @episodes.size %> episodios</span>
     <% else %>
       <span class="badge badge--yellow">🎬 Video único</span>
     <% end %>
   </div>
-
   <% if user_signed_in? %>
-    <div style="margin-top: 1rem;">
+    <div style="margin-top: 16px;">
       <% if current_user.favorited_courses.include?(@course) %>
-        <%= link_to "⭐ En favoritos", favorite_course_path(@course), data: { turbo_method: :delete }, class: "btn btn-secondary" %>
+        <%= link_to "★ En favoritos", favorite_course_path(@course), data: { turbo_method: :delete }, class: "btn btn-secondary" %>
       <% else %>
-        <%= button_to "☆ Agregar a favoritos", favorite_courses_path(course_id: @course.id), method: :post, class: "btn btn-secondary" %>
+        <%= link_to "☆ Agregar a favoritos", favorite_courses_path(course_id: @course.id), data: { turbo_method: :post }, class: "btn btn-secondary" %>
       <% end %>
     </div>
   <% end %>
 </div>
 
 <% if @episodes.any? %>
-  <% @episodes.each do |episode| %>
-    <%
-      progress = @progresses[episode.id]
-      start_at = progress ? progress.seconds_watched : 0
-      is_completed = progress&.completed || false
-    %>
+  <div class="course-episodes">
+    <% @episodes.each do |episode| %>
+      <%
+        progress = @progresses[episode.id]
+        start_at = progress ? progress.seconds_watched : 0
+        is_completed = progress&.completed || false
+      %>
 
-    <div class="tool-detail" style="margin-bottom: 1.5rem;"
-         data-controller="video-player"
-         data-video-player-episode-id-value="<%= episode.id %>"
-         data-video-player-youtube-id-value="<%= episode.youtube_id %>"
-         data-video-player-start-at-value="<%= start_at %>"
-         data-duration="<%= episode.duration_seconds || 0 %>">
+      <div class="episode-card"
+           data-controller="video-player"
+           data-video-player-episode-id-value="<%= episode.id %>"
+           data-video-player-youtube-id-value="<%= episode.youtube_id %>"
+           data-video-player-start-at-value="<%= start_at %>"
+           data-duration="<%= episode.duration_seconds || 0 %>">
 
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-        <% if @course.is_series %>
-          <span style="color: var(--color-resend-violet); font-size: 14px;">Ep. <%= episode.position %></span>
+        <div class="episode-card__header">
+          <div>
+            <% if @course.is_series %>
+              <span class="episode-card__number">Ep. <%= episode.position %></span>
+            <% end %>
+            <h3 class="episode-card__title"><%= episode.title %></h3>
+          </div>
+          <span class="badge badge--green episode-completed-badge" style="<%= is_completed ? '' : 'display: none;' %>">✅ Completado</span>
+        </div>
+
+        <% if episode.youtube_id.present? %>
+          <div class="episode-player">
+            <% if user_signed_in? %>
+              <div class="yt-player-container"></div>
+              <% if start_at > 0 %>
+                <p class="episode-resume">▶️ Retomando desde <%= start_at / 60 %>:<%= "%02d" % (start_at % 60) %></p>
+              <% end %>
+              <% if episode.duration_seconds && episode.duration_seconds > 0 %>
+                <% percent = [(start_at.to_f / episode.duration_seconds * 100), 100].min %>
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: <%= percent %>%;"></div>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="episode-player__embed">
+                <iframe src="https://www.youtube.com/embed/<%= episode.youtube_id %>"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+              </div>
+              <p class="episode-login-hint">
+                💡 <%= link_to "Iniciá sesión", new_user_session_path %> para guardar tu progreso y retomar donde lo dejaste.
+              </p>
+            <% end %>
+          </div>
         <% end %>
-        <h3 style="margin: 0;"><%= episode.title %></h3>
-        <% if is_completed %>
-          <span class="badge badge--green episode-completed-badge">✅ Completado</span>
-        <% else %>
-          <span class="badge badge--green episode-completed-badge" style="display: none;">✅ Completado</span>
+
+        <% if episode.duration_seconds && episode.duration_seconds > 0 %>
+          <p class="episode-duration">⏱️ <%= episode.duration_seconds / 3600 %>h <%= (episode.duration_seconds % 3600) / 60 %>min</p>
         <% end %>
       </div>
-
-      <% if episode.youtube_id.present? %>
-        <% if user_signed_in? %>
-          <%# YouTube IFrame API player — con persistencia de progreso %>
-          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #000;">
-            <div class="yt-player-container"
-                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
-          </div>
-
-          <% if start_at > 0 %>
-            <p style="margin-top: 8px; font-size: 14px; color: var(--color-electric-blue);">
-              ▶️ Retomando desde <%= start_at / 60 %>:<%= "%02d" % (start_at % 60) %>
-            </p>
-          <% end %>
-
-          <%# Barra de progreso visual %>
-          <% if episode.duration_seconds && episode.duration_seconds > 0 %>
-            <% percent = [(start_at.to_f / episode.duration_seconds * 100), 100].min %>
-            <div class="progress-bar" style="margin-top: 8px; height: 4px; background: var(--surface-ui-rail); border-radius: 2px; overflow: hidden;">
-              <div class="progress-bar__fill" style="height: 100%; background: var(--color-electric-blue); width: <%= percent %>%; transition: width 0.3s;"></div>
-            </div>
-          <% end %>
-
-        <% else %>
-          <%# Embed estándar sin tracking para usuarios no logueados %>
-          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
-            <iframe
-              src="https://www.youtube.com/embed/<%= episode.youtube_id %>"
-              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-          </div>
-          <p style="margin-top: 8px; font-size: 14px; color: var(--color-fog);">
-            💡 <%= link_to "Inicia sesión", new_user_session_path %> para guardar tu progreso y retomar donde lo dejaste.
-          </p>
-        <% end %>
-      <% end %>
-
-      <% if episode.duration_seconds && episode.duration_seconds > 0 %>
-        <p style="margin-top: 8px; font-size: 14px; color: var(--color-fog);">
-          ⏱️ Duración: <%= episode.duration_seconds / 3600 %>h <%= (episode.duration_seconds % 3600) / 60 %>min
-        </p>
-      <% end %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% else %>
-  <p>Este curso aún no tiene episodios.</p>
+  <div class="episode-empty">
+    <div class="episode-empty__icon">🎬</div>
+    <h3>Este curso aún no tiene episodios</h3>
+    <p>El contenido del curso se publicará pronto. Volvé más tarde para ver los episodios.</p>
+  </div>
 <% end %>
 
 <div style="margin-top: 2rem;">

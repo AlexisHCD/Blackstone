@@ -4,8 +4,8 @@
 
 | Wireframe | Archivo | Descripción |
 |-----------|---------|-------------|
-| **Home - Hero** | `currentheroINTOOLS.png` | Hero premium con herramienta destacada |
-| **Herramientas** | `capturatools.png` | Vista de herramientas por categoría |
+| **Home - Hero** | Hero premium con herramienta destacada |
+| **Herramientas** | Vista de herramientas por categoría |
 
 ## Wireframe: Página de Usuario (Perfil)
 

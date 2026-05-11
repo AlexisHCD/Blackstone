@@ -82,6 +82,9 @@
           <%= link_to "Cursos", courses_path %>
           <% if user_signed_in? %>
             <%= link_to "⭐ Favoritos", favorites_path %>
+            <% if current_user.admin? %>
+              <%= link_to "⚙️ Admin", admin_root_path %>
+            <% end %>
             <span style="color: var(--color-fog); font-size: 14px;"><%= current_user.name || current_user.email %></span>
             <%= link_to "Cerrar sesión", destroy_user_session_path, data: { turbo_method: :delete } %>
           <% else %>

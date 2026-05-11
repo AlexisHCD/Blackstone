@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   # Sitemap
   get "sitemap.xml", to: "sitemaps#index", defaults: { format: "xml" }
 
-  resources :categories, only: [:index, :show]
-  resources :tools, only: [:index, :show]
-  resources :courses, only: [:index, :show]
+  resources :categories, only: [:index, :show], param: :slug
+  resources :tools, only: [:index, :show], param: :slug
+  resources :courses, only: [:index, :show], param: :slug
 
   patch "video_progress", to: "video_progresses#upsert"
 

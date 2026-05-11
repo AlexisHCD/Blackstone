@@ -4,7 +4,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = Course.find(params[:id])
+    @course = Course.find_by!(slug: params[:slug])
     @episodes = @course.course_episodes.order(:position)
 
     # Cargar progreso del usuario si está logueado

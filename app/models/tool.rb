@@ -13,6 +13,10 @@ class Tool < ApplicationRecord
   validates :slug, presence: true, uniqueness: true
   validates :description, length: { maximum: 300 }
 
+  def to_param
+    slug
+  end
+
   private
 
   def generate_slug

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_11_054202) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_11_142305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,7 +80,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_11_054202) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
     t.index ["category_id"], name: "index_courses_on_category_id"
+    t.index ["slug"], name: "index_courses_on_slug", unique: true
   end
 
   create_table "favorite_courses", force: :cascade do |t|
