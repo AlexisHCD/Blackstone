@@ -4,8 +4,9 @@ set -e
 echo "=== Bundle install ==="
 bundle install
 
-echo "=== Assets clobber ==="
-bundle exec rake assets:clobber || true
+echo "=== Clean old assets ==="
+rm -rf public/assets
+rm -f public/assets/.sprockets-manifest-*.json
 
 echo "=== Assets precompile ==="
 SECRET_KEY_BASE=dummy bundle exec rake assets:precompile
