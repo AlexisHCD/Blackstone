@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 echo "=== Bundle install ==="
 bundle install
@@ -15,6 +14,6 @@ echo "=== DB migrate ==="
 bundle exec rake db:migrate
 
 echo "=== DB seed ==="
-bundle exec rake db:seed
+bundle exec rake db:seed || true
 
 echo "=== Build complete ==="

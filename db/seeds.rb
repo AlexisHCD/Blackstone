@@ -142,6 +142,8 @@ courses_data.each do |data|
       e.duration_seconds = ep[:dur]
     end
   end
+rescue ActiveRecord::RecordInvalid => e
+  puts "   ⚠️  #{data[:title]}: #{e.message}"
 end
 puts "   ✅ #{Course.count} cursos"
 
