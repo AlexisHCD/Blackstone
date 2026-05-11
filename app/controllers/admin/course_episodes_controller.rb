@@ -42,6 +42,6 @@ class Admin::CourseEpisodesController < Admin::BaseController
   end
 
   def episode_params
-    params.require(:course_episode).permit(:title, :youtube_url, :duration_seconds, :position)
+    params.require(:course_episode).permit(:title, :youtube_url, :duration_minutes, :position)
   end
 end

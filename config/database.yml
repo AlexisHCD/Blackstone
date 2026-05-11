@@ -20,7 +20,4 @@ test:
 
 production:
   <<: *default
-  database: blackstone_production
-  username: blackstone_user
-  password: 1234
-  host: localhost
+  url: <%= ENV['DATABASE_URL'] %>

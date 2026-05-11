@@ -1,4 +1,4 @@
-<%= form_with model: [:admin, tool], local: true, html: { class: "admin-form-card" } do |f| %>
+<%= form_with model: [:admin, tool], data: { turbo: false }, html: { class: "admin-form-card" } do |f| %>
   <% if tool.errors.any? %>
     <div class="admin-form-errors">
       <h3><%= pluralize(tool.errors.count, "error") %> impidieron guardar:</h3>

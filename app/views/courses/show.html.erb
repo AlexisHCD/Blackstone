@@ -58,7 +58,7 @@
             <% if user_signed_in? %>
               <div class="yt-player-container"></div>
               <% if start_at > 0 %>
-                <p class="episode-resume">▶️ Retomando desde <%= start_at / 60 %>:<%= "%02d" % (start_at % 60) %></p>
+                <p class="episode-resume">▶️ Retomando desde <%= start_at / 60 %> min</p>
               <% end %>
               <% if episode.duration_seconds && episode.duration_seconds > 0 %>
                 <% percent = [(start_at.to_f / episode.duration_seconds * 100), 100].min %>
@@ -81,7 +81,7 @@
         <% end %>
 
         <% if episode.duration_seconds && episode.duration_seconds > 0 %>
-          <p class="episode-duration">⏱️ <%= episode.duration_seconds / 3600 %>h <%= (episode.duration_seconds % 3600) / 60 %>min</p>
+          <p class="episode-duration">⏱️ <%= episode.duration_minutes %> min</p>
         <% end %>
       </div>
     <% end %>

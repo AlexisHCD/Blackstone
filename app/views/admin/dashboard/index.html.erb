@@ -3,6 +3,30 @@
   <p>Gestioná herramientas, cursos, categorías y usuarios del sistema.</p>
 </div>
 
+<% featured = FeaturedItem.find_by(featured_on: Date.today) %>
+<div class="admin-detail-card" style="margin-bottom: 32px;">
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+    <div>
+      <h2 style="margin: 0 0 4px;">🌟 Herramienta destacada de hoy</h2>
+      <p style="margin: 0; color: var(--color-fog);">
+        <% if featured&.tool %>
+          Actual: <strong style="color: var(--color-pure-white);"><%= featured.tool.name %></strong>
+          <span style="color: var(--color-ash); margin-left: 8px;">— <%= featured.tool.category&.name %></span>
+        <% else %>
+          Aún no hay herramienta destacada para hoy.
+        <% end %>
+      </p>
+    </div>
+
+    <%= form_with url: admin_update_featured_path, method: :patch, data: { turbo: false }, html: { style: "display: flex; align-items: center; gap: 10px;" } do |f| %>
+      <%= f.collection_select :tool_id, @tools, :slug, :name,
+            { selected: featured&.tool&.slug, prompt: "Elegí una herramienta..." },
+            { class: "admin-featured-select" } %>
+      <%= f.submit "Cambiar", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
 <div class="admin-dash-grid">
   <a href="<%= admin_categories_path %>" class="admin-dash-card">
     <span class="admin-dash-card__icon">📂</span>

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: "dashboard#index"
+    patch "featured-tool", to: "dashboard#update_featured", as: :update_featured
     resources :categories, param: :slug
     resources :tools, param: :slug
     resources :courses, param: :slug do

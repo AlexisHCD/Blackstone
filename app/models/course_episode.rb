@@ -7,15 +7,19 @@ class CourseEpisode < ApplicationRecord
 
   before_save :extract_youtube_id
 
+  def duration_minutes
+    (duration_seconds.to_f / 60).round
+  end
+
+  def duration_minutes=(val)
+    self.duration_seconds = val.to_i * 60
+  end
+
   private
 
   def extract_youtube_id
     return if youtube_url.blank?
 
-    # Soporta formatos:
-    # https://www.youtube.com/watch?v=XXXXX
-    # https://youtu.be/XXXXX
-    # https://www.youtube.com/embed/XXXXX
     if youtube_url.include?("youtu.be/")
       self.youtube_id = youtube_url.split("youtu.be/").last.split(/[?&]/).first
     elsif youtube_url.include?("watch?v=")

@@ -9,7 +9,8 @@ El modelo de datos completo está documentado en:
 
 | Diagrama | Archivo | Descripción |
 |----------|---------|-------------|
-| **ERD Completo** | [erd-blackstone.md](erd-blackstone.md) | Diagrama entidad-relación con todas las tablas y relaciones |
+| **ERD Completo (PlantUML)** | [erd-blackstone.md](erd-blackstone.md) | Diagrama entidad-relación en PlantUML |
+| **ERD Completo (DBML)** | [erd-blackstone.dbml](erd-blackstone.dbml) | Diagrama en DBML, renderizable en dbdiagram.io |
 
 ### Resumen de entidades
 
@@ -31,10 +32,15 @@ El modelo de datos completo está documentado en:
 - **PostgreSQL** - Base de datos relacional
 - **ActiveRecord** - ORM de Rails
 - **PlantUML** - Generación de diagramas ERD
+- **DBML** - Database Markup Language (dbdiagram.io)
 
 ## Cómo renderizar
 
-Los diagramas en formato `.puml` se pueden renderizar con:
+Los diagramas `.puml` se renderizan con:
 - [PlantUML Server](https://www.plantuml.com/plantuml/uml/)
 - VS Code + PlantUML extension
 - `plantuml` CLI: `plantuml docs/assets/erd/*.puml`
+
+Los diagramas `.dbml` se renderizan con:
+- [dbdiagram.io](https://dbdiagram.io) — pegar el código en el editor
+- VS Code + DBML extension

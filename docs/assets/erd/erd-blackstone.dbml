@@ -1,0 +1,164 @@
+// Blackstone - Diagrama Entidad-Relación (DBML)
+// Renderizable en https://dbdiagram.io
+
+Table users {
+  id bigint [pk, increment]
+  name varchar
+  email varchar [unique, not null]
+  encrypted_password varchar [not null]
+  provider varchar
+  uid varchar
+  reset_password_token varchar
+  reset_password_sent_at timestamp
+  remember_created_at timestamp
+  admin boolean [default: false, not null]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    (provider, uid) [unique]
+  }
+}
+
+Table categories {
+  id bigint [pk, increment]
+  name varchar [not null]
+  description text
+  slug varchar [unique, not null]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+}
+
+Table tools {
+  id bigint [pk, increment]
+  name varchar [not null]
+  description text
+  website_url varchar
+  slug varchar [unique, not null]
+  open_source boolean
+  free_tier boolean
+  platform varchar
+  level varchar
+  category_id bigint [not null, ref: > categories.id]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+}
+
+Table courses {
+  id bigint [pk, increment]
+  title varchar [not null]
+  description text
+  is_series boolean [not null]
+  slug varchar [unique, not null]
+  category_id bigint [not null, ref: > categories.id]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+}
+
+Table course_episodes {
+  id bigint [pk, increment]
+  title varchar [not null]
+  youtube_url varchar [not null]
+  youtube_id varchar
+  duration_seconds integer
+  position integer
+  course_id bigint [not null, ref: > courses.id]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+}
+
+Table video_progresses {
+  id bigint [pk, increment]
+  user_id bigint [not null, ref: > users.id]
+  course_episode_id bigint [not null, ref: > course_episodes.id]
+  seconds_watched integer [default: 0]
+  completed boolean [default: false]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    (user_id, course_episode_id) [unique]
+  }
+}
+
+Table favorite_tools {
+  id bigint [pk, increment]
+  user_id bigint [not null, ref: > users.id]
+  tool_id bigint [not null, ref: > tools.id]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    (user_id, tool_id) [unique]
+  }
+}
+
+Table favorite_courses {
+  id bigint [pk, increment]
+  user_id bigint [not null, ref: > users.id]
+  course_id bigint [not null, ref: > courses.id]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    (user_id, course_id) [unique]
+  }
+}
+
+Table featured_items {
+  id bigint [pk, increment]
+  tool_id bigint [not null, ref: > tools.id]
+  featured_on date [not null]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+
+  indexes {
+    (tool_id, featured_on) [unique]
+  }
+}
+
+Table contact_messages {
+  id bigint [pk, increment]
+  name varchar
+  email varchar
+  message_type varchar
+  body text
+  tool_id integer
+  read boolean [default: false]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+}
+
+Table active_storage_blobs {
+  id bigint [pk, increment]
+  key varchar [not null, unique]
+  filename varchar [not null]
+  content_type varchar
+  metadata text
+  service_name varchar [not null]
+  byte_size bigint [not null]
+  checksum varchar
+  created_at timestamp [not null]
+}
+
+Table active_storage_attachments {
+  id bigint [pk, increment]
+  name varchar [not null]
+  record_type varchar [not null]
+  record_id bigint [not null]
+  blob_id bigint [not null, ref: > active_storage_blobs.id]
+  created_at timestamp [not null]
+}
+
+// Relaciones documentadas:
+// categories 1---* tools
+// categories 1---* courses
+// courses    1---* course_episodes
+// users      1---* favorite_tools
+// users      1---* favorite_courses
+// users      1---* video_progresses
+// tools      1---* favorite_tools
+// tools      1---* featured_items
+// courses     1---* favorite_courses
+// course_episodes 1---* video_progresses
+// active_storage_blobs 1---* active_storage_attachments

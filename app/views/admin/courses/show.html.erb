@@ -39,7 +39,7 @@
             <td class="cell-mono"><%= ep.position %></td>
             <td><strong><%= ep.title %></strong></td>
             <td><code><%= ep.youtube_id %></code></td>
-            <td class="cell-mono"><%= (ep.duration_seconds.to_f / 60).round %> min</td>
+            <td class="cell-mono"><%= ep.duration_minutes %> min</td>
             <td class="cell-actions">
               <%= link_to "Editar", edit_admin_course_course_episode_path(@course, ep), class: "admin-btn-sm admin-btn-sm--primary" %>
               <%= link_to "Eliminar", admin_course_course_episode_path(@course, ep), class: "admin-btn-sm admin-btn-sm--danger",
