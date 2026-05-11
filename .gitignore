@@ -73,3 +73,12 @@ Thumbs.db
 # 🔧 MISC
 # =========================
 .byebug_history
+
+# =========================
+# 📸 SCREENSHOTS / ASSETS
+# =========================
+*.png
+screenshot*.png
+*.jpg
+*.jpeg
+*.gif
