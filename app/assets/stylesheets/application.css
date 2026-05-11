@@ -397,7 +397,7 @@ p  { color: var(--color-fog); font-size: 16px; margin-bottom: 0.75rem; line-heig
 ============================ */
 .hero-premium {
   position: relative;
-  padding: 60px 0 80px;
+  padding: 40px 0 80px;
   overflow: hidden;
   isolation: isolate;
   border-radius: 24px;
@@ -1826,7 +1826,7 @@ button:focus-visible {
   .container { padding: 0 1rem; }
 
   /* Hero */
-  .hero-premium { padding: 30px 0 50px; border-radius: 16px; margin-bottom: 40px; }
+  .hero-premium { padding: 20px 0 50px; border-radius: 16px; margin-bottom: 40px; }
 
   /* Card grids */
   .tools-grid, .categories-grid {

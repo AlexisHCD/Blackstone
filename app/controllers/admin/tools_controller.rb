@@ -38,7 +38,7 @@ class Admin::ToolsController < Admin::BaseController
   private
 
   def set_tool
-    @tool = Tool.find(params[:id])
+    @tool = Tool.find_by!(slug: params[:id] || params[:slug])
   end
 
   def set_categories

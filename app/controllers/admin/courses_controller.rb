@@ -42,7 +42,7 @@ class Admin::CoursesController < Admin::BaseController
   private
 
   def set_course
-    @course = Course.find(params[:id])
+    @course = Course.find_by!(slug: params[:id] || params[:slug])
   end
 
   def set_categories

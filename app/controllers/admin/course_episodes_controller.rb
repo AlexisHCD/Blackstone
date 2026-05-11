@@ -34,7 +34,7 @@ class Admin::CourseEpisodesController < Admin::BaseController
   private
 
   def set_course
-    @course = Course.find(params[:course_id])
+    @course = Course.find_by!(slug: params[:course_id] || params[:course_slug] || params[:slug])
   end
 
   def set_episode

@@ -10,16 +10,19 @@ class VideoProgressesController < ApplicationController
 
     progress.seconds_watched = params[:seconds_watched].to_i
 
-    # Limitar al maximo de duracion + 10% buffer para evitar abuso
-    max_seconds = episode.duration_seconds ? (episode.duration_seconds * 1.1).to_i : nil
+    # Limitar al maximo de duracion + 5% buffer para evitar abuso
+    max_seconds = episode.duration_seconds ? (episode.duration_seconds * 1.05).to_i : nil
     if max_seconds && progress.seconds_watched > max_seconds
       progress.seconds_watched = max_seconds
     end
 
-    # Marcar como completado si vieron el 90% o más
+    # Marcar como completado si vieron el 95% o más (subo de 90% a 95%)
+    # Siempre recalcular — si estaba completado y retrocede, se desmarca
     if episode.duration_seconds && episode.duration_seconds > 0
       watched_ratio = progress.seconds_watched.to_f / episode.duration_seconds
-      progress.completed = true if watched_ratio >= 0.9
+      progress.completed = watched_ratio >= 0.95
+    else
+      progress.completed = false
     end
 
     if progress.save

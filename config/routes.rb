@@ -24,15 +24,15 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: "dashboard#index"
-    resources :categories
+    resources :categories, param: :slug
+    resources :tools, param: :slug
+    resources :courses, param: :slug do
+      resources :course_episodes, path: "episodes"
+    end
     resources :users, only: [:index] do
       member do
         patch :toggle_admin
       end
-    end
-    resources :tools
-    resources :courses do
-      resources :course_episodes, path: "episodes"
     end
     resources :contact_messages, only: [:index, :show, :destroy] do
       member do

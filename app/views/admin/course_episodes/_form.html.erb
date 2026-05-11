@@ -15,21 +15,22 @@
     <%= f.text_field :title, placeholder: "Ej. Introducción al framework" %>
   </div>
 
-  <div class="admin-field">
-    <%= f.label :youtube_url, "URL de YouTube" %>
-    <%= f.text_field :youtube_url, placeholder: "https://www.youtube.com/watch?v=..." %>
-    <small>Pegá la URL completa, el ID se extrae automáticamente.</small>
+  <div class="admin-field" style="padding: 16px; background: rgba(59, 158, 255, 0.04); border: 1px solid rgba(59, 158, 255, 0.15); border-radius: 10px;">
+    <%= f.label :youtube_url, "🎥 URL del video en YouTube" %>
+    <%= f.text_field :youtube_url, placeholder: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" %>
+    <small>Copiá y pegá el enlace del video. Formatos aceptados: youtube.com/watch?v=, youtu.be/, youtube.com/embed/</small>
   </div>
 
   <div class="admin-field">
-    <%= f.label :position, "Posición (orden)" %>
+    <%= f.label :duration_seconds, "⏱️ Duración del video (en segundos)" %>
+    <%= f.number_field :duration_seconds, min: 0, placeholder: "Ej. 600 = 10 minutos" %>
+    <small>Convertí los minutos a segundos. Ej: 10 min = 600, 1 hora = 3600.</small>
+  </div>
+
+  <div class="admin-field">
+    <%= f.label :position, "#️⃣ Posición (orden)" %>
     <%= f.number_field :position, min: 1, value: (episode.position || @course.course_episodes.maximum(:position).to_i + 1) %>
-  </div>
-
-  <div class="admin-field">
-    <%= f.label :duration_seconds, "Duración (segundos)" %>
-    <%= f.number_field :duration_seconds, min: 0, placeholder: "Ej. 600 para 10 minutos" %>
-    <small>Duración total en segundos.</small>
+    <small>El orden en que aparece el episodio en la serie. Se asigna automáticamente.</small>
   </div>
 
   <div class="admin-field--submit">
