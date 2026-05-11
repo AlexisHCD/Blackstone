@@ -1,0 +1,71 @@
+@startuml bpmn-autenticacion-usuario
+!theme plain
+skinparam backgroundColor #0f1117
+skinparam activity {
+    BackgroundColor #1a1d24
+    BorderColor #3a3f4a
+    ArrowColor #6c8cff
+    FontColor #c9d1d9
+}
+skinparam diamond {
+    BackgroundColor #2a2d34
+    BorderColor #6c8cff
+    FontColor #c9d1d9
+}
+
+title Blackstone - Proceso de Autenticación y Registro
+
+start
+
+:Usuario accede a Blackstone;
+
+if (¿Tiene cuenta?) then (no)
+    :Selecciona "Iniciar sesión" o "Registrarse";
+    if (¿Método de registro?) then (email/password)
+        :Ingresa email, nombre y contraseña;
+        :Validación de formato;
+        if (¿Datos válidos?) then (sí)
+            :Crear usuario en BD;
+            :Enviar email de confirmación;
+            :Redirigir al dashboard;
+        else (no)
+            :Mostrar errores de validación;
+            :Volver al formulario;
+        endif
+    else (OAuth)
+        if (¿Proveedor?) then (Google)
+            :Redirigir a Google OAuth;
+            :Google autenticación;
+            :Callback con datos del usuario;
+        else (Microsoft)
+            :Redirigir a Microsoft OAuth;
+            :Microsoft autenticación;
+            :Callback con datos del usuario;
+        endif
+        :Buscar usuario por provider + uid;
+        if (¿Usuario existe?) then (no)
+            :Buscar por email;
+            if (¿Email existe?) then (sí)
+                :Vincular provider al usuario existente;
+            else (no)
+                :Crear nuevo usuario automático;
+            endif
+        endif
+    endif
+else (sí)
+    :Ingresa credenciales;
+    if (¿Credenciales válidas?) then (sí)
+        :Autenticación exitosa;
+    else (no)
+        :Mostrar error genérico;
+        :Volver al login;
+        stop
+    endif
+endif
+
+:Crear sesión;
+:Redirigir a página anterior o home;
+
+stop
+
+@enduml

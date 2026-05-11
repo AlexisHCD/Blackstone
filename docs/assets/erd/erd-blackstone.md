@@ -1,0 +1,157 @@
+# Diagrama Entidad-Relación (ERD) - Blackstone
+
+## Diagrama
+
+```plantuml
+@startuml erd-blackstone
+!theme plain
+skinparam linetype ortho
+skinparam class {
+    BackgroundColor #1a1d24
+    BorderColor #3a3f4a
+    ArrowColor #6c8cff
+    AttributeColor #c9d1d9
+}
+skinparam linetype polyline
+
+title Blackstone - Diagrama Entidad-Relación (ERD)
+
+class User {
+    +bigint id PK
+    +string name
+    +string email UK
+    +string encrypted_password
+    +string provider
+    +string uid
+    +string reset_password_token
+    +datetime reset_password_sent_at
+    +datetime remember_created_at
+    +boolean admin
+    +datetime created_at
+    +datetime updated_at
+}
+
+class Category {
+    +bigint id PK
+    +string name
+    +string slug UK
+    +string description
+    +datetime created_at
+    +datetime updated_at
+}
+
+class Tool {
+    +bigint id PK
+    +string name
+    +string slug UK
+    +string description
+    +string url
+    +string platform
+    +string level
+    +bigint category_id FK
+    +datetime created_at
+    +datetime updated_at
+}
+
+class Course {
+    +bigint id PK
+    +string title
+    +string description
+    +boolean is_series
+    +bigint category_id FK
+    +datetime created_at
+    +datetime updated_at
+}
+
+class CourseEpisode {
+    +bigint id PK
+    +string title
+    +string description
+    +string youtube_url
+    +string youtube_id
+    +integer position
+    +bigint course_id FK
+    +datetime created_at
+    +datetime updated_at
+}
+
+class VideoProgress {
+    +bigint id PK
+    +bigint user_id FK
+    +bigint course_episode_id FK
+    +integer seconds_watched
+    +boolean completed
+    +datetime created_at
+    +datetime updated_at
+}
+
+class FavoriteTool {
+    +bigint id PK
+    +bigint user_id FK
+    +bigint tool_id FK
+    +datetime created_at
+    +datetime updated_at
+}
+
+class FavoriteCourse {
+    +bigint id PK
+    +bigint user_id FK
+    +bigint course_id FK
+    +datetime created_at
+    +datetime updated_at
+}
+
+class FeaturedItem {
+    +bigint id PK
+    +bigint tool_id FK
+    +date featured_on
+    +datetime created_at
+    +datetime updated_at
+}
+
+class ContactMessage {
+    +bigint id PK
+    +string name
+    +string email
+    +string subject
+    +text message
+    +datetime created_at
+    +datetime updated_at
+}
+
+User "1" -- "0..*" FavoriteTool
+User "1" -- "0..*" FavoriteCourse
+User "1" -- "0..*" VideoProgress
+
+Category "1" -- "0..*" Tool
+Category "1" -- "0..*" Course
+
+Tool "1" -- "0..*" FavoriteTool
+Tool "1" -- "0..*" FeaturedItem
+
+Course "1" -- "0..*" CourseEpisode
+Course "1" -- "0..*" FavoriteCourse
+
+CourseEpisode "1" -- "0..*" VideoProgress
+
+@enduml
+```
+
+## Relaciones principales
+
+| Relación | Tipo | Descripción |
+|----------|------|-------------|
+| User → FavoriteTool | 1:N | Un usuario puede tener muchas herramientas favoritas |
+| User → FavoriteCourse | 1:N | Un usuario puede tener muchos cursos favoritos |
+| User → VideoProgress | 1:N | Un usuario tiene progreso en múltiples episodios |
+| Category → Tool | 1:N | Una categoría contiene muchas herramientas |
+| Category → Course | 1:N | Una categoría contiene muchos cursos |
+| Course → CourseEpisode | 1:N | Un curso tiene múltiples episodios |
+| CourseEpisode → VideoProgress | 1:N | Un episodio tiene progreso de múltiples usuarios |
+| Tool → FeaturedItem | 1:N | Una herramienta puede ser destacada en múltiples fechas |
+
+## Herramientas utilizadas
+
+- **PlantUML** - Generación de diagramas ERD
+- **PostgreSQL** - Base de datos relacional
+- **ActiveRecord** - ORM de Rails

@@ -5,6 +5,12 @@
 El modelo de datos completo está documentado en:
 - [Diccionario de Datos](../../diccionario-datos.md)
 
+### Diagrama ERD
+
+| Diagrama | Archivo | Descripción |
+|----------|---------|-------------|
+| **ERD Completo** | [erd-blackstone.md](erd-blackstone.md) | Diagrama entidad-relación con todas las tablas y relaciones |
+
 ### Resumen de entidades
 
 | Entidad | Descripción |
@@ -24,4 +30,11 @@ El modelo de datos completo está documentado en:
 
 - **PostgreSQL** - Base de datos relacional
 - **ActiveRecord** - ORM de Rails
-- **DBML** - Documentación de esquema
+- **PlantUML** - Generación de diagramas ERD
+
+## Cómo renderizar
+
+Los diagramas en formato `.puml` se pueden renderizar con:
+- [PlantUML Server](https://www.plantuml.com/plantuml/uml/)
+- VS Code + PlantUML extension
+- `plantuml` CLI: `plantuml docs/assets/erd/*.puml`
