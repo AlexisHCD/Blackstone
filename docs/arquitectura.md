@@ -2,37 +2,140 @@
 
 ## 1. Vista General
 
-Blackstone sigue una arquitectura **monolítica clássica de Rails** con componentes modernos de Hotwire para interactividad.
+Blackstone sigue una arquitectura **monolítica clásica de Rails** con componentes modernos de Hotwire para interactividad.
+
+---
+
+## 1.1 Tecnologias y Tech Stack
+
+### Backend
+
+| Tecnologia | Version | Proposito |
+|------------|---------|-----------|
+| **Ruby** | 3.3.0 | Lenguaje de programacion |
+| **Rails** | 7.1.3 | Framework web |
+| **Puma** | >= 5.0 | Servidor web |
+| **PostgreSQL** | 14+ | Base de datos relacional |
+| **Devise** | 4.x | Autenticacion de usuarios |
+| **Active Storage** | (bundled) | Almacenamiento de archivos |
+| **Bootsnap** | (bundled) | Optimizacion de boot |
+
+### Frontend
+
+| Tecnologia | Version | Proposito |
+|------------|---------|-----------|
+| **Hotwire Turbo** | (bundled) | SPA-like page accelerator |
+| **Hotwire Stimulus** | (bundled) | JavaScript framework |
+| **Import Maps** | (bundled) | JavaScript ESM imports |
+| **Swiper** | 11 | Carousel de categorias |
+| **YouTube IFrame API** | - | Reproductor de video |
+
+### CSS y Diseno
+
+| Tecnologia | Proposito |
+|-----------|-----------|
+| **CSS Custom (Variables)** | Design tokens y theming |
+| **Google Fonts** | Tipografia (Inter, DM Serif Display, JetBrains Mono) |
+| **Dark Theme Resend-style** | Sistema de diseno premium |
+
+### Desarrollo y Testing
+
+| Tecnologia | Version | Proposito |
+|------------|---------|-----------|
+| **Bundler** | - | Gestion de gemas Ruby |
+| **Capybara** | (bundled) | Testing E2E |
+| **Selenium WebDriver** | (bundled) | Testing de navegador |
+| **Web Console** | (bundled) | Debug en desarrollo |
+| **Byebug** | (bundled) | Debugging |
+
+### Gemas Principales (Gemfile)
+
+```ruby
+# Core
+gem "rails", "~> 7.1.3"
+gem "pg", "~> 1.1"
+gem "puma", ">= 5.0"
+
+# Hotwire
+gem "turbo-rails"
+gem "stimulus-rails"
+gem "importmap-rails"
+
+# Auth & Storage
+gem "devise"
+gem "image_processing", "~> 1.2"
+
+# Performance
+gem "bootsnap", require: false
+gem "sprockets-rails"
+
+# Development
+gem "web-console"
+gem "debug", platforms: %i[ mri windows ]
+
+# Testing
+gem "capybara"
+gem "selenium-webdriver"
+```
+
+### Diagrama del Stack
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              ARQUITECTURA BLACKSTONE                       │
+│                           TECH STACK BLACKSTONE                          │
 └─────────────────────────────────────────────────────────────────────────────┘
 
-                          ┌─────────────────────┐
-                          │      BROWSER        │
-                          │   (HTML + CSS + JS) │
-                          └──────────┬──────────┘
-                                     │
-                          ┌──────────▼──────────┐
-                          │      RAILS          │
-                          │  (Turbo + Stimulus) │
-                          │                     │
-                          │  ┌──────────────┐  │
-                          │  │ Controllers  │  │
-                          │  │   + Views     │  │
-                          │  └──────────────┘  │
-                          │          │          │
-                          │  ┌──────────────┐  │
-                          │  │    Models    │  │
-                          │  │ ActiveRecord │  │
-                          │  └──────────────┘  │
-                          └──────────┬──────────┘
-                                     │
-                          ┌──────────▼──────────┐
-                          │     POSTGRESQL       │
-                          │   (Base de datos)    │
-                          └─────────────────────┘
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                            FRONTEND                                  │
+  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  │
+  │  │    HTML     │  │    CSS      │  │  Swiper 11  │  │   YouTube   │  │
+  │  │   (ERB)     │  │  (Custom)   │  │  (Carousel) │  │  IFrame API │  │
+  │  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘  │
+  └─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                          HOTWIRE LAYER                               │
+  │  ┌─────────────────────┐        ┌─────────────────────┐            │
+  │  │   Turbo (Rails)     │        │   Stimulus JS       │            │
+  │  │   Page Accelerator   │        │   Controllers       │            │
+  │  │                     │        │   - video_player    │            │
+  │  │   - Drive           │        │   - modal           │            │
+  │  │   - Frames          │        └─────────────────────┘            │
+  │  │   - Streams         │                                             │
+  │  └─────────────────────┘                                             │
+  └─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                            BACKEND                                  │
+  │  ┌─────────────────────┐  ┌─────────────────────┐                  │
+  │  │   Ruby 3.3.0         │  │   Rails 7.1.3       │                  │
+  │  │   Lenguaje           │  │   Framework         │                  │
+  │  └─────────────────────┘  └─────────────────────┘                  │
+  │                                                                   │
+  │  ┌─────────────────────┐  ┌─────────────────────┐                  │
+  │  │   Puma              │  │   Devise             │                  │
+  │  │   Web Server        │  │   Authentication     │                  │
+  │  └─────────────────────┘  └─────────────────────┘                  │
+  │                                                                   │
+  │  ┌─────────────────────┐  ┌─────────────────────┐                  │
+  │  │   ActiveRecord       │  │   Active Storage     │                  │
+  │  │   (ORM)              │  │   (File Uploads)    │                  │
+  │  └─────────────────────┘  └─────────────────────┘                  │
+  └─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                          DATABASE                                    │
+  │  ┌─────────────────────────────────────────────────────────────┐    │
+  │  │                      PostgreSQL 14+                         │    │
+  │  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │    │
+  │  │  │  Tables     │  │  Migrations │  │  Indexes     │        │    │
+  │  │  │  (Models)   │  │  (Schema)   │  │  (Query)    │        │    │
+  │  │  └─────────────┘  └─────────────┘  └─────────────┘        │    │
+  │  └─────────────────────────────────────────────────────────────┘    │
+  └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---

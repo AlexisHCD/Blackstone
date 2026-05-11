@@ -16,6 +16,8 @@ Necesitamos elegir un framework web para desarrollar Blackstone. Se evaluaron la
 ## Decision
 
 **Usar Rails 7.1.3 como framework principal**
+**Decision del Profesor**
+
 
 ## Reasons
 
