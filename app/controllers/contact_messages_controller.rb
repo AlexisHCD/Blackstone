@@ -4,7 +4,7 @@ class ContactMessagesController < ApplicationController
     if @message.save
       redirect_back fallback_location: root_path, notice: "¡Mensaje enviado! Gracias por tu feedback. 📬"
     else
-      redirect_back fallback_location: root_path, alert: "Error: #{@message.errors.full_messages.join(', ')}"
+      redirect_back fallback_location: root_path, alert: "Hubo un error al enviar el mensaje. Por favor revisa los campos e intenta de nuevo."
     end
   end
 

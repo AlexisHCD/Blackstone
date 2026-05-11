@@ -24,7 +24,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = 'noreply@blackstone.dev'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -277,8 +277,8 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
   config.omniauth :google_oauth2,
-    ENV.fetch('GOOGLE_CLIENT_ID', nil),
-    ENV.fetch('GOOGLE_CLIENT_SECRET', nil),
+    ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil),
+    ENV.fetch('GOOGLE_OAUTH_CLIENT_SECRET', nil),
     {
       name: :google_oauth2,
       scope: 'email,profile',
@@ -286,6 +286,10 @@ Devise.setup do |config|
       image_aspect_ratio: 'square',
       image_size: 50
     }
+
+  # Use GET instead of POST for OmniAuth request phase to avoid CSRF issues
+  OmniAuth.config.allowed_request_methods = [:get, :post]
+  OmniAuth.config.silence_get_warning = true
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

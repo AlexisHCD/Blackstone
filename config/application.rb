@@ -24,6 +24,8 @@ module Blackstone
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    config.time_zone = "America/Argentina/Buenos_Aires"
+
     # Allow SVG images to be served inline via Active Storage
     # (Rails defaults SVG to binary/serve_as_binary for XSS protection —
     #  we override this since our SVGs are trusted logos)

@@ -9,6 +9,6 @@ class HomeController < ApplicationController
       end
     end
 
-    @categories = Category.all
+    @categories = Category.includes(:tools, :courses).all
   end
 end
