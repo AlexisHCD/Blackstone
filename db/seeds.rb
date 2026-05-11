@@ -65,6 +65,52 @@ tools_data.each do |data|
 end
 puts "   ✅ #{Tool.count} herramientas"
 
+# ─── Tool Logos ───
+puts "🖼️ Adjuntando logos..."
+logos = {
+  "docker" => "docker.svg",
+  "visual-studio-code" => "visual-studio-code.svg",
+  "visual-studio-community" => "visual-studio.svg",
+  "notion" => "notion.svg",
+  "git" => "git.svg",
+  "kubernetes" => "kubernetes.svg",
+  "node-js" => "nodedotjs.svg",
+  "intellij-idea-community" => "intellijidea.svg",
+  "postman" => "postman.svg",
+  "jenkins" => "jenkins.svg",
+  "nmap" => "nmap_icon_132152.svg",
+  "wireshark" => "wireshark.svg",
+  "claude-code" => "claude.svg",
+  "metasploit-framework" => "metasploit.svg",
+  "terraform" => "terraform.svg",
+  "owasp-zap" => "zap.svg",
+  "trello" => "trello.svg",
+  "postgresql" => "postgresql.svg",
+  "figma" => "figma.svg",
+  "jira" => "jira.svg",
+  "blender" => "blender.svg",
+  "gimp" => "gimp.svg",
+  "google-gemini" => "googlegemini.svg",
+  "github" => "github.svg",
+  "chatgpt" => "openai.svg",
+  "notebooklm" => "notebooklm.svg",
+  "opencode" => "opencode-logo-light.svg"
+}
+
+logos.each do |slug, filename|
+  tool = Tool.find_by(slug: slug)
+  next unless tool
+  next if tool.logo.attached?
+
+  path = Rails.root.join("db", "seeds", "logos", filename)
+  if File.exist?(path)
+    tool.logo.attach(io: File.open(path), filename: filename)
+    puts "   ✅ #{slug}"
+  else
+    puts "   ⚠️  #{filename} not found"
+  end
+end
+
 # ─── Courses ───
 puts "🎬 Creando cursos..."
 courses_data = [
