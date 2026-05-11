@@ -15,6 +15,6 @@ echo "=== DB migrate ==="
 bundle exec rake db:migrate
 
 echo "=== DB seed ==="
-bundle exec rake db:seed || true
+bundle exec rake db:seed
 
 echo "=== Build complete ==="

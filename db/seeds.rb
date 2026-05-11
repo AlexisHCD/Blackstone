@@ -114,18 +114,35 @@ end
 # ─── Courses ───
 puts "🎬 Creando cursos..."
 courses_data = [
-  { title: "Curso de Node.js desde cero", cat: "Desarrollo", series: true, desc: "Aprendé Node.js paso a paso con este curso completo para principiantes." },
-  { title: "Curso de Git y GitHub desde cero", cat: "Desarrollo", series: true, desc: "Dominá el control de versiones y colaborá en proyectos open source." },
+  { title: "Curso de Node.js desde cero", slug: "curso-de-node-js-desde-cero", cat: "Desarrollo", series: true, desc: "Aprendé Node.js paso a paso con este curso completo para principiantes.",
+    episodes: [{ title: "Introducción a Node.js", youtube_id: "BhvLIzVL8_o", pos: 1, dur: 600 }] },
+  { title: "Curso de GIT y GITHUB desde CERO", slug: "curso-de-git-y-github-desde-cero", cat: "Desarrollo", series: true, desc: "Dominá el control de versiones y colaborá en proyectos open source.",
+    episodes: [{ title: "Curso de GIT y GITHUB DESDE CERO", youtube_id: "niPExbK8lSw", pos: 1, dur: 7800 }] },
+  { title: "Curso COMPLETO de HTML GRATIS desde cero", slug: "curso-completo-de-html-gratis-desde-cero", cat: "Desarrollo", series: true, desc: "Aprendé HTML desde lo más básico hasta crear tus propias páginas web.",
+    episodes: [{ title: "Curso COMPLETO de HTML GRATIS desde cero", youtube_id: "3nYLTiY5skU", pos: 1, dur: 7200 }] },
+  { title: "Aprende SQL ahora! curso completo", slug: "aprende-sql-ahora-curso-completo", cat: "DevOps, Hosting & Datos", series: true, desc: "Dominá SQL desde cero con este curso práctico.",
+    episodes: [{ title: "Aprende SQL ahora! HOLA MUNDO", youtube_id: "uUdKAYl-F7g", pos: 1, dur: 7200 }] },
+  { title: "Curso COMPLETO Python ahora!", slug: "curso-completo-python-ahora", cat: "Desarrollo", series: true, desc: "Aprendé Python desde cero para principiantes con este curso completo 2025.",
+    episodes: [{ title: "Curso COMPLETO de Python DESDE CERO para Principiantes 2025", youtube_id: "TkN2i-_4N4g", pos: 1, dur: 36000 }] },
 ]
 
 courses_data.each do |data|
   cat = Category.find_by!(name: data[:cat])
-  Course.find_or_create_by!(title: data[:title]) do |c|
+  course = Course.find_or_create_by!(title: data[:title]) do |c|
     c.category  = cat
     c.is_series = data[:series]
     c.description = data[:desc]
   end
+
+  data[:episodes].each do |ep|
+    CourseEpisode.find_or_create_by!(course: course, position: ep[:pos]) do |e|
+      e.title = ep[:title]
+      e.youtube_id = ep[:youtube_id]
+      e.youtube_url = "https://www.youtube.com/watch?v=#{ep[:youtube_id]}"
+      e.duration_seconds = ep[:dur]
+    end
+  end
 end
-puts "   ✅ #{Course.count} cursos"
+puts "   ✅ #{Course.count} cursos
 
 puts "✅ Seeds completadas."
